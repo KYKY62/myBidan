@@ -1,4 +1,5 @@
 abstract class RouteName {
   static const login = '/';
   static const register = '/register';
+  static const main = '/main';
 }

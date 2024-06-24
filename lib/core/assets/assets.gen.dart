@@ -18,14 +18,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/chat.png
   AssetGenImage get chat => const AssetGenImage('assets/icons/chat.png');
 
-  /// File path: assets/icons/chatActive.png
-  AssetGenImage get chatActive =>
-      const AssetGenImage('assets/icons/chatActive.png');
-
-  /// File path: assets/icons/chatInactive.png
-  AssetGenImage get chatInactive =>
-      const AssetGenImage('assets/icons/chatInactive.png');
-
   /// File path: assets/icons/date.png
   AssetGenImage get date => const AssetGenImage('assets/icons/date.png');
 
@@ -36,9 +28,8 @@ class $AssetsIconsGen {
   /// File path: assets/icons/help.png
   AssetGenImage get help => const AssetGenImage('assets/icons/help.png');
 
-  /// File path: assets/icons/homeActive.png
-  AssetGenImage get homeActive =>
-      const AssetGenImage('assets/icons/homeActive.png');
+  /// File path: assets/icons/home.png
+  AssetGenImage get home => const AssetGenImage('assets/icons/home.png');
 
   /// File path: assets/icons/infoAccount.png
   AssetGenImage get infoAccount =>
@@ -49,10 +40,6 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/map.png
   AssetGenImage get map => const AssetGenImage('assets/icons/map.png');
-
-  /// File path: assets/icons/mapActive.png
-  AssetGenImage get mapActive =>
-      const AssetGenImage('assets/icons/mapActive.png');
 
   /// File path: assets/icons/mapInactive.png
   AssetGenImage get mapInactive =>
@@ -67,45 +54,44 @@ class $AssetsIconsGen {
   /// File path: assets/icons/time.png
   AssetGenImage get time => const AssetGenImage('assets/icons/time.png');
 
-  /// File path: assets/icons/userActive.png
-  AssetGenImage get userActive =>
-      const AssetGenImage('assets/icons/userActive.png');
-
-  /// File path: assets/icons/userInactive.png
-  AssetGenImage get userInactive =>
-      const AssetGenImage('assets/icons/userInactive.png');
+  /// File path: assets/icons/user.png
+  AssetGenImage get user => const AssetGenImage('assets/icons/user.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
         cart,
         chat,
-        chatActive,
-        chatInactive,
         date,
         education,
         help,
-        homeActive,
+        home,
         infoAccount,
         logout,
         map,
-        mapActive,
         mapInactive,
         private,
         terms,
         time,
-        userActive,
-        userInactive
+        user
       ];
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/Background_home.png
+  AssetGenImage get backgroundHome =>
+      const AssetGenImage('assets/images/Background_home.png');
+
+  /// File path: assets/images/circle_bg.png
+  AssetGenImage get circleBg =>
+      const AssetGenImage('assets/images/circle_bg.png');
+
   /// File path: assets/images/doctor.png
   AssetGenImage get doctor => const AssetGenImage('assets/images/doctor.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [doctor];
+  List<AssetGenImage> get values => [backgroundHome, circleBg, doctor];
 }
 
 class Assets {

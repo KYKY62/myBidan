@@ -10,4 +10,16 @@ class CustomTextStyle {
     fontSize: 16,
     color: AppColors.primary,
   );
+  static const TextStyle smText = TextStyle(
+    fontSize: 10,
+    color: Colors.white,
+  );
+  static const TextStyle biggerText = TextStyle(
+    fontSize: 22,
+    color: Colors.white,
+  );
+  static const TextStyle smallerText = TextStyle(
+    fontSize: 12,
+    color: Colors.white,
+  );
 }
