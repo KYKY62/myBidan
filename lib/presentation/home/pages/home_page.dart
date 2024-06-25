@@ -2,7 +2,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
+import 'package:mybidan/core/components/custom_card_consultant.dart';
+import 'package:mybidan/core/components/custom_card_education.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
+import 'package:mybidan/core/components/section_header.dart';
 import 'package:mybidan/core/components/small_card.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
@@ -18,14 +21,15 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppColors.primary,
+        scrolledUnderElevation: 0,
       ),
-      // stack dibody agar bisa di timpa
       body: SizedBox(
         height: Get.height,
         child: ListView(
           children: [
             Stack(
               children: [
+                // sizebox ini sebagai alas agar bisa ditimpa
                 SizedBox(
                   height: 510,
                   child: ListView(
@@ -33,7 +37,6 @@ class HomePage extends StatelessWidget {
                     children: [
                       Stack(
                         children: [
-                          // Alas Stack Pertama agar widget kedua bisa menimpa
                           Column(
                             children: [
                               Stack(
@@ -43,7 +46,7 @@ class HomePage extends StatelessWidget {
                                     fit: BoxFit.fill,
                                     width: Get.width,
                                   ),
-                                  const Positioned(
+                                  Positioned(
                                     top: 49,
                                     left: 20,
                                     child: Text(
@@ -51,7 +54,7 @@ class HomePage extends StatelessWidget {
                                       style: CustomTextStyle.smText,
                                     ),
                                   ),
-                                  const Positioned(
+                                  Positioned(
                                     top: 68,
                                     left: 20,
                                     child: Text(
@@ -122,10 +125,11 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                 ),
+                // widget yang menimpa nya
                 Positioned(
                   top: 320,
-                  left: 10,
-                  right: 10,
+                  left: 5,
+                  right: 5,
                   child: Column(
                     children: [
                       CarouselSlider.builder(
@@ -165,7 +169,8 @@ class HomePage extends StatelessWidget {
                                               "Selengkapnya",
                                               style: CustomTextStyle.smText
                                                   .copyWith(
-                                                color: Colors.black,
+                                                color: AppColors.primary,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ),
@@ -217,52 +222,54 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            Card(
-              color: Colors.red,
-              child: SizedBox(
-                height: 100, // Adjust the height as needed
-                child: Row(
-                  children: [
-                    Stack(
-                      children: [
-                        Image.asset(
-                          Assets.images.circleBg.path,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+            // ?? Layanan Konsultasi
+            SectionHeader(
+              title: "Layanan Konsultasi",
+              onTap: () {},
+            ),
+            CarouselSlider.builder(
+              itemCount: 4,
+              itemBuilder: (context, index, realIndex) {
+                return const CustomCardConsultant(
+                  nameBidan: "Dr. Intan erno",
+                  specialistBidan: "Dermatology & Leprosy",
+                  dateOperational: "13 april 2021",
+                  timeOperational: "13:00 - 14:00",
+                );
+              },
+              options: CarouselOptions(
+                autoPlay: false,
+                enlargeCenterPage: true,
+                viewportFraction: 0.9,
+                aspectRatio: 2.0,
+                scrollDirection: Axis.horizontal,
               ),
             ),
-            const Card(
-              color: Colors.red,
-              child: SizedBox(
-                height: 100, // Adjust the height as needed
-                child: Center(
-                  child: Text(
-                    'This is a card',
-                    style: TextStyle(color: Colors.white),
+            // ?? Akhir Layanan Konsultasi
+            SectionHeader(
+              title: "Layanan Edukasi",
+              onTap: () {},
+            ),
+            const SizedBox(height: 10.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomCardEducation(
+                    image: Assets.images.ibuHamil.path,
+                    title: "Tips menjaga kesehatan ibu hamil",
+                    onTap: () {},
                   ),
-                ),
+                  CustomCardEducation(
+                    image: Assets.images.ibuHamil.path,
+                    title: "Tips menjaga kesehatan janin",
+                    onTap: () {},
+                  ),
+                ],
               ),
-            ),
-            Card(
-              color: Colors.red,
-              child: SizedBox(
-                height: 100, // Adjust the height as needed
-                child: Row(
-                  children: [
-                    Stack(
-                      children: [
-                        Image.asset(
-                          Assets.images.circleBg.path,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
+            )
           ],
         ),
       ),

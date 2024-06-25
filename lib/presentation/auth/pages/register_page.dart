@@ -27,7 +27,7 @@ class RegisterPage extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  const Text(
+                  Text(
                     "DAFTAR AKUN ANDA SEKARANG!!",
                     style: CustomTextStyle.bigText,
                   ),
@@ -59,8 +59,8 @@ class RegisterPage extends StatelessWidget {
                             '/register',
                           );
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Text("Login", style: CustomTextStyle.bigText),
                         ),
                       ),

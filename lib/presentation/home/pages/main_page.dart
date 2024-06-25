@@ -28,6 +28,20 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        backgroundColor: AppColors.primary,
+        onPressed: () {},
+        child: Image.asset(
+          Assets.icons.carFloating.path,
+          color: Colors.white,
+          fit: BoxFit.cover,
+          width: 23,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         padding: const EdgeInsets.all(0),
         child: Obx(

@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  const Text(
+                  Text(
                     "SELAMAT DATANG DI MYBIDAN",
                     style: CustomTextStyle.bigText,
                   ),
@@ -56,8 +56,8 @@ class LoginPage extends StatelessWidget {
                         onPressed: () {
                           Get.offAllNamed(RouteName.main);
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Text("Login", style: CustomTextStyle.bigText),
                         ),
                       ),

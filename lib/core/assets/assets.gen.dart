@@ -12,6 +12,10 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/carFloating.png
+  AssetGenImage get carFloating =>
+      const AssetGenImage('assets/icons/carFloating.png');
+
   /// File path: assets/icons/cart.png
   AssetGenImage get cart => const AssetGenImage('assets/icons/cart.png');
 
@@ -59,6 +63,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        carFloating,
         cart,
         chat,
         date,
@@ -83,6 +88,9 @@ class $AssetsImagesGen {
   AssetGenImage get backgroundHome =>
       const AssetGenImage('assets/images/Background_home.png');
 
+  /// File path: assets/images/bidan.png
+  AssetGenImage get bidan => const AssetGenImage('assets/images/bidan.png');
+
   /// File path: assets/images/circle_bg.png
   AssetGenImage get circleBg =>
       const AssetGenImage('assets/images/circle_bg.png');
@@ -90,8 +98,13 @@ class $AssetsImagesGen {
   /// File path: assets/images/doctor.png
   AssetGenImage get doctor => const AssetGenImage('assets/images/doctor.png');
 
+  /// File path: assets/images/ibu_hamil.png
+  AssetGenImage get ibuHamil =>
+      const AssetGenImage('assets/images/ibu_hamil.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [backgroundHome, circleBg, doctor];
+  List<AssetGenImage> get values =>
+      [backgroundHome, bidan, circleBg, doctor, ibuHamil];
 }
 
 class Assets {
