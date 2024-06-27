@@ -3,25 +3,33 @@ import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 
-class CustomCardConsultant extends StatelessWidget {
-  final String nameBidan;
-  final String specialistBidan;
+class CustomCard extends StatelessWidget {
+  final String name;
+  final String description;
   final String dateOperational;
   final String timeOperational;
+  final String image;
+  final double horizontalGap;
+  final Color backgroundColor;
+  final Color? backgroundImageColor;
 
-  const CustomCardConsultant({
+  const CustomCard({
     super.key,
-    required this.nameBidan,
-    required this.specialistBidan,
+    required this.name,
+    required this.description,
     required this.dateOperational,
     required this.timeOperational,
+    required this.image,
+    required this.horizontalGap,
+    required this.backgroundColor,
+    this.backgroundImageColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: const Color(0xfff5faf6),
+      color: backgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -31,7 +39,7 @@ class CustomCardConsultant extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.neon,
+                    color: backgroundImageColor,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Padding(
@@ -41,25 +49,25 @@ class CustomCardConsultant extends StatelessWidget {
                       left: 8,
                     ),
                     child: Image.asset(
-                      Assets.images.bidan.path,
+                      image,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 12.0,
+                SizedBox(
+                  width: horizontalGap,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      nameBidan,
+                      name,
                       style: CustomTextStyle.primaryText.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Text(
-                      specialistBidan,
+                      description,
                       style: CustomTextStyle.primaryText.copyWith(
                         fontSize: 8,
                         fontWeight: FontWeight.w600,
@@ -71,7 +79,7 @@ class CustomCardConsultant extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 12.0,
+              height: 12,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

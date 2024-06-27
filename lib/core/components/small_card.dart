@@ -25,6 +25,7 @@ class SmallCard extends StatelessWidget {
             padding: padding,
             child: Image.asset(
               icon,
+              width: 20,
             ),
           ),
         ),

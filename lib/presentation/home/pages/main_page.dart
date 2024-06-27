@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/colors.dart';
+import 'package:mybidan/presentation/finding_bidan/controller/find_bidan_controller.dart';
+import 'package:mybidan/presentation/finding_bidan/pages/find_bidan_page.dart';
 import 'package:mybidan/presentation/home/controller/main_controller.dart';
 import 'package:mybidan/presentation/home/pages/chat_page.dart';
 import 'package:mybidan/presentation/home/pages/home_page.dart';
 
 class MainPage extends StatelessWidget {
   final mainC = Get.find<MainController>();
+  final findBidanC = Get.find<FindBidanController>();
   MainPage({super.key});
 
   Widget body() {
@@ -17,7 +20,7 @@ class MainPage extends StatelessWidget {
       case 1:
         return const ChatPage();
       case 2:
-        return const ChatPage();
+        return FindBidanPage();
       case 3:
         return const ChatPage();
       default:
@@ -47,7 +50,10 @@ class MainPage extends StatelessWidget {
         child: Obx(
           () => BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            onTap: (value) => mainC.currentIndex.value = value,
+            onTap: (value) {
+              mainC.currentIndex.value = value;
+              findBidanC.selectedObject.value = false;
+            },
             items: [
               BottomNavigationBarItem(
                 label: '',

@@ -26,6 +26,9 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
+        style: const TextStyle(
+          color: Colors.white,
+        ),
         decoration: InputDecoration(
           hintStyle: textStyle,
           prefixIcon: prefixIcon,
@@ -34,6 +37,10 @@ class CustomTextField extends StatelessWidget {
             borderSide: const BorderSide(
               color: Colors.grey,
             ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16.0),
+            borderSide: const BorderSide(color: Colors.grey),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),

@@ -88,6 +88,10 @@ class $AssetsImagesGen {
   AssetGenImage get backgroundHome =>
       const AssetGenImage('assets/images/Background_home.png');
 
+  /// File path: assets/images/Map_Pattern.png
+  AssetGenImage get mapPattern =>
+      const AssetGenImage('assets/images/Map_Pattern.png');
+
   /// File path: assets/images/bidan.png
   AssetGenImage get bidan => const AssetGenImage('assets/images/bidan.png');
 
@@ -102,9 +106,12 @@ class $AssetsImagesGen {
   AssetGenImage get ibuHamil =>
       const AssetGenImage('assets/images/ibu_hamil.png');
 
+  /// File path: assets/images/praktik.png
+  AssetGenImage get praktik => const AssetGenImage('assets/images/praktik.png');
+
   /// List of all assets
   List<AssetGenImage> get values =>
-      [backgroundHome, bidan, circleBg, doctor, ibuHamil];
+      [backgroundHome, mapPattern, bidan, circleBg, doctor, ibuHamil, praktik];
 }
 
 class Assets {

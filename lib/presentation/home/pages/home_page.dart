@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
-import 'package:mybidan/core/components/custom_card_consultant.dart';
+import 'package:mybidan/core/components/custom_card.dart';
 import 'package:mybidan/core/components/custom_card_education.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/components/section_header.dart';
@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
                                     top: 115,
                                     left: 8,
                                     child: SizedBox(
-                                      width: 339,
+                                      width: 370,
                                       child: CustomTextField(
                                         controller: homeC.searchDoctor,
                                         label: 'Search Doctor or Symptoms',
@@ -230,18 +230,22 @@ class HomePage extends StatelessWidget {
             CarouselSlider.builder(
               itemCount: 4,
               itemBuilder: (context, index, realIndex) {
-                return const CustomCardConsultant(
-                  nameBidan: "Dr. Intan erno",
-                  specialistBidan: "Dermatology & Leprosy",
+                return CustomCard(
+                  name: "Dr. Intan erno",
+                  description: "Dermatology & Leprosy",
                   dateOperational: "13 april 2021",
                   timeOperational: "13:00 - 14:00",
+                  image: Assets.images.bidan.path,
+                  horizontalGap: 12,
+                  backgroundColor: const Color(0xfff5faf6),
+                  backgroundImageColor: AppColors.neon,
                 );
               },
               options: CarouselOptions(
                 autoPlay: false,
                 enlargeCenterPage: true,
                 viewportFraction: 0.9,
-                aspectRatio: 2.0,
+                aspectRatio: 2.1,
                 scrollDirection: Axis.horizontal,
               ),
             ),
