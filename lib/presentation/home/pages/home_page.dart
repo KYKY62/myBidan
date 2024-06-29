@@ -202,18 +202,20 @@ class HomePage extends StatelessWidget {
                         children: List.generate(
                           4,
                           (index) {
-                            return Obx(() => Container(
-                                  width: 6,
-                                  height: 6,
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 4),
-                                  decoration: BoxDecoration(
-                                    color: homeC.currentIndex.value == index
-                                        ? Colors.black
-                                        : Colors.grey,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ));
+                            return Obx(
+                              () => Container(
+                                width: 6,
+                                height: 6,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 4),
+                                decoration: BoxDecoration(
+                                  color: homeC.currentIndex.value == index
+                                      ? Colors.black
+                                      : Colors.grey,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            );
                           },
                         ),
                       )
@@ -257,21 +259,21 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 10.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomCardEducation(
-                    image: Assets.images.ibuHamil.path,
-                    title: "Tips menjaga kesehatan ibu hamil",
-                    onTap: () {},
-                  ),
-                  CustomCardEducation(
-                    image: Assets.images.ibuHamil.path,
-                    title: "Tips menjaga kesehatan janin",
-                    onTap: () {},
-                  ),
-                ],
+              child: SizedBox(
+                height: 200,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 2,
+                  itemBuilder: (context, index) {
+                    return CustomCardEducation(
+                      image: Assets.images.ibuHamil.path,
+                      title: "Tips menjaga kesehatan ibu hamil",
+                      onTap: () {},
+                    );
+                  },
+                ),
               ),
             )
           ],

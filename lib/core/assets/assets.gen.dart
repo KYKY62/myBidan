@@ -109,9 +109,20 @@ class $AssetsImagesGen {
   /// File path: assets/images/praktik.png
   AssetGenImage get praktik => const AssetGenImage('assets/images/praktik.png');
 
+  /// File path: assets/images/product.png
+  AssetGenImage get product => const AssetGenImage('assets/images/product.png');
+
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [backgroundHome, mapPattern, bidan, circleBg, doctor, ibuHamil, praktik];
+  List<AssetGenImage> get values => [
+        backgroundHome,
+        mapPattern,
+        bidan,
+        circleBg,
+        doctor,
+        ibuHamil,
+        praktik,
+        product
+      ];
 }
 
 class Assets {
