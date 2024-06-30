@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
+import 'package:mybidan/core/components/card_product.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 import 'package:mybidan/presentation/shop/controller/shop_controller.dart';
@@ -133,32 +135,30 @@ class ShopPage extends StatelessWidget {
                   .copyWith(fontWeight: FontWeight.w600),
             ),
           ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          Container(
-            width: 200,
-            height: 200,
-            color: Colors.amber,
-            child: Stack(
-              children: [
-                SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: Image.asset(Assets.images.product.path),
-                ),
-                Positioned(
-                  top: 120,
-                  left: 20,
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    color: Colors.red,
-                  ),
-                )
-              ],
+          const SizedBox(height: 16),
+          GridView.builder(
+            itemCount: 4,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, // Mengatur jumlah kolom menjadi 2
+              mainAxisSpacing: 8,
+              childAspectRatio: 0.8, // Menambahkan rasio aspek jika perlu
             ),
-          )
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {},
+                child: CardProduct(
+                  image: Assets.images.product.path,
+                  title: "Virgin Coconut Oil",
+                  type: "Skin Care",
+                  normalPrice: '40000',
+                  discountPrice: '150000',
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 50),
         ],
       ),
     );
