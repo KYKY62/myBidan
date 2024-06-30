@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 import 'package:mybidan/core/extension/int_ext.dart';
 
@@ -37,7 +33,8 @@ class CardProduct extends StatelessWidget {
               child: SizedBox(
                 child: Image.asset(
                   image,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
+                  width: 200,
                 ),
               ),
             ),
@@ -89,10 +86,11 @@ class CardProduct extends StatelessWidget {
                           Text(
                             int.parse(normalPrice).currencyFormatRp,
                             style: CustomTextStyle.smText.copyWith(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w600,
-                                decoration: TextDecoration.lineThrough,
-                                decorationColor: Colors.grey),
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor: Colors.grey,
+                            ),
                           ),
                           const SizedBox(width: 5.0),
                           SizedBox(

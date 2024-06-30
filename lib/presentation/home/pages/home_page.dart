@@ -261,11 +261,13 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SizedBox(
                 height: 200,
-                child: ListView.builder(
+                child: ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: 2,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 15),
                   itemBuilder: (context, index) {
                     return CustomCardEducation(
                       image: Assets.images.ibuHamil.path,

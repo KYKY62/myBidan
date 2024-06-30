@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/components/card_product.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
+import 'package:mybidan/core/routes/route_name.dart';
 import 'package:mybidan/presentation/shop/controller/shop_controller.dart';
 
 class ShopPage extends StatelessWidget {
@@ -147,9 +147,20 @@ class ShopPage extends StatelessWidget {
             ),
             itemBuilder: (context, index) {
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(RouteName.detailProduct, arguments: {
+                    'image': Assets.images.product3.path,
+                    'title': 'Perawatan Kulit Alami untuk Ibu Hamil',
+                    'type': 'Skin Care',
+                    'normalPrice': '52000',
+                    'discountPrice': '120000',
+                    'textDesc':
+                        'Produk perawatan kulit alami dengan Virgin Coconut Oil. Kami menyediakan solusi khusus untuk menghilangkan stretch mark pada ibu hamil, memberikan kilauan sehat dan kepercayaan diri. Jelajahi koleksi kami.',
+                    'textBahan': 'Bahan',
+                  });
+                },
                 child: CardProduct(
-                  image: Assets.images.product.path,
+                  image: Assets.images.product3.path,
                   title: "Virgin Coconut Oil",
                   type: "Skin Care",
                   normalPrice: '40000',

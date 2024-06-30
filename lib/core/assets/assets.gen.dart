@@ -112,6 +112,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/product.png
   AssetGenImage get product => const AssetGenImage('assets/images/product.png');
 
+  /// File path: assets/images/product2.png
+  AssetGenImage get product2 =>
+      const AssetGenImage('assets/images/product2.png');
+
+  /// File path: assets/images/product3.png
+  AssetGenImage get product3 =>
+      const AssetGenImage('assets/images/product3.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
         backgroundHome,
@@ -121,7 +129,9 @@ class $AssetsImagesGen {
         doctor,
         ibuHamil,
         praktik,
-        product
+        product,
+        product2,
+        product3
       ];
 }
 
