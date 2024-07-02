@@ -7,6 +7,7 @@ import 'package:mybidan/presentation/finding_bidan/pages/find_bidan_page.dart';
 import 'package:mybidan/presentation/home/controller/main_controller.dart';
 import 'package:mybidan/presentation/home/pages/chat_page.dart';
 import 'package:mybidan/presentation/home/pages/home_page.dart';
+import 'package:mybidan/presentation/setting/pages/setting_page.dart';
 import 'package:mybidan/presentation/shop/pages/shop_page.dart';
 
 class MainPage extends StatelessWidget {
@@ -23,7 +24,7 @@ class MainPage extends StatelessWidget {
       case 2:
         return FindBidanPage();
       case 3:
-        return const ChatPage();
+        return const SettingPage();
       case 4:
         return ShopPage();
       default:
