@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/colors.dart';
+import 'package:mybidan/presentation/chat/controller/chat_controller.dart';
+import 'package:mybidan/presentation/chat/pages/chat_page.dart';
+import 'package:mybidan/presentation/chat/pages/private_chat_page.dart';
 import 'package:mybidan/presentation/finding_bidan/controller/find_bidan_controller.dart';
 import 'package:mybidan/presentation/finding_bidan/pages/find_bidan_page.dart';
 import 'package:mybidan/presentation/home/controller/main_controller.dart';
-import 'package:mybidan/presentation/home/pages/chat_page.dart';
 import 'package:mybidan/presentation/home/pages/home_page.dart';
 import 'package:mybidan/presentation/setting/pages/setting_page.dart';
 import 'package:mybidan/presentation/shop/pages/shop_page.dart';
@@ -13,6 +15,7 @@ import 'package:mybidan/presentation/shop/pages/shop_page.dart';
 class MainPage extends StatelessWidget {
   final mainC = Get.find<MainController>();
   final findBidanC = Get.find<FindBidanController>();
+  final chatC = Get.find<ChatController>();
   MainPage({super.key});
 
   Widget body() {
@@ -20,13 +23,21 @@ class MainPage extends StatelessWidget {
       case 0:
         return HomePage();
       case 1:
-        return const ChatPage();
+        return ChatPage();
       case 2:
         return FindBidanPage();
       case 3:
         return const SettingPage();
       case 4:
         return ShopPage();
+      case 5:
+        return PrivateChatPage(
+          backToOntap: () => mainC.currentIndex.value = 1,
+          hideFloating: () => mainC.currentIndex.value = 5,
+          nameBidan: chatC.nameBidan.value,
+        );
+      case 6:
+        return const SizedBox();
       default:
         return HomePage();
     }
@@ -35,21 +46,26 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        backgroundColor: AppColors.primary,
-        onPressed: () {
-          mainC.currentIndex.value = 4;
-        },
-        child: Image.asset(
-          Assets.icons.carFloating.path,
-          color: Colors.white,
-          fit: BoxFit.cover,
-          width: 23,
-        ),
+      floatingActionButton: Obx(
+        () => mainC.currentIndex.value == 5
+            ? const SizedBox()
+            : FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                backgroundColor: AppColors.primary,
+                onPressed: () {
+                  mainC.currentIndex.value = 4;
+                },
+                child: Image.asset(
+                  Assets.icons.carFloating.path,
+                  color: Colors.white,
+                  fit: BoxFit.cover,
+                  width: 23,
+                ),
+              ),
       ),
+      // resizeToAvoidBottomInset: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         padding: const EdgeInsets.all(0),

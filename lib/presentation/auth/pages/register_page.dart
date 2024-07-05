@@ -35,11 +35,13 @@ class RegisterPage extends StatelessWidget {
                     controller: registerC.emailController,
                     label: 'Email',
                     keyboardType: TextInputType.emailAddress,
+                    inputColor: Colors.black,
                   ),
                   CustomTextField(
                     controller: registerC.passwordController,
                     label: 'Password',
                     keyboardType: TextInputType.emailAddress,
+                    inputColor: Colors.black,
                     obscureText: true,
                   ),
                   Padding(

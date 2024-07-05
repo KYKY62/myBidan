@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
@@ -12,6 +13,7 @@ class CustomCard extends StatelessWidget {
   final double horizontalGap;
   final Color backgroundColor;
   final Color? backgroundImageColor;
+  final bool? isChatPage;
 
   const CustomCard({
     super.key,
@@ -23,6 +25,7 @@ class CustomCard extends StatelessWidget {
     required this.horizontalGap,
     required this.backgroundColor,
     this.backgroundImageColor,
+    this.isChatPage = false,
   });
 
   @override
@@ -50,6 +53,7 @@ class CustomCard extends StatelessWidget {
                     ),
                     child: Image.asset(
                       image,
+                      width: 41,
                     ),
                   ),
                 ),
@@ -84,87 +88,130 @@ class CustomCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xffE0E9E6),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 7),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 27,
-                            height: 27,
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.primary),
-                            child: Padding(
-                              padding: const EdgeInsets.all(6),
-                              child: Image.asset(
-                                Assets.icons.date.path,
+                isChatPage == true
+                    ? Container(
+                        width: Get.width / 2.5,
+                        decoration: BoxDecoration(
+                          color: const Color(0xffE0E9E6),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 7),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 27,
+                                height: 27,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.primary,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6),
+                                  child: Image.asset(
+                                    Assets.icons.date.path,
+                                  ),
+                                ),
                               ),
+                              const SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                dateOperational,
+                                style: CustomTextStyle.greenText.copyWith(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xffE0E9E6),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 7),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 27,
+                                  height: 27,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppColors.primary,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6),
+                                    child: Image.asset(
+                                      Assets.icons.date.path,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text(
+                                  dateOperational,
+                                  style: CustomTextStyle.greenText.copyWith(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            dateOperational,
-                            style: CustomTextStyle.greenText.copyWith(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
                 const SizedBox(
                   width: 10.0,
                 ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xffE0E9E6),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 7),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 27,
-                            height: 27,
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.primary),
-                            child: Padding(
-                              padding: const EdgeInsets.all(6),
-                              child: Image.asset(
-                                Assets.icons.time.path,
-                              ),
+                isChatPage == true
+                    ? const SizedBox()
+                    : Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xffE0E9E6),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 7),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 27,
+                                  height: 27,
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.primary),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6),
+                                    child: Image.asset(
+                                      Assets.icons.time.path,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text(
+                                  timeOperational,
+                                  style: CustomTextStyle.greenText.copyWith(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            timeOperational,
-                            style: CustomTextStyle.greenText.copyWith(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
+                        ),
+                      )
               ],
             ),
           ],

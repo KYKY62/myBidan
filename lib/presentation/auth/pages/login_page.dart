@@ -34,11 +34,13 @@ class LoginPage extends StatelessWidget {
                     controller: loginC.emailController,
                     label: 'Email',
                     keyboardType: TextInputType.emailAddress,
+                    inputColor: Colors.black,
                   ),
                   CustomTextField(
                     controller: loginC.passwordController,
                     label: 'Password',
                     keyboardType: TextInputType.emailAddress,
+                    inputColor: Colors.black,
                     obscureText: true,
                   ),
                   Padding(

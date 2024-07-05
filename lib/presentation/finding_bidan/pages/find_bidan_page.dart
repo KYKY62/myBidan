@@ -69,6 +69,7 @@ class FindBidanPage extends StatelessWidget {
                           controller: findBidanC.searchBidan,
                           label: 'Cari bidan terdekat',
                           keyboardType: TextInputType.text,
+                          inputColor: Colors.white,
                           prefixIcon: const Icon(
                             Icons.search,
                             color: Colors.white,

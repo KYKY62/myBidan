@@ -71,6 +71,7 @@ class HomePage extends StatelessWidget {
                                         controller: homeC.searchDoctor,
                                         label: 'Search Doctor or Symptoms',
                                         keyboardType: TextInputType.text,
+                                        inputColor: Colors.white,
                                         prefixIcon: const Icon(
                                           Icons.search,
                                           size: 24.0,
