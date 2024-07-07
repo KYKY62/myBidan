@@ -10,9 +10,11 @@ import 'package:mybidan/core/components/small_card.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 import 'package:mybidan/presentation/home/controller/home_controller.dart';
+import 'package:mybidan/presentation/home/controller/main_controller.dart';
 
 class HomePage extends StatelessWidget {
   final homeC = Get.put(HomeController());
+  final mainC = Get.find<MainController>();
   HomePage({super.key});
 
   @override
@@ -255,7 +257,9 @@ class HomePage extends StatelessWidget {
             // ?? Akhir Layanan Konsultasi
             SectionHeader(
               title: "Layanan Edukasi",
-              onTap: () {},
+              onTap: () {
+                mainC.currentIndex.value = 6;
+              },
             ),
             const SizedBox(height: 10.0),
             Padding(

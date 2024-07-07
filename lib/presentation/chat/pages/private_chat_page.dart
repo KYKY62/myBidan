@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/components/item_chat.dart';
 import 'package:mybidan/core/constants/colors.dart';
-import 'package:mybidan/core/constants/text_style.dart';
 import 'package:mybidan/presentation/chat/controller/chat_controller.dart';
 
 class PrivateChatPage extends StatelessWidget {
