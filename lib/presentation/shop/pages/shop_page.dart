@@ -17,6 +17,8 @@ class ShopPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primary,
+        elevation: 0,
+        scrolledUnderElevation: 0,
       ),
       body: ListView(
         children: [

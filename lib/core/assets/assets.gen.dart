@@ -95,6 +95,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/bidan.png
   AssetGenImage get bidan => const AssetGenImage('assets/images/bidan.png');
 
+  /// File path: assets/images/blogImage2.png
+  AssetGenImage get blogImage2 =>
+      const AssetGenImage('assets/images/blogImage2.png');
+
+  /// File path: assets/images/blogimage.png
+  AssetGenImage get blogimage =>
+      const AssetGenImage('assets/images/blogimage.png');
+
   /// File path: assets/images/circle_bg.png
   AssetGenImage get circleBg =>
       const AssetGenImage('assets/images/circle_bg.png');
@@ -120,18 +128,24 @@ class $AssetsImagesGen {
   AssetGenImage get product3 =>
       const AssetGenImage('assets/images/product3.png');
 
+  /// File path: assets/images/profile.png
+  AssetGenImage get profile => const AssetGenImage('assets/images/profile.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
         backgroundHome,
         mapPattern,
         bidan,
+        blogImage2,
+        blogimage,
         circleBg,
         doctor,
         ibuHamil,
         praktik,
         product,
         product2,
-        product3
+        product3,
+        profile
       ];
 }
 

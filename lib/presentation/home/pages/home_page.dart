@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/components/custom_card.dart';
@@ -9,22 +10,26 @@ import 'package:mybidan/core/components/section_header.dart';
 import 'package:mybidan/core/components/small_card.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
+import 'package:mybidan/data/models/blog_model.dart';
+import 'package:mybidan/presentation/blog/controller/blog_controller.dart';
 import 'package:mybidan/presentation/home/controller/home_controller.dart';
 import 'package:mybidan/presentation/home/controller/main_controller.dart';
 
 class HomePage extends StatelessWidget {
   final homeC = Get.put(HomeController());
   final mainC = Get.find<MainController>();
+  final blogC = Get.find<BlogController>();
   HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: AppColors.primary,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarDividerColor: AppColors.primary,
+    ));
+
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColors.primary,
-        scrolledUnderElevation: 0,
-      ),
       body: SizedBox(
         height: Get.height,
         child: ListView(
@@ -270,14 +275,27 @@ class HomePage extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: 2,
+                  itemCount:
+                      blogC.mapBlog.length > 2 ? 2 : blogC.mapBlog.length,
                   separatorBuilder: (context, index) =>
                       const SizedBox(width: 15),
                   itemBuilder: (context, index) {
+                    Blog blog = Blog(
+                      image: blogC.mapBlog[index]['image'],
+                      title: blogC.mapBlog[index]['title'],
+                      desc: blogC.mapBlog[index]['desc'],
+                      author: blogC.mapBlog[index]['author'],
+                      subject: blogC.mapBlog[index]['subject'],
+                      contentBlog: blogC.mapBlog[index]['contentBlog'],
+                    );
+
                     return CustomCardEducation(
-                      image: Assets.images.ibuHamil.path,
-                      title: "Tips menjaga kesehatan ibu hamil",
-                      onTap: () {},
+                      image: blogC.mapBlog[index]['image'],
+                      title: blogC.mapBlog[index]['title'],
+                      onTap: () {
+                        blogC.setCurrentBlog(blog);
+                        mainC.currentIndex.value = 7;
+                      },
                     );
                   },
                 ),

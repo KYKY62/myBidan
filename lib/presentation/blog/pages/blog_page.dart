@@ -7,21 +7,21 @@ import 'package:mybidan/presentation/blog/pages/nav_page/lokal_page.dart';
 import 'package:mybidan/presentation/blog/pages/nav_page/trending_page.dart';
 
 class BlogPage extends StatelessWidget {
-  final blogC = Get.put(BlogController());
+  final blogC = Get.find<BlogController>();
   BlogPage({super.key});
 
   Widget body() {
     switch (blogC.navIndex.value) {
       case 0:
-        return const TrendingPage();
+        return TrendingPage();
       case 1:
         return const LokalPage();
       case 2:
-        return const TrendingPage();
+        return TrendingPage();
       case 3:
-        return const TrendingPage();
+        return TrendingPage();
       default:
-        return const TrendingPage();
+        return TrendingPage();
     }
   }
 
@@ -30,6 +30,8 @@ class BlogPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primary,
+        elevation: 0,
+        scrolledUnderElevation: 0,
       ),
       body: ListView(
         children: [
@@ -83,10 +85,7 @@ class BlogPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: body(),
-                ),
+                body(),
               ],
             ),
           ),

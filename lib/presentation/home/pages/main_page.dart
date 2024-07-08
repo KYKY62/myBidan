@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/presentation/blog/pages/blog_page.dart';
+import 'package:mybidan/presentation/blog/pages/detail_blog.dart';
 import 'package:mybidan/presentation/chat/controller/chat_controller.dart';
 import 'package:mybidan/presentation/chat/pages/chat_page.dart';
 import 'package:mybidan/presentation/chat/pages/private_chat_page.dart';
@@ -39,6 +40,8 @@ class MainPage extends StatelessWidget {
         );
       case 6:
         return BlogPage();
+      case 7:
+        return DetailBlogPage();
       default:
         return HomePage();
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
+import 'package:flutter/services.dart';
 import 'package:mybidan/core/components/custom_card.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/constants/colors.dart';
@@ -15,13 +16,13 @@ class FindBidanPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: AppColors.primary,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarDividerColor: AppColors.primary,
+    ));
     return Scaffold(
       backgroundColor: const Color(0xffD6F5F0),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColors.primary,
-        scrolledUnderElevation: 0,
-      ),
       body: ListView(
         children: [
           SizedBox(

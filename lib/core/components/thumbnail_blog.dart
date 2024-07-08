@@ -4,7 +4,19 @@ import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 
 class ThumbnailBlog extends StatelessWidget {
-  const ThumbnailBlog({super.key});
+  final String image;
+  final String title;
+  final String desc;
+  final String author;
+  final String subject;
+  const ThumbnailBlog({
+    super.key,
+    required this.title,
+    required this.desc,
+    required this.author,
+    required this.subject,
+    required this.image,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +25,16 @@ class ThumbnailBlog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(
-            Assets.images.ibuHamil.path,
+            image,
+            height: 160,
+            width: Get.width,
+            fit: BoxFit.fill,
           ),
           const SizedBox(
             height: 16.0,
           ),
           Text(
-            "Tips menjaga kesehatan ibu hamil selama 9 bulan.",
+            title,
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             style: CustomTextStyle.primaryText.copyWith(
@@ -31,7 +46,7 @@ class ThumbnailBlog extends StatelessWidget {
             height: 16.0,
           ),
           Text(
-            "Menjaga kehamilan itu penting bagi ibu hamil",
+            desc,
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             style: CustomTextStyle.smText.copyWith(
@@ -55,7 +70,7 @@ class ThumbnailBlog extends StatelessWidget {
                 width: 4,
               ),
               Text(
-                "Intan dewi",
+                author,
                 style: CustomTextStyle.smText.copyWith(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
@@ -76,7 +91,7 @@ class ThumbnailBlog extends StatelessWidget {
                 width: 4,
               ),
               Text(
-                "Pagi Sehat",
+                subject,
                 style: CustomTextStyle.smText.copyWith(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,

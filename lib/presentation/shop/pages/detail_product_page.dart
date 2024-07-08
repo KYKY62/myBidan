@@ -4,6 +4,7 @@ import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 import 'package:mybidan/core/extension/int_ext.dart';
 import 'package:mybidan/presentation/shop/controller/detail_product_controller.dart';
+import 'package:flutter/services.dart';
 
 class DetailProductPage extends StatelessWidget {
   final detailProductC = Get.find<DetailProductController>();
@@ -28,13 +29,13 @@ class DetailProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: AppColors.primary,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarDividerColor: AppColors.primary,
+    ));
+
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.primary,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-      ),
       floatingActionButton: GestureDetector(
         onTap: () {},
         child: Container(
