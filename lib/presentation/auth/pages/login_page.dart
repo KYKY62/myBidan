@@ -56,7 +56,8 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Get.offAllNamed(RouteName.main);
+                          // Get.offAllNamed(RouteName.main);
+                          Get.offAllNamed(RouteName.dasboard);
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

@@ -22,12 +22,27 @@ class $AssetsIconsGen {
   /// File path: assets/icons/chat.png
   AssetGenImage get chat => const AssetGenImage('assets/icons/chat.png');
 
+  /// File path: assets/icons/checkmark-circle-outline.png
+  AssetGenImage get checkmarkCircleOutline =>
+      const AssetGenImage('assets/icons/checkmark-circle-outline.png');
+
+  /// File path: assets/icons/create.png
+  AssetGenImage get create => const AssetGenImage('assets/icons/create.png');
+
   /// File path: assets/icons/date.png
   AssetGenImage get date => const AssetGenImage('assets/icons/date.png');
+
+  /// File path: assets/icons/document-text-sharp.png
+  AssetGenImage get documentTextSharp =>
+      const AssetGenImage('assets/icons/document-text-sharp.png');
 
   /// File path: assets/icons/education.png
   AssetGenImage get education =>
       const AssetGenImage('assets/icons/education.png');
+
+  /// File path: assets/icons/failedIcon.png
+  AssetGenImage get failedIcon =>
+      const AssetGenImage('assets/icons/failedIcon.png');
 
   /// File path: assets/icons/help.png
   AssetGenImage get help => const AssetGenImage('assets/icons/help.png');
@@ -49,6 +64,10 @@ class $AssetsIconsGen {
   AssetGenImage get mapInactive =>
       const AssetGenImage('assets/icons/mapInactive.png');
 
+  /// File path: assets/icons/podium-sharp.png
+  AssetGenImage get podiumSharp =>
+      const AssetGenImage('assets/icons/podium-sharp.png');
+
   /// File path: assets/icons/private.png
   AssetGenImage get private => const AssetGenImage('assets/icons/private.png');
 
@@ -66,14 +85,19 @@ class $AssetsIconsGen {
         carFloating,
         cart,
         chat,
+        checkmarkCircleOutline,
+        create,
         date,
+        documentTextSharp,
         education,
+        failedIcon,
         help,
         home,
         infoAccount,
         logout,
         map,
         mapInactive,
+        podiumSharp,
         private,
         terms,
         time,
@@ -95,6 +119,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/bidan.png
   AssetGenImage get bidan => const AssetGenImage('assets/images/bidan.png');
 
+  /// File path: assets/images/bidan2.png
+  AssetGenImage get bidan2 => const AssetGenImage('assets/images/bidan2.png');
+
   /// File path: assets/images/blogImage2.png
   AssetGenImage get blogImage2 =>
       const AssetGenImage('assets/images/blogImage2.png');
@@ -114,6 +141,10 @@ class $AssetsImagesGen {
   AssetGenImage get ibuHamil =>
       const AssetGenImage('assets/images/ibu_hamil.png');
 
+  /// File path: assets/images/metode pembayaran 1.png
+  AssetGenImage get metodePembayaran1 =>
+      const AssetGenImage('assets/images/metode pembayaran 1.png');
+
   /// File path: assets/images/praktik.png
   AssetGenImage get praktik => const AssetGenImage('assets/images/praktik.png');
 
@@ -131,21 +162,27 @@ class $AssetsImagesGen {
   /// File path: assets/images/profile.png
   AssetGenImage get profile => const AssetGenImage('assets/images/profile.png');
 
+  /// File path: assets/images/ronaldo.png
+  AssetGenImage get ronaldo => const AssetGenImage('assets/images/ronaldo.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
         backgroundHome,
         mapPattern,
         bidan,
+        bidan2,
         blogImage2,
         blogimage,
         circleBg,
         doctor,
         ibuHamil,
+        metodePembayaran1,
         praktik,
         product,
         product2,
         product3,
-        profile
+        profile,
+        ronaldo
       ];
 }
 

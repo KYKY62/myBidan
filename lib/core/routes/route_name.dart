@@ -3,4 +3,5 @@ abstract class RouteName {
   static const register = '/register';
   static const main = '/main';
   static const detailProduct = '/detailProduct';
+  static const dasboard = '/dasboard';
 }
