@@ -25,6 +25,17 @@ class KonsultasiControlPage extends StatelessWidget {
         height: Get.height,
         child: ListView(
           children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Center(
+                child: Text(
+                  "KONSULTASI",
+                  style: CustomTextStyle.primaryText.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
             Stack(
               children: [
                 SizedBox(

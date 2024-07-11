@@ -32,6 +32,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/date.png
   AssetGenImage get date => const AssetGenImage('assets/icons/date.png');
 
+  /// File path: assets/icons/delete.png
+  AssetGenImage get delete => const AssetGenImage('assets/icons/delete.png');
+
   /// File path: assets/icons/document-text-sharp.png
   AssetGenImage get documentTextSharp =>
       const AssetGenImage('assets/icons/document-text-sharp.png');
@@ -39,6 +42,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/education.png
   AssetGenImage get education =>
       const AssetGenImage('assets/icons/education.png');
+
+  /// File path: assets/icons/eye-outline.png
+  AssetGenImage get eyeOutline =>
+      const AssetGenImage('assets/icons/eye-outline.png');
 
   /// File path: assets/icons/failedIcon.png
   AssetGenImage get failedIcon =>
@@ -88,8 +95,10 @@ class $AssetsIconsGen {
         checkmarkCircleOutline,
         create,
         date,
+        delete,
         documentTextSharp,
         education,
+        eyeOutline,
         failedIcon,
         help,
         home,

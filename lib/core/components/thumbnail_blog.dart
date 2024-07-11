@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 
 class ThumbnailBlog extends StatelessWidget {
