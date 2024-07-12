@@ -55,7 +55,7 @@ class KonsultasiControlPage extends StatelessWidget {
                                     width: Get.width,
                                   ),
                                   Positioned(
-                                    top: 59,
+                                    top: 39,
                                     left: 20,
                                     child: Text(
                                       "Data lengkap bidan",
@@ -66,7 +66,7 @@ class KonsultasiControlPage extends StatelessWidget {
                                     ),
                                   ),
                                   Positioned(
-                                    top: 120,
+                                    bottom: 0,
                                     left: 20,
                                     child: SizedBox(
                                       width: Get.width,
@@ -128,49 +128,55 @@ class KonsultasiControlPage extends StatelessWidget {
                     ),
                     // ! Transaksi
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 171,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                Assets.icons.podiumSharp.path,
-                                fit: BoxFit.cover,
+                        Expanded(
+                          child: Container(
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    Assets.icons.podiumSharp.path,
+                                    width: 24,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  const SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Text(
+                                    "Pemasukan",
+                                    style: CustomTextStyle.primaryText.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Text(
+                                    int.parse('400000').currencyFormatRp,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: CustomTextStyle.bigText.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(
-                                height: 5.0,
-                              ),
-                              Text(
-                                "Pemasukan",
-                                style: CustomTextStyle.primaryText.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5.0,
-                              ),
-                              Text(
-                                int.parse('4000').currencyFormatRp,
-                                style: CustomTextStyle.bigText.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                         const SizedBox(
-                          width: 27.0,
+                          width: 20.0,
                         ),
                         Expanded(
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 mainAxisAlignment:
@@ -193,12 +199,15 @@ class KonsultasiControlPage extends StatelessWidget {
                               ),
                               Text(
                                 int.parse('120000').currencyFormatRp,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                                 style: CustomTextStyle.greenText.copyWith(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [

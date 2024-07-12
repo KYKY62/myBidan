@@ -46,7 +46,7 @@ class TrendingPage extends StatelessWidget {
                 crossAxisCount: 2,
                 mainAxisSpacing: 8.0,
                 crossAxisSpacing: 20,
-                childAspectRatio: 2 / 2.9,
+                childAspectRatio: 0.6,
               ),
               itemBuilder: (context, index) {
                 Blog blog = Blog(

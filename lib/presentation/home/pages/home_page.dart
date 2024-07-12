@@ -72,6 +72,7 @@ class HomePage extends StatelessWidget {
                                   Positioned(
                                     top: 115,
                                     left: 8,
+                                    right: 8,
                                     child: SizedBox(
                                       width: 370,
                                       child: CustomTextField(
@@ -93,6 +94,7 @@ class HomePage extends StatelessWidget {
                                   Positioned(
                                     top: 211,
                                     left: 20,
+                                    right: 20,
                                     child: SizedBox(
                                       width: 336,
                                       child: Row(
@@ -151,7 +153,7 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   Image.asset(Assets.images.doctor.path),
                                   SizedBox(
-                                    width: 180,
+                                    width: 160,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -160,6 +162,8 @@ class HomePage extends StatelessWidget {
                                       children: [
                                         Text(
                                           "Dapatkan Informasi Kesehatan Secara Gratis",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 3,
                                           style: CustomTextStyle.greenText
                                               .copyWith(
                                             fontSize: 14,
@@ -245,7 +249,7 @@ class HomePage extends StatelessWidget {
                   description: "Dermatology & Leprosy",
                   dateOperational: "13 april 2021",
                   timeOperational: "13:00 - 14:00",
-                  image: Assets.images.bidan.path,
+                  image: Assets.images.bidan2.path,
                   horizontalGap: 12,
                   backgroundColor: const Color(0xfff5faf6),
                   backgroundImageColor: AppColors.neon,
@@ -255,11 +259,14 @@ class HomePage extends StatelessWidget {
                 autoPlay: false,
                 enlargeCenterPage: true,
                 viewportFraction: 0.9,
-                aspectRatio: 2.1,
+                aspectRatio: 2,
                 scrollDirection: Axis.horizontal,
               ),
             ),
             // ?? Akhir Layanan Konsultasi
+            const SizedBox(
+              height: 10.0,
+            ),
             SectionHeader(
               title: "Layanan Edukasi",
               onTap: () {
@@ -267,39 +274,35 @@ class HomePage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10.0),
-            Padding(
+            GridView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SizedBox(
-                height: 200,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount:
-                      blogC.mapBlog.length > 2 ? 2 : blogC.mapBlog.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(width: 15),
-                  itemBuilder: (context, index) {
-                    Blog blog = Blog(
-                      image: blogC.mapBlog[index]['image'],
-                      title: blogC.mapBlog[index]['title'],
-                      desc: blogC.mapBlog[index]['desc'],
-                      author: blogC.mapBlog[index]['author'],
-                      subject: blogC.mapBlog[index]['subject'],
-                      contentBlog: blogC.mapBlog[index]['contentBlog'],
-                    );
-
-                    return CustomCardEducation(
-                      image: blogC.mapBlog[index]['image'],
-                      title: blogC.mapBlog[index]['title'],
-                      onTap: () {
-                        blogC.setCurrentBlog(blog);
-                        mainC.currentIndex.value = 7;
-                      },
-                    );
-                  },
-                ),
+              itemCount: blogC.mapBlog.length > 2 ? 2 : blogC.mapBlog.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 20,
+                childAspectRatio: 0.6,
               ),
+              itemBuilder: (context, index) {
+                Blog blog = Blog(
+                  image: blogC.mapBlog[index]['image'],
+                  title: blogC.mapBlog[index]['title'],
+                  desc: blogC.mapBlog[index]['desc'],
+                  author: blogC.mapBlog[index]['author'],
+                  subject: blogC.mapBlog[index]['subject'],
+                  contentBlog: blogC.mapBlog[index]['contentBlog'],
+                );
+                return CustomCardEducation(
+                  image: blogC.mapBlog[index]['image'],
+                  title: blogC.mapBlog[index]['title'],
+                  onTap: () {
+                    blogC.setCurrentBlog(blog);
+                    mainC.currentIndex.value = 7;
+                  },
+                );
+              },
             )
           ],
         ),

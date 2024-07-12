@@ -7,6 +7,7 @@ import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/components/list_article.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
+import 'package:mybidan/core/routes/route_name.dart';
 import 'package:mybidan/presentation/education_control/controller/education_control_controller.dart';
 
 class EducationControlPage extends StatelessWidget {
@@ -27,14 +28,25 @@ class EducationControlPage extends StatelessWidget {
         child: ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Center(
-                child: Text(
-                  "EDUKASI",
-                  style: CustomTextStyle.primaryText.copyWith(
-                    color: Colors.white,
+              padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(),
+                  Text(
+                    "EDUKASI",
+                    style: CustomTextStyle.primaryText.copyWith(
+                      color: Colors.white,
+                    ),
                   ),
-                ),
+                  GestureDetector(
+                    onTap: () => Get.offAllNamed(RouteName.login),
+                    child: const Icon(
+                      Icons.exit_to_app,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
             Stack(
@@ -56,7 +68,7 @@ class EducationControlPage extends StatelessWidget {
                                     width: Get.width,
                                   ),
                                   Positioned(
-                                    top: 59,
+                                    top: 39,
                                     left: 20,
                                     child: Text(
                                       "New artikel",
@@ -67,7 +79,7 @@ class EducationControlPage extends StatelessWidget {
                                     ),
                                   ),
                                   Positioned(
-                                    top: 120,
+                                    bottom: 0,
                                     left: 20,
                                     child: SizedBox(
                                       width: Get.width,

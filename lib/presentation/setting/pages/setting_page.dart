@@ -120,8 +120,8 @@ class SettingPage extends StatelessWidget {
                       ),
                       CardSetting(
                         onTap: () {},
-                        icon: Assets.icons.infoAccount.path,
-                        title: 'Informasi akun',
+                        icon: Assets.icons.pusatDukungan.path,
+                        title: 'Pusat dukungann',
                       ),
                       const SizedBox(
                         height: 22.0,

@@ -36,6 +36,7 @@ class DetailProductPage extends StatelessWidget {
     ));
 
     return Scaffold(
+      backgroundColor: Colors.white,
       floatingActionButton: GestureDetector(
         onTap: () {},
         child: Container(

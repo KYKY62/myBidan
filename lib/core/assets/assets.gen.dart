@@ -78,6 +78,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/private.png
   AssetGenImage get private => const AssetGenImage('assets/icons/private.png');
 
+  /// File path: assets/icons/pusatDukungan.png
+  AssetGenImage get pusatDukungan =>
+      const AssetGenImage('assets/icons/pusatDukungan.png');
+
   /// File path: assets/icons/terms.png
   AssetGenImage get terms => const AssetGenImage('assets/icons/terms.png');
 
@@ -108,6 +112,7 @@ class $AssetsIconsGen {
         mapInactive,
         podiumSharp,
         private,
+        pusatDukungan,
         terms,
         time,
         user
@@ -168,6 +173,10 @@ class $AssetsImagesGen {
   AssetGenImage get product3 =>
       const AssetGenImage('assets/images/product3.png');
 
+  /// File path: assets/images/product4.png
+  AssetGenImage get product4 =>
+      const AssetGenImage('assets/images/product4.png');
+
   /// File path: assets/images/profile.png
   AssetGenImage get profile => const AssetGenImage('assets/images/profile.png');
 
@@ -190,6 +199,7 @@ class $AssetsImagesGen {
         product,
         product2,
         product3,
+        product4,
         profile,
         ronaldo
       ];

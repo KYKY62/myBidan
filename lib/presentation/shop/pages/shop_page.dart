@@ -29,7 +29,7 @@ class ShopPage extends StatelessWidget {
             itemCount: 4,
             itemBuilder: (context, index, realIndex) {
               return SizedBox(
-                height: 150,
+                height: 160,
                 child: Card(
                   color: AppColors.primary,
                   child: Row(
@@ -83,6 +83,7 @@ class ShopPage extends StatelessWidget {
                         child: Image.asset(
                           Assets.images.product.path,
                           fit: BoxFit.cover,
+                          width: 177,
                           height: Get.height,
                         ),
                       ),
@@ -145,13 +146,15 @@ class ShopPage extends StatelessWidget {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // Mengatur jumlah kolom menjadi 2
               mainAxisSpacing: 8,
-              childAspectRatio: 0.8, // Menambahkan rasio aspek jika perlu
+              crossAxisSpacing: 8,
+              childAspectRatio: 0.65,
             ),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
                   Get.toNamed(RouteName.detailProduct, arguments: {
-                    'image': Assets.images.product3.path,
+                    'image': Assets.images.product4.path,
                     'title': 'Perawatan Kulit Alami untuk Ibu Hamil',
                     'type': 'Skin Care',
                     'normalPrice': '52000',

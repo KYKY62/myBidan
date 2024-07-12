@@ -23,9 +23,7 @@ class CardSetting extends StatelessWidget {
           children: [
             Row(
               children: [
-                Image.asset(
-                  icon,
-                ),
+                Image.asset(icon, width: 16, fit: BoxFit.cover),
                 const SizedBox(
                   width: 16,
                 ),

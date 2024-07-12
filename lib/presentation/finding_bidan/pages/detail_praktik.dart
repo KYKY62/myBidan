@@ -15,7 +15,7 @@ class DetailPraktikPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -30,7 +30,7 @@ class DetailPraktikPage extends StatelessWidget {
               backgroundColor: Colors.white,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 22),
               child: Column(
                 children: [
                   Row(
@@ -46,9 +46,11 @@ class DetailPraktikPage extends StatelessWidget {
                         width: 42,
                       ),
                       SizedBox(
-                        width: 170,
+                        width: 160,
                         child: Text(
                           "Jl. Ir. H. Juanda No.17, Jodipan, Kec. Blimbing, Kota Malang, Jawa Timur 65126",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 4,
                           style: CustomTextStyle.smText.copyWith(
                             color: Colors.black,
                           ),
@@ -72,7 +74,7 @@ class DetailPraktikPage extends StatelessWidget {
                         width: 39,
                       ),
                       SizedBox(
-                        width: 150,
+                        width: 140,
                         child: Text(
                           "0812-3456-7890",
                           style: CustomTextStyle.smText.copyWith(
@@ -98,7 +100,7 @@ class DetailPraktikPage extends StatelessWidget {
                         width: 16.0,
                       ),
                       SizedBox(
-                        width: 170,
+                        width: 160,
                         child: Text(
                           "Senin 07.00-11.00, 16.00-20.00\nSelasa 07.00-11.00, 16.00-20.00",
                           style: CustomTextStyle.smText.copyWith(

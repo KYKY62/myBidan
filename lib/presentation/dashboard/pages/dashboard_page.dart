@@ -39,13 +39,16 @@ class DashboardPage extends StatelessWidget {
         onPopInvoked: (didPop) {
           if (dashboardC.currentIndex.value != 0) {
             dashboardC.currentIndex.value = 0;
+          } else {
+            dashboardC.didPop.value = true;
           }
-          dashboardC.didPop.value = true;
         },
         child: Scaffold(
           bottomNavigationBar: BottomAppBar(
             padding: const EdgeInsets.all(0),
             child: BottomNavigationBar(
+              elevation: 0,
+              backgroundColor: Colors.white,
               type: BottomNavigationBarType.fixed,
               onTap: (value) {
                 dashboardC.currentIndex.value = value;
@@ -54,6 +57,7 @@ class DashboardPage extends StatelessWidget {
                 BottomNavigationBarItem(
                   label: '',
                   icon: ImageIcon(
+                    size: 19,
                     color: dashboardC.currentIndex.value == 0
                         ? AppColors.primary
                         : Colors.grey,
@@ -65,6 +69,7 @@ class DashboardPage extends StatelessWidget {
                 BottomNavigationBarItem(
                   label: '',
                   icon: ImageIcon(
+                    size: 19,
                     color: dashboardC.currentIndex.value == 1
                         ? AppColors.primary
                         : Colors.grey,

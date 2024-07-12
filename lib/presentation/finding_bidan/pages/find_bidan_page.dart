@@ -64,6 +64,7 @@ class FindBidanPage extends StatelessWidget {
                     Positioned(
                       top: 84,
                       left: 8,
+                      right: 8,
                       child: SizedBox(
                         width: 370,
                         child: CustomTextField(

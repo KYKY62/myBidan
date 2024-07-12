@@ -47,11 +47,13 @@ class ListArticle extends StatelessWidget {
           const SizedBox(width: 8),
           Image.asset(
             Assets.icons.eyeOutline.path,
+            width: 11,
             fit: BoxFit.cover,
           ),
           const SizedBox(width: 8),
           Image.asset(
             Assets.icons.delete.path,
+            width: 11,
             fit: BoxFit.cover,
           ),
           const SizedBox(width: 11),

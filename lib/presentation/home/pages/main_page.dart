@@ -54,8 +54,9 @@ class MainPage extends StatelessWidget {
           onPopInvoked: (didPop) {
             if (mainC.currentIndex.value != 0) {
               mainC.currentIndex.value = 0;
+            } else {
+              mainC.didPop.value = true;
             }
-            mainC.didPop.value = true;
           },
           child: Scaffold(
             floatingActionButton: mainC.currentIndex.value == 5
@@ -72,7 +73,7 @@ class MainPage extends StatelessWidget {
                       Assets.icons.carFloating.path,
                       color: Colors.white,
                       fit: BoxFit.cover,
-                      width: 23,
+                      width: 27,
                     ),
                   ),
 
@@ -91,6 +92,7 @@ class MainPage extends StatelessWidget {
                   BottomNavigationBarItem(
                     label: '',
                     icon: ImageIcon(
+                      size: 19,
                       color: mainC.currentIndex.value == 0
                           ? AppColors.primary
                           : Colors.grey,
@@ -102,6 +104,7 @@ class MainPage extends StatelessWidget {
                   BottomNavigationBarItem(
                     label: '',
                     icon: ImageIcon(
+                      size: 19,
                       color: mainC.currentIndex.value == 1
                           ? AppColors.primary
                           : Colors.grey,
@@ -111,6 +114,7 @@ class MainPage extends StatelessWidget {
                   BottomNavigationBarItem(
                     label: '',
                     icon: ImageIcon(
+                      size: 19,
                       color: mainC.currentIndex.value == 2
                           ? AppColors.primary
                           : Colors.grey,
@@ -120,6 +124,7 @@ class MainPage extends StatelessWidget {
                   BottomNavigationBarItem(
                     label: '',
                     icon: ImageIcon(
+                      size: 19,
                       color: mainC.currentIndex.value == 3
                           ? AppColors.primary
                           : Colors.grey,

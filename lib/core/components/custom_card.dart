@@ -36,7 +36,8 @@ class CustomCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               children: [
@@ -101,8 +102,8 @@ class CustomCard extends StatelessWidget {
                           child: Row(
                             children: [
                               Container(
-                                width: 27,
-                                height: 27,
+                                width: 20,
+                                height: 20,
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: AppColors.primary,
@@ -140,8 +141,8 @@ class CustomCard extends StatelessWidget {
                             child: Row(
                               children: [
                                 Container(
-                                  width: 27,
-                                  height: 27,
+                                  width: 20,
+                                  height: 20,
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: AppColors.primary,
@@ -185,8 +186,8 @@ class CustomCard extends StatelessWidget {
                             child: Row(
                               children: [
                                 Container(
-                                  width: 27,
-                                  height: 27,
+                                  width: 20,
+                                  height: 20,
                                   decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: AppColors.primary),
