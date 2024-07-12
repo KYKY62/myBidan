@@ -3,12 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/components/card_data_article.dart';
+import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/components/list_article.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
+import 'package:mybidan/presentation/education_control/controller/education_control_controller.dart';
 
 class EducationControlPage extends StatelessWidget {
-  const EducationControlPage({super.key});
+  final educationC = Get.find<EducationControlController>();
+  EducationControlPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -114,48 +117,171 @@ class EducationControlPage extends StatelessWidget {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 26, vertical: 36),
-                child: ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Manajement Artikel ",
-                          style: CustomTextStyle.bigText,
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                width: 2,
-                                color: AppColors.primary,
-                              ),
-                            ),
-                            child: const Icon(Icons.add),
+                child: Obx(
+                  () => ListView(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Manajement Artikel ",
+                            style: CustomTextStyle.bigText,
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 6,
-                      itemBuilder: (context, index) {
-                        return ListArticle(
-                          image: Assets.images.ronaldo.path,
-                          nameArticle:
-                              'Tips mencegah baby blues agar kesehatan janin menjadi...',
-                        );
-                      },
-                    )
-                  ],
+                          GestureDetector(
+                            onTap: () => educationC.isAdding.value =
+                                !educationC.isAdding.value,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  width: 2,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              child: educationC.isAdding.value
+                                  ? const Icon(
+                                      Icons.keyboard_arrow_left_outlined)
+                                  : const Icon(Icons.add),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      educationC.isAdding.value
+                          ? SizedBox(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Judul",
+                                    style: CustomTextStyle.primaryText.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  CustomTextField(
+                                    padding: 0,
+                                    controller: educationC.judulController,
+                                    label: 'Judul artikel',
+                                    textStyle:
+                                        CustomTextStyle.primaryText.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                    keyboardType: TextInputType.text,
+                                    inputColor: Colors.black,
+                                  ),
+                                  const SizedBox(
+                                    height: 24.0,
+                                  ),
+                                  Text(
+                                    "Gambar",
+                                    style: CustomTextStyle.primaryText.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.primary,
+                                      fixedSize: const Size.fromWidth(150),
+                                    ),
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Upload Gambar',
+                                      style: CustomTextStyle.smallerText,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 24.0,
+                                  ),
+                                  Text(
+                                    "isi artikel",
+                                    style: CustomTextStyle.primaryText.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  TextFormField(
+                                    controller:
+                                        educationC.blogContentController,
+                                    minLines: 5,
+                                    maxLines: null,
+                                    style: const TextStyle(color: Colors.black),
+                                    decoration: InputDecoration(
+                                      hintStyle:
+                                          CustomTextStyle.primaryText.copyWith(
+                                        color: Colors.grey,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: const BorderSide(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                      ),
+                                      hintText: 'Masukkan isi artikel',
+                                      fillColor: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 49.0,
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.primary,
+                                      fixedSize: Size.fromWidth(Get.width),
+                                    ),
+                                    onPressed: () {
+                                      educationC.isAdding.value =
+                                          !educationC.isAdding.value;
+                                    },
+                                    child: Text(
+                                      'GET STARTED',
+                                      style:
+                                          CustomTextStyle.primaryText.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: 6,
+                              itemBuilder: (context, index) {
+                                return ListArticle(
+                                  image: Assets.images.ronaldo.path,
+                                  nameArticle:
+                                      'Tips mencegah baby blues agar kesehatan janin menjadi...',
+                                );
+                              },
+                            )
+                    ],
+                  ),
                 ),
               ),
             )

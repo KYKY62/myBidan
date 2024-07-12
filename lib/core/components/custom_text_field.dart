@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final TextStyle? textStyle;
   final bool filled;
   final Color inputColor;
+  final double? padding;
 
   const CustomTextField({
     super.key,
@@ -20,12 +21,13 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.textStyle,
     required this.inputColor,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(padding ?? 12),
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,

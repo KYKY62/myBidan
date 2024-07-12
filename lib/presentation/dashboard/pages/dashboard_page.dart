@@ -3,19 +3,29 @@ import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/presentation/dashboard/controller/dashboard_controller.dart';
+import 'package:mybidan/presentation/education_control/controller/education_control_controller.dart';
 import 'package:mybidan/presentation/education_control/pages/education_control_page.dart';
 import 'package:mybidan/presentation/konsultasi_control/pages/konsultasi_control_page.dart';
 
 class DashboardPage extends StatelessWidget {
   final dashboardC = Get.find<DashboardController>();
-  DashboardPage({super.key});
+  final educationC = Get.find<EducationControlController>();
+
+  DashboardPage({super.key}) {
+    dashboardC.currentIndex.listen((index) {
+      if (index != 1) {
+        educationC.clearTextControllers();
+        educationC.isAdding.value = false;
+      }
+    });
+  }
 
   Widget body() {
     switch (dashboardC.currentIndex.value) {
       case 0:
         return const KonsultasiControlPage();
       case 1:
-        return const EducationControlPage();
+        return EducationControlPage();
       default:
         return const KonsultasiControlPage();
     }
