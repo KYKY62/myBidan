@@ -81,6 +81,7 @@ class MainPage extends StatelessWidget {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             bottomNavigationBar: BottomAppBar(
+              height: 63,
               padding: const EdgeInsets.all(0),
               child: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,

@@ -144,7 +144,7 @@ class ShopPage extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Mengatur jumlah kolom menjadi 2
+              crossAxisCount: 2,
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
               childAspectRatio: 0.65,
