@@ -45,6 +45,7 @@ class DashboardPage extends StatelessWidget {
         },
         child: Scaffold(
           bottomNavigationBar: BottomAppBar(
+            height: 63,
             padding: const EdgeInsets.all(0),
             child: BottomNavigationBar(
               elevation: 0,

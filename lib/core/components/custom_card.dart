@@ -14,6 +14,7 @@ class CustomCard extends StatelessWidget {
   final Color backgroundColor;
   final Color? backgroundImageColor;
   final bool? isChatPage;
+  final EdgeInsetsGeometry? padding;
 
   const CustomCard({
     super.key,
@@ -26,6 +27,7 @@ class CustomCard extends StatelessWidget {
     required this.backgroundColor,
     this.backgroundImageColor,
     this.isChatPage = false,
+    this.padding,
   });
 
   @override
@@ -34,7 +36,7 @@ class CustomCard extends StatelessWidget {
       elevation: 0,
       color: backgroundColor,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: padding ?? const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,

@@ -37,6 +37,11 @@ class ChatController extends GetxController {
       'chat':
           'Terima kasih telah berbagi, Sarah. Anda tidak sendirian dalam perasaan ini. Bagaimana jika kita mencoba menjelajahi perasaan dan pengalaman Anda lebih dalam?',
       'isSender': true
+    },
+    {
+      'chat':
+          'Terima kasih telah berbagi, Sarah. Anda tidak sendirian dalam perasaan ini. Bagaimana jika kita mencoba menjelajahi perasaan dan pengalaman Anda lebih dalam?',
+      'isSender': true
     }
   ];
 }
