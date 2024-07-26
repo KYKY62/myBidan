@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "962718643509",
+    "firebase_url": "https://getconnect-project-9b7d7-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "getconnect-project-9b7d7",
+    "storage_bucket": "getconnect-project-9b7d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962718643509:android:d5c55f5060a19219f8087c",
+        "android_client_info": {
+          "package_name": "com.example.mybidan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962718643509-uknq21dntin5mpphr3on60b34391llh2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAwBMO-ykrJhQeMY_cEARIh9BEZIq8STg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962718643509-uknq21dntin5mpphr3on60b34391llh2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

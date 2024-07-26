@@ -16,6 +16,7 @@ class DashboardPage extends StatelessWidget {
       if (index != 1) {
         educationC.clearTextControllers();
         educationC.isAdding.value = false;
+        educationC.image.value = null;
       }
     });
   }
@@ -25,7 +26,7 @@ class DashboardPage extends StatelessWidget {
       case 0:
         return const KonsultasiControlPage();
       case 1:
-        return EducationControlPage();
+        return const EducationControlPage();
       default:
         return const KonsultasiControlPage();
     }

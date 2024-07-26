@@ -9,7 +9,7 @@ import 'package:mybidan/presentation/chat/controller/chat_controller.dart';
 import 'package:mybidan/presentation/home/controller/main_controller.dart';
 
 class ChatPage extends StatelessWidget {
-  final chatC = Get.put(ChatController());
+  final chatC = Get.find<ChatController>();
   final mainC = Get.find<MainController>();
   ChatPage({super.key});
 
@@ -76,7 +76,7 @@ class ChatPage extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 46.0),
+          const SizedBox(height: 16.0),
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

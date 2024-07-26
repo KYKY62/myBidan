@@ -10,9 +10,23 @@ import 'package:mybidan/core/constants/text_style.dart';
 import 'package:mybidan/core/routes/route_name.dart';
 import 'package:mybidan/presentation/education_control/controller/education_control_controller.dart';
 
-class EducationControlPage extends StatelessWidget {
+class EducationControlPage extends StatefulWidget {
+  const EducationControlPage({super.key});
+
+  @override
+  State<EducationControlPage> createState() => _EducationControlPageState();
+}
+
+class _EducationControlPageState extends State<EducationControlPage> {
   final educationC = Get.find<EducationControlController>();
-  EducationControlPage({super.key});
+
+  Uint8List? _image;
+  void selectedImage() async {
+    Uint8List? img = await educationC.pickImage();
+    setState(() {
+      _image = img;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,8 +156,11 @@ class EducationControlPage extends StatelessWidget {
                             style: CustomTextStyle.bigText,
                           ),
                           GestureDetector(
-                            onTap: () => educationC.isAdding.value =
-                                !educationC.isAdding.value,
+                            onTap: () {
+                              educationC.isAdding.value =
+                                  !educationC.isAdding.value;
+                              educationC.image.value = null;
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
@@ -164,6 +181,7 @@ class EducationControlPage extends StatelessWidget {
                         height: 15,
                       ),
                       educationC.isAdding.value
+                          // ! ADD BLOG
                           ? SizedBox(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,15 +218,35 @@ class EducationControlPage extends StatelessWidget {
                                   const SizedBox(
                                     height: 7.0,
                                   ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.primary,
-                                      fixedSize: const Size.fromWidth(150),
-                                    ),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'Upload Gambar',
-                                      style: CustomTextStyle.smallerText,
+                                  Obx(
+                                    () => Row(
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.primary,
+                                            fixedSize:
+                                                const Size.fromWidth(150),
+                                          ),
+                                          onPressed: () =>
+                                              educationC.selectedImage(),
+                                          child: Text(
+                                            'Upload Gambar',
+                                            style: CustomTextStyle.smallerText,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 20.0),
+                                        educationC.image.value != null
+                                            ? const CircleAvatar(
+                                                radius: 15,
+                                                backgroundColor: Colors.green,
+                                                child: Icon(
+                                                  Icons.check,
+                                                  color: Colors.white,
+                                                  size: 15,
+                                                ),
+                                              )
+                                            : const SizedBox(),
+                                      ],
                                     ),
                                   ),
                                   const SizedBox(
