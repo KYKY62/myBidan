@@ -1,14 +1,20 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 
 class ListArticle extends StatelessWidget {
-  final String image;
   final String nameArticle;
+  final dynamic photo;
+  final dynamic onTapEdit;
+  final dynamic onTapDelete;
   const ListArticle({
     super.key,
-    required this.image,
     required this.nameArticle,
+    required this.photo,
+    required this.onTapEdit,
+    required this.onTapDelete,
   });
 
   @override
@@ -17,12 +23,7 @@ class ListArticle extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 15),
       child: Row(
         children: [
-          Image.asset(
-            image,
-            width: 49,
-            height: 46,
-            fit: BoxFit.cover,
-          ),
+          Image.network(photo, width: 49, height: 46, fit: BoxFit.cover),
           const SizedBox(
             width: 11.0,
           ),
@@ -45,16 +46,22 @@ class ListArticle extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Image.asset(
-            Assets.icons.eyeOutline.path,
-            width: 11,
-            fit: BoxFit.cover,
+          GestureDetector(
+            onTap: onTapEdit,
+            child: Image.asset(
+              Assets.icons.eyeOutline.path,
+              width: 11,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(width: 8),
-          Image.asset(
-            Assets.icons.delete.path,
-            width: 11,
-            fit: BoxFit.cover,
+          GestureDetector(
+            onTap: onTapDelete,
+            child: Image.asset(
+              Assets.icons.delete.path,
+              width: 11,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(width: 11),
           Container(

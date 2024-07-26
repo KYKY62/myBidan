@@ -26,7 +26,7 @@ class DashboardPage extends StatelessWidget {
       case 0:
         return const KonsultasiControlPage();
       case 1:
-        return const EducationControlPage();
+        return EducationControlPage();
       default:
         return const KonsultasiControlPage();
     }

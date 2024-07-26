@@ -3,17 +3,17 @@ import 'package:mybidan/core/constants/text_style.dart';
 
 class CardDataArticle extends StatelessWidget {
   final dynamic onTap;
-  final String image;
+  final dynamic photo;
   final String title;
   final String desc;
   final String author;
   const CardDataArticle({
     super.key,
     required this.onTap,
-    required this.image,
     required this.title,
     required this.desc,
     required this.author,
+    required this.photo,
   });
 
   @override
@@ -36,30 +36,35 @@ class CardDataArticle extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                image,
-                height: 100,
-                fit: BoxFit.cover,
-              ),
+              Image.network(photo, height: 100, fit: BoxFit.cover),
               const SizedBox(
                 height: 12.0,
               ),
-              Text(
-                title,
-                style: CustomTextStyle.primaryText.copyWith(
-                  fontWeight: FontWeight.bold,
+              SizedBox(
+                height: 48,
+                child: Text(
+                  title,
+                  maxLines: 2,
+                  style: CustomTextStyle.primaryText.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(
                 height: 6.0,
               ),
-              Text(
-                desc,
-                style: CustomTextStyle.smText.copyWith(
-                  color: Colors.grey,
+              Expanded(
+                child: SizedBox(
+                  height: 48,
+                  child: Text(
+                    desc,
+                    maxLines: 2,
+                    style: CustomTextStyle.smText.copyWith(
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(height: 8),
               Row(
                 children: [
                   Text(
@@ -70,11 +75,15 @@ class CardDataArticle extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 4),
-                  Text(
-                    author,
-                    style: CustomTextStyle.greenText.copyWith(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    width: 90,
+                    child: Text(
+                      author,
+                      maxLines: 1,
+                      style: CustomTextStyle.greenText.copyWith(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

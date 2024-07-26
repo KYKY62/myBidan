@@ -9,9 +9,13 @@ import 'package:image_picker/image_picker.dart';
 class EducationControlController extends GetxController {
   RxBool isAdding = false.obs;
   RxBool loading = false.obs;
+  RxBool isEdit = false.obs;
+
+  String doc = '';
 
   final TextEditingController judulController = TextEditingController();
   final TextEditingController blogContentController = TextEditingController();
+  final TextEditingController authorController = TextEditingController();
 
   final storage = FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -40,14 +44,33 @@ class EducationControlController extends GetxController {
     return await uploadTask.getDownloadURL();
   }
 
-  Future<String> addArticle({required Uint8List fileGambar}) async {
+  void editOrAdd() {
+    isEdit.value == true
+        ? editArticle(
+            doc: doc,
+            title: judulController.text,
+            contentArticle: blogContentController.text,
+            author: authorController.text,
+          )
+        : addArticle();
+  }
+
+  Stream<QuerySnapshot>? getArticle() => db
+      .collection('article')
+      .orderBy('timestamp', descending: true)
+      .snapshots();
+
+  Future<String> addArticle() async {
     String resp = 'Some error Occurred';
     try {
       loading.value = true;
+      String imgUrl = await uploadImage(image.value!, 'photoArticle');
+
       Map<String, dynamic> articleData = {
         "title": judulController.text,
-        "photo": fileGambar,
-        "contentArticle": blogContentController,
+        "photo": imgUrl,
+        "contentArticle": blogContentController.text,
+        "author": authorController.text,
         'timestamp': DateTime.now(),
       };
 
@@ -55,15 +78,69 @@ class EducationControlController extends GetxController {
 
       judulController.clear();
       blogContentController.clear();
+      authorController.clear();
+      image.value = null;
 
       loading.value = false;
       isAdding.value = !isAdding.value;
       return resp = 'success';
     } catch (e) {
       loading.value = false;
-      Get.defaultDialog(title: 'Produk Gagal Ditambahkan');
+      Get.defaultDialog(
+        title: 'Produk Gagal Ditambahkan',
+        middleText: 'Lengkapi Form Data',
+      );
     }
     return resp;
+  }
+
+  Future<String> editArticle({
+    required String doc,
+    required String title,
+    required String contentArticle,
+    required String author,
+  }) async {
+    String resp = 'Some error Occurred';
+    try {
+      loading.value = true;
+      String imgUrl = await uploadImage(image.value!, 'photoArticle');
+
+      Map<String, dynamic> articleData = {
+        "title": title,
+        "photo": imgUrl,
+        "contentArticle": contentArticle,
+        "author": author,
+        'timestamp': DateTime.now(),
+      };
+
+      await db.collection('article').doc(doc).update(articleData);
+
+      judulController.clear();
+      blogContentController.clear();
+      authorController.clear();
+      image.value = null;
+
+      loading.value = false;
+      isAdding.value = !isAdding.value;
+      return resp = 'success';
+    } catch (e) {
+      loading.value = false;
+      Get.defaultDialog(
+        title: 'Produk Gagal Diubah',
+        middleText: 'Lengkapi Form Data',
+      );
+    }
+    return resp;
+  }
+
+  void deleteArticle({
+    required String doc,
+  }) async {
+    try {
+      db.collection('article').doc(doc).delete();
+    } on FirebaseException {
+      Get.defaultDialog(middleText: 'Terjadi Kesalahan. Silahkan Coba Lagi');
+    }
   }
 
   void clearTextControllers() {

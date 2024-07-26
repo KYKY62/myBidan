@@ -10,23 +10,9 @@ import 'package:mybidan/core/constants/text_style.dart';
 import 'package:mybidan/core/routes/route_name.dart';
 import 'package:mybidan/presentation/education_control/controller/education_control_controller.dart';
 
-class EducationControlPage extends StatefulWidget {
-  const EducationControlPage({super.key});
-
-  @override
-  State<EducationControlPage> createState() => _EducationControlPageState();
-}
-
-class _EducationControlPageState extends State<EducationControlPage> {
+class EducationControlPage extends StatelessWidget {
   final educationC = Get.find<EducationControlController>();
-
-  Uint8List? _image;
-  void selectedImage() async {
-    Uint8List? img = await educationC.pickImage();
-    setState(() {
-      _image = img;
-    });
-  }
+  EducationControlPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +21,7 @@ class _EducationControlPageState extends State<EducationControlPage> {
       statusBarIconBrightness: Brightness.light,
       systemNavigationBarDividerColor: AppColors.primary,
     ));
+
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: SizedBox(
@@ -98,23 +85,48 @@ class _EducationControlPageState extends State<EducationControlPage> {
                                     child: SizedBox(
                                       width: Get.width,
                                       height: 255,
-                                      child: ListView.separated(
-                                        scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
-                                        padding:
-                                            const EdgeInsets.only(right: 40),
-                                        itemCount: 4,
-                                        separatorBuilder: (context, index) =>
-                                            const SizedBox(width: 20),
-                                        itemBuilder: (context, index) {
-                                          return CardDataArticle(
-                                            image: Assets.images.blogimage.path,
-                                            title:
-                                                'Tips menjaga kesehatan janin ',
-                                            desc:
-                                                'Perhatikan tips ini ampuh untuk janin anda',
-                                            author: 'Intan dewi',
-                                            onTap: () {},
+                                      child: StreamBuilder(
+                                        stream: educationC.getArticle(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          } else if (!snapshot.hasData ||
+                                              snapshot.data!.docs.isEmpty) {
+                                            return Text(
+                                              "Artikel Belum Ada",
+                                              style: CustomTextStyle.bigText
+                                                  .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                            );
+                                          }
+                                          var articleData = snapshot.data!.docs;
+
+                                          return ListView.separated(
+                                            scrollDirection: Axis.horizontal,
+                                            shrinkWrap: true,
+                                            padding: const EdgeInsets.only(
+                                                right: 40),
+                                            itemCount: articleData.length,
+                                            separatorBuilder:
+                                                (context, index) =>
+                                                    const SizedBox(width: 20),
+                                            itemBuilder: (context, index) {
+                                              return CardDataArticle(
+                                                photo: articleData[index]
+                                                    ['photo'],
+                                                title: articleData[index]
+                                                    ['title'],
+                                                desc: articleData[index]
+                                                    ['contentArticle'],
+                                                author: articleData[index]
+                                                    ['author'],
+                                                onTap: () {},
+                                              );
+                                            },
                                           );
                                         },
                                       ),
@@ -157,6 +169,7 @@ class _EducationControlPageState extends State<EducationControlPage> {
                           ),
                           GestureDetector(
                             onTap: () {
+                              educationC.isEdit.value = false;
                               educationC.isAdding.value =
                                   !educationC.isAdding.value;
                               educationC.image.value = null;
@@ -282,7 +295,8 @@ class _EducationControlPageState extends State<EducationControlPage> {
                                         borderRadius:
                                             BorderRadius.circular(16.0),
                                         borderSide: const BorderSide(
-                                            color: Colors.grey),
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius:
@@ -294,39 +308,126 @@ class _EducationControlPageState extends State<EducationControlPage> {
                                       fillColor: Colors.white,
                                     ),
                                   ),
+                                  const SizedBox(height: 24),
+                                  Text(
+                                    "Penulis",
+                                    style: CustomTextStyle.primaryText.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  CustomTextField(
+                                    padding: 0,
+                                    controller: educationC.authorController,
+                                    label: 'Penulis',
+                                    textStyle:
+                                        CustomTextStyle.primaryText.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                    keyboardType: TextInputType.text,
+                                    inputColor: Colors.black,
+                                  ),
                                   const SizedBox(
                                     height: 49.0,
                                   ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.primary,
-                                      fixedSize: Size.fromWidth(Get.width),
-                                    ),
-                                    onPressed: () {
-                                      educationC.isAdding.value =
-                                          !educationC.isAdding.value;
-                                    },
-                                    child: Text(
-                                      'GET STARTED',
-                                      style:
-                                          CustomTextStyle.primaryText.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
+                                  educationC.loading.value
+                                      ? const Center(
+                                          child: CircularProgressIndicator(),
+                                        )
+                                      : ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.primary,
+                                            fixedSize:
+                                                Size.fromWidth(Get.width),
+                                          ),
+                                          onPressed: () =>
+                                              educationC.editOrAdd(),
+                                          child: Text(
+                                            'GET STARTED',
+                                            style: CustomTextStyle.primaryText
+                                                .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
                                 ],
                               ),
                             )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: 6,
-                              itemBuilder: (context, index) {
-                                return ListArticle(
-                                  image: Assets.images.ronaldo.path,
-                                  nameArticle:
-                                      'Tips mencegah baby blues agar kesehatan janin menjadi...',
+                          : StreamBuilder(
+                              stream: educationC.getArticle(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else if (!snapshot.hasData ||
+                                    snapshot.data!.docs.isEmpty) {
+                                  return SizedBox(
+                                    height: 150,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Artikel Belum Ada",
+                                          style: CustomTextStyle.bigText,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                var articleData = snapshot.data!.docs;
+
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: articleData.length,
+                                  itemBuilder: (context, index) {
+                                    dynamic onTapEdits() {
+                                      educationC.doc = articleData[index].id;
+                                      educationC.judulController.text =
+                                          articleData[index]['title'];
+                                      educationC.blogContentController.text =
+                                          articleData[index]['contentArticle'];
+                                      educationC.isEdit.value = true;
+                                      educationC.isAdding.value =
+                                          !educationC.isAdding.value;
+                                    }
+
+                                    return articleData.length == 1
+                                        ? SizedBox(
+                                            height: 150,
+                                            child: Column(
+                                              children: [
+                                                ListArticle(
+                                                  photo: articleData[index]
+                                                      ['photo'],
+                                                  nameArticle:
+                                                      articleData[index]
+                                                          ['title'],
+                                                  onTapEdit: () => onTapEdits(),
+                                                  onTapDelete: () =>
+                                                      educationC.deleteArticle(
+                                                    doc: articleData[index].id,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : ListArticle(
+                                            photo: articleData[index]['photo'],
+                                            nameArticle: articleData[index]
+                                                ['title'],
+                                            onTapEdit: () => onTapEdits(),
+                                            onTapDelete: () =>
+                                                educationC.deleteArticle(
+                                              doc: articleData[index].id,
+                                            ),
+                                          );
+                                  },
                                 );
                               },
                             )
