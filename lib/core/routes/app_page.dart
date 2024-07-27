@@ -9,6 +9,7 @@ import 'package:mybidan/presentation/auth/pages/login_page.dart';
 import 'package:mybidan/presentation/auth/pages/register_page.dart';
 import 'package:mybidan/presentation/dashboard/pages/dashboard_page.dart';
 import 'package:mybidan/presentation/home/pages/main_page.dart';
+import 'package:mybidan/presentation/konsultasi_control/pages/add_bidan_page.dart';
 import 'package:mybidan/presentation/shop/pages/detail_product_page.dart';
 
 class AppPage {
@@ -50,6 +51,10 @@ class AppPage {
       page: () => DashboardPage(),
       binding: DashboardBindings(),
       transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: RouteName.addBidan,
+      page: () => AddBidanPage(),
     )
   ];
 }

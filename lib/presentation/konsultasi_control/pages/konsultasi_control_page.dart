@@ -8,6 +8,7 @@ import 'package:mybidan/core/components/list_order.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 import 'package:mybidan/core/extension/int_ext.dart';
+import 'package:mybidan/core/routes/route_name.dart';
 
 class KonsultasiControlPage extends StatelessWidget {
   const KonsultasiControlPage({super.key});
@@ -57,12 +58,31 @@ class KonsultasiControlPage extends StatelessWidget {
                                   Positioned(
                                     top: 39,
                                     left: 20,
-                                    child: Text(
-                                      "Data lengkap bidan",
-                                      style:
-                                          CustomTextStyle.primaryText.copyWith(
-                                        color: Colors.white,
-                                      ),
+                                    right: 20,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Data lengkap bidan",
+                                          style: CustomTextStyle.primaryText
+                                              .copyWith(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () =>
+                                              Get.toNamed(RouteName.addBidan),
+                                          child: const CircleAvatar(
+                                            radius: 15,
+                                            backgroundColor: Colors.white,
+                                            child: Icon(
+                                              Icons.add,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   Positioned(
