@@ -24,11 +24,11 @@ class DashboardPage extends StatelessWidget {
   Widget body() {
     switch (dashboardC.currentIndex.value) {
       case 0:
-        return const KonsultasiControlPage();
+        return KonsultasiControlPage();
       case 1:
         return EducationControlPage();
       default:
-        return const KonsultasiControlPage();
+        return KonsultasiControlPage();
     }
   }
 

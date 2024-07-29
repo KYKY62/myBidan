@@ -15,6 +15,48 @@ class AddBidanPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget stackProfileBidan() {
+      return Stack(
+        children: [
+          Stack(
+            children: [
+              const Column(
+                children: [
+                  SizedBox(
+                    width: 88,
+                    height: 108,
+                  ),
+                ],
+              ),
+              Positioned(
+                top: 12,
+                child: Container(
+                  width: 88,
+                  height: 88,
+                  decoration: BoxDecoration(
+                    color: AppColors.neon,
+                    borderRadius: BorderRadius.circular(
+                      16,
+                    ),
+                  ),
+                ),
+              ),
+              Obx(
+                () => Positioned(
+                  left: 8,
+                  right: 8,
+                  child: addBidanC.image.value != null
+                      ? Image.memory(addBidanC.image.value!,
+                          height: 98, fit: BoxFit.cover)
+                      : const SizedBox(),
+                ),
+              )
+            ],
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Tambah Data Bidan"),
@@ -26,6 +68,27 @@ class AddBidanPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Center(
+                  child: Stack(
+                    children: [
+                      stackProfileBidan(),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: () => addBidanC.selectedImage(),
+                          child: const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Text(
                   "Email Bidan",
                   style: CustomTextStyle.primaryText.copyWith(
@@ -94,46 +157,6 @@ class AddBidanPage extends StatelessWidget {
                   height: 24.0,
                 ),
                 Text(
-                  "Gambar",
-                  style: CustomTextStyle.primaryText.copyWith(
-                    color: Colors.grey,
-                  ),
-                ),
-                const SizedBox(
-                  height: 7.0,
-                ),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        fixedSize: const Size.fromWidth(150),
-                      ),
-                      // onPressed: () => educationC.selectedImage(),
-                      onPressed: () {},
-                      child: Text(
-                        'Upload Gambar',
-                        style: CustomTextStyle.smallerText,
-                      ),
-                    ),
-                    const SizedBox(width: 20.0),
-                    // educationC.image.value != null
-                    //     ? const CircleAvatar(
-                    //         radius: 15,
-                    //         backgroundColor: Colors.green,
-                    //         child: Icon(
-                    //           Icons.check,
-                    //           color: Colors.white,
-                    //           size: 15,
-                    //         ),
-                    //       )
-                    //     : const SizedBox(),
-                  ],
-                ),
-                const SizedBox(
-                  height: 24.0,
-                ),
-                Text(
                   "Specialist Bidan",
                   style: CustomTextStyle.primaryText.copyWith(
                     color: Colors.grey,
@@ -184,7 +207,8 @@ class AddBidanPage extends StatelessWidget {
                     Expanded(
                       child: TimePickerSpinnerPopUp(
                         mode: CupertinoDatePickerMode.time,
-                        initTime: DateTime(2000, 1, 1, 0, 0),
+                        initTime: DateTime(
+                            DateTime.now().year, DateTime.now().month, 1, 0, 0),
                         onChange: (dateTime) {
                           Timestamp timestamp = Timestamp.fromDate(dateTime);
                           addBidanC.updateTimeAkhir(timestamp);
@@ -206,9 +230,9 @@ class AddBidanPage extends StatelessWidget {
                           fixedSize: Size.fromWidth(Get.width),
                         ),
                         // onPressed: () => educationC.editOrAdd(),
-                        onPressed: () {},
+                        onPressed: () => addBidanC.addBidan(),
                         child: Text(
-                          'GET STARTED',
+                          'Tambah Data',
                           style: CustomTextStyle.primaryText.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

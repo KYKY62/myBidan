@@ -36,11 +36,7 @@ class StackProfileBidan extends StatelessWidget {
             Positioned(
               left: 8,
               right: 8,
-              child: Image.asset(
-                image,
-                height: 98,
-                fit: BoxFit.cover,
-              ),
+              child: Image.network(image, height: 98, fit: BoxFit.cover),
             ),
           ],
         ),

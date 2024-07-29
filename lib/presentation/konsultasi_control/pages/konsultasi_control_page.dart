@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,11 +8,14 @@ import 'package:mybidan/core/components/list_order.dart';
 
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
+import 'package:mybidan/core/extension/date_time_ext.dart';
 import 'package:mybidan/core/extension/int_ext.dart';
 import 'package:mybidan/core/routes/route_name.dart';
+import 'package:mybidan/presentation/konsultasi_control/controller/konsultasi_control_controller.dart';
 
 class KonsultasiControlPage extends StatelessWidget {
-  const KonsultasiControlPage({super.key});
+  final konsultasiC = Get.find<KonsultasiControlController>();
+  KonsultasiControlPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +76,11 @@ class KonsultasiControlPage extends StatelessWidget {
                                         ),
                                         GestureDetector(
                                           onTap: () =>
-                                              Get.toNamed(RouteName.addBidan),
+                                              Get.toNamed(RouteName.addBidan)!
+                                                  .then(
+                                            (_) =>
+                                                konsultasiC.clearController(),
+                                          ),
                                           child: const CircleAvatar(
                                             radius: 15,
                                             backgroundColor: Colors.white,
@@ -91,24 +99,65 @@ class KonsultasiControlPage extends StatelessWidget {
                                     child: SizedBox(
                                       width: Get.width,
                                       height: 255,
-                                      child: ListView.separated(
-                                        scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
-                                        padding:
-                                            const EdgeInsets.only(right: 40),
-                                        itemCount: 4,
-                                        separatorBuilder: (context, index) =>
-                                            const SizedBox(width: 20),
-                                        itemBuilder: (context, index) {
-                                          return CardDataBidan(
-                                            image: Assets.images.bidan2.path,
-                                            nameBidan: 'Dr. Intan erno',
-                                            specialist: 'Dermatology & Leprosy',
-                                            timeOperational: '13:00 - 13:00',
-                                            onTap: () {},
-                                          );
-                                        },
-                                      ),
+                                      child: StreamBuilder(
+                                          stream: konsultasiC.getBidan(),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            } else if (!snapshot.hasData ||
+                                                snapshot.data!.docs.isEmpty) {
+                                              return Text(
+                                                "Belum Ada Bidan",
+                                                style: CustomTextStyle.bigText
+                                                    .copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                              );
+                                            }
+                                            var bidanData = snapshot.data!.docs;
+                                            return ListView.separated(
+                                              scrollDirection: Axis.horizontal,
+                                              shrinkWrap: true,
+                                              padding: const EdgeInsets.only(
+                                                  right: 40),
+                                              itemCount: bidanData.length,
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      const SizedBox(width: 20),
+                                              itemBuilder: (context, index) {
+                                                Timestamp timeAwalstampConvert =
+                                                    bidanData[index]
+                                                        ['jamAwalKerja'];
+                                                Timestamp
+                                                    timeAkhirstampConvert =
+                                                    bidanData[index]
+                                                        ['jamAkhirKerja'];
+
+                                                String dateTimeAwal =
+                                                    timeAwalstampConvert
+                                                        .toDate()
+                                                        .toFormattedInHours();
+                                                String dateTimeAkhir =
+                                                    timeAkhirstampConvert
+                                                        .toDate()
+                                                        .toFormattedInHours();
+                                                return CardDataBidan(
+                                                  image: bidanData[index]
+                                                      ['photoBidan'],
+                                                  nameBidan: bidanData[index]
+                                                      ['name'],
+                                                  specialist: bidanData[index]
+                                                      ['specialistBidan'],
+                                                  timeOperational:
+                                                      '$dateTimeAwal-$dateTimeAkhir',
+                                                  onTap: () {},
+                                                );
+                                              },
+                                            );
+                                          }),
                                     ),
                                   ),
                                 ],

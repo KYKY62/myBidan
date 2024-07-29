@@ -23,6 +23,6 @@ extension DateTimeExt on DateTime {
   }
 
   String toFormattedInHours() {
-    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} WIB';
+    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
   }
 }
