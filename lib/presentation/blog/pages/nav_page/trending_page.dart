@@ -48,12 +48,26 @@ class TrendingPage extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: 1,
-                    itemBuilder: (context, index) => ThumbnailBlog(
-                      image: articleData[index]['photo'],
-                      title: articleData[index]['title'],
-                      desc: articleData[index]['shortDesc'],
-                      author: articleData[index]['author'],
-                      subject: articleData[index]['subject'],
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Article article = Article(
+                          image: articleData[index]['photo'],
+                          title: articleData[index]['title'],
+                          desc: articleData[index]['shortDesc'],
+                          author: articleData[index]['author'],
+                          subject: articleData[index]['subject'],
+                          contentBlog: articleData[index]['contentArticle'],
+                        );
+                        articleC.setCurrentArticle(article);
+                        mainC.currentIndex.value = 7; //! Ke Detail_Blog
+                      },
+                      child: ThumbnailBlog(
+                        image: articleData[index]['photo'],
+                        title: articleData[index]['title'],
+                        desc: articleData[index]['shortDesc'],
+                        author: articleData[index]['author'],
+                        subject: articleData[index]['subject'],
+                      ),
                     ),
                   );
                 }),

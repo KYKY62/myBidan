@@ -15,6 +15,7 @@ class CustomCard extends StatelessWidget {
   final Color backgroundColor;
   final Color? backgroundImageColor;
   final bool? isChatPage;
+  final bool? findBidanPage;
   final EdgeInsetsGeometry? padding;
 
   const CustomCard({
@@ -29,6 +30,7 @@ class CustomCard extends StatelessWidget {
     this.backgroundImageColor,
     this.isChatPage = false,
     this.padding,
+    this.findBidanPage,
   });
 
   @override
@@ -44,9 +46,26 @@ class CustomCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                StackProfileBidan(
-                  image: image,
-                ),
+                findBidanPage == true
+                    ? Container(
+                        decoration: BoxDecoration(
+                          color: backgroundImageColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 8,
+                            right: 8,
+                            left: 8,
+                          ),
+                          child: Image.network(
+                            image,
+                            width: 41,
+                            height: 52,
+                          ),
+                        ),
+                      )
+                    : StackProfileBidan(image: image),
                 SizedBox(
                   width: horizontalGap,
                 ),

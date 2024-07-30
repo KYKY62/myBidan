@@ -20,13 +20,15 @@ class DetailPraktikPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CustomCard(
+            const CustomCard(
               name: "Praktek Fatmawati",
               description: "Fatmawati S.Keb M.Keb",
               dateOperational: "13 april 2021",
               timeOperational: "13:00 - 14:00",
               horizontalGap: 25,
-              image: Assets.images.praktik.path,
+              findBidanPage: true,
+              image:
+                  'https://firebasestorage.googleapis.com/v0/b/getconnect-project-9b7d7.appspot.com/o/photoArticle-1722013448480.jpg?alt=media&token=3a57bdea-aa8b-41ca-b596-52d4bab7647c',
               backgroundColor: Colors.white,
             ),
             Padding(

@@ -120,14 +120,16 @@ class FindBidanPage extends StatelessWidget {
                                   findBidanC.selectedObject.value =
                                       !findBidanC.selectedObject.value;
                                 },
-                                child: CustomCard(
+                                child: const CustomCard(
                                   name: "Praktek Fatmawati",
                                   description: "Fatmawati S.Keb M.Keb",
                                   dateOperational: "13 april 2021",
                                   timeOperational: "13:00 - 14:00",
-                                  image: Assets.images.praktik.path,
+                                  image:
+                                      'https://firebasestorage.googleapis.com/v0/b/getconnect-project-9b7d7.appspot.com/o/photoArticle-1722013448480.jpg?alt=media&token=3a57bdea-aa8b-41ca-b596-52d4bab7647c',
                                   horizontalGap: 25,
-                                  backgroundColor: const Color(0xfff5faf6),
+                                  findBidanPage: true,
+                                  backgroundColor: Color(0xfff5faf6),
                                 ),
                               );
                             },
