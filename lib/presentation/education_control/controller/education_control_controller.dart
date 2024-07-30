@@ -16,6 +16,8 @@ class EducationControlController extends GetxController {
   final TextEditingController judulController = TextEditingController();
   final TextEditingController blogContentController = TextEditingController();
   final TextEditingController authorController = TextEditingController();
+  final TextEditingController shortDescController = TextEditingController();
+  final TextEditingController tipeArticleController = TextEditingController();
 
   final storage = FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -44,16 +46,7 @@ class EducationControlController extends GetxController {
     return await uploadTask.getDownloadURL();
   }
 
-  void editOrAdd() {
-    isEdit.value == true
-        ? editArticle(
-            doc: doc,
-            title: judulController.text,
-            contentArticle: blogContentController.text,
-            author: authorController.text,
-          )
-        : addArticle();
-  }
+  void editOrAdd() => isEdit.value == true ? editArticle() : addArticle();
 
   Stream<QuerySnapshot>? getArticle() => db
       .collection('article')
@@ -64,6 +57,7 @@ class EducationControlController extends GetxController {
     String resp = 'Some error Occurred';
     try {
       loading.value = true;
+
       String imgUrl = await uploadImage(image.value!, 'photoArticle');
 
       Map<String, dynamic> articleData = {
@@ -71,15 +65,14 @@ class EducationControlController extends GetxController {
         "photo": imgUrl,
         "contentArticle": blogContentController.text,
         "author": authorController.text,
+        "shortDesc": shortDescController.text,
+        "subject": tipeArticleController.text,
         'timestamp': DateTime.now(),
       };
 
       await db.collection('article').doc().set(articleData);
 
-      judulController.clear();
-      blogContentController.clear();
-      authorController.clear();
-      image.value = null;
+      clearTextControllers();
 
       loading.value = false;
       isAdding.value = !isAdding.value;
@@ -94,31 +87,25 @@ class EducationControlController extends GetxController {
     return resp;
   }
 
-  Future<String> editArticle({
-    required String doc,
-    required String title,
-    required String contentArticle,
-    required String author,
-  }) async {
+  Future<String> editArticle() async {
     String resp = 'Some error Occurred';
     try {
       loading.value = true;
       String imgUrl = await uploadImage(image.value!, 'photoArticle');
 
       Map<String, dynamic> articleData = {
-        "title": title,
+        "title": judulController.text,
         "photo": imgUrl,
-        "contentArticle": contentArticle,
-        "author": author,
+        "contentArticle": blogContentController.text,
+        "author": authorController.text,
+        "shortDesc": shortDescController.text,
+        "subject": tipeArticleController.text,
         'timestamp': DateTime.now(),
       };
 
       await db.collection('article').doc(doc).update(articleData);
 
-      judulController.clear();
-      blogContentController.clear();
-      authorController.clear();
-      image.value = null;
+      clearTextControllers();
 
       loading.value = false;
       isAdding.value = !isAdding.value;
@@ -146,6 +133,19 @@ class EducationControlController extends GetxController {
   void clearTextControllers() {
     judulController.clear();
     blogContentController.clear();
+    authorController.clear();
+    shortDescController.clear();
+    tipeArticleController.clear();
+    image.value = null;
+  }
+
+  void disposeControllers() {
+    judulController.dispose();
+    blogContentController.dispose();
+    authorController.dispose();
+    shortDescController.dispose();
+    tipeArticleController.dispose();
+    image.value = null;
   }
 
   @override
@@ -161,6 +161,6 @@ class EducationControlController extends GetxController {
   @override
   void dispose() {
     super.dispose();
-    judulController.dispose();
+    disposeControllers();
   }
 }

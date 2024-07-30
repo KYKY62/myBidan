@@ -22,6 +22,37 @@ class EducationControlPage extends StatelessWidget {
       systemNavigationBarDividerColor: AppColors.primary,
     ));
 
+    Widget shortCutTextFormField({
+      required String title,
+      required TextEditingController controller,
+      required String hintLabel,
+    }) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: CustomTextStyle.primaryText.copyWith(
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(
+            height: 7.0,
+          ),
+          CustomTextField(
+            padding: 0,
+            controller: controller,
+            label: hintLabel,
+            textStyle: CustomTextStyle.primaryText.copyWith(
+              color: Colors.grey,
+            ),
+            keyboardType: TextInputType.text,
+            inputColor: Colors.black,
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: SizedBox(
@@ -199,25 +230,10 @@ class EducationControlPage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "Judul",
-                                    style: CustomTextStyle.primaryText.copyWith(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  CustomTextField(
-                                    padding: 0,
+                                  shortCutTextFormField(
+                                    title: 'Judul',
                                     controller: educationC.judulController,
-                                    label: 'Judul artikel',
-                                    textStyle:
-                                        CustomTextStyle.primaryText.copyWith(
-                                      color: Colors.grey,
-                                    ),
-                                    keyboardType: TextInputType.text,
-                                    inputColor: Colors.black,
+                                    hintLabel: 'Judul artikel',
                                   ),
                                   const SizedBox(
                                     height: 24.0,
@@ -309,25 +325,23 @@ class EducationControlPage extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 24),
-                                  Text(
-                                    "Penulis",
-                                    style: CustomTextStyle.primaryText.copyWith(
-                                      color: Colors.grey,
-                                    ),
+                                  shortCutTextFormField(
+                                    title: 'Deskripsi Singkat',
+                                    controller: educationC.shortDescController,
+                                    hintLabel: 'Deskripsi singkat',
                                   ),
-                                  const SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  CustomTextField(
-                                    padding: 0,
+                                  const SizedBox(height: 24),
+                                  shortCutTextFormField(
+                                    title: 'Penulis',
                                     controller: educationC.authorController,
-                                    label: 'Penulis',
-                                    textStyle:
-                                        CustomTextStyle.primaryText.copyWith(
-                                      color: Colors.grey,
-                                    ),
-                                    keyboardType: TextInputType.text,
-                                    inputColor: Colors.black,
+                                    hintLabel: 'Penulis',
+                                  ),
+                                  const SizedBox(height: 24),
+                                  shortCutTextFormField(
+                                    title: 'Tipe Artikel',
+                                    controller:
+                                        educationC.tipeArticleController,
+                                    hintLabel: 'Tipe',
                                   ),
                                   const SizedBox(
                                     height: 49.0,
@@ -392,6 +406,12 @@ class EducationControlPage extends StatelessWidget {
                                           articleData[index]['title'];
                                       educationC.blogContentController.text =
                                           articleData[index]['contentArticle'];
+                                      educationC.tipeArticleController.text =
+                                          articleData[index]['subject'];
+                                      educationC.shortDescController.text =
+                                          articleData[index]['shortDesc'];
+                                      educationC.authorController.text =
+                                          articleData[index]['author'];
                                       educationC.isEdit.value = true;
                                       educationC.isAdding.value =
                                           !educationC.isAdding.value;
