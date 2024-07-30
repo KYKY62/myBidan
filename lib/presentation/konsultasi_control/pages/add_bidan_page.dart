@@ -229,7 +229,6 @@ class AddBidanPage extends StatelessWidget {
                           backgroundColor: AppColors.primary,
                           fixedSize: Size.fromWidth(Get.width),
                         ),
-                        // onPressed: () => educationC.editOrAdd(),
                         onPressed: () => addBidanC.addBidan(),
                         child: Text(
                           'Tambah Data',

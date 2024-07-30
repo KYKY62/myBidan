@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/constants/text_style.dart';
-import 'package:mybidan/data/models/blog_model.dart';
+import 'package:mybidan/data/models/article_model.dart';
 
 class OtherBlog extends StatelessWidget {
   final dynamic onTap;
-  final Blog blog;
+  final Article blog;
   const OtherBlog({
     super.key,
     required this.onTap,
@@ -19,7 +19,7 @@ class OtherBlog extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
+          Image.network(
             blog.image,
             fit: BoxFit.cover,
             width: Get.width,

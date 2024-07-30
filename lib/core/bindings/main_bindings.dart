@@ -10,6 +10,6 @@ class MainBindings implements Bindings {
     Get.put(MainController());
     Get.put(FindBidanController());
     Get.put(ChatController());
-    Get.put(BlogController());
+    Get.put(ArticleController());
   }
 }

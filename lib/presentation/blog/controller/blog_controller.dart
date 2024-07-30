@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
-import 'package:mybidan/data/models/blog_model.dart';
+import 'package:mybidan/data/models/article_model.dart';
 
-class BlogController extends GetxController {
+class ArticleController extends GetxController {
   final RxInt navIndex = 0.obs;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
-  var currentBlog = Blog(
+  var currentArticle = Article(
     image: '',
     title: '',
     desc: '',
@@ -13,6 +15,11 @@ class BlogController extends GetxController {
     subject: '',
     contentBlog: '',
   ).obs;
+
+  Stream<QuerySnapshot>? getArticle() => db
+      .collection('article')
+      .orderBy('timestamp', descending: true)
+      .snapshots();
 
   List<Map<String, dynamic>> mapBlog = [
     {
@@ -53,7 +60,7 @@ class BlogController extends GetxController {
     }
   ];
 
-  void setCurrentBlog(Blog blog) {
-    currentBlog.value = blog;
+  void setCurrentArticle(Article article) {
+    currentArticle.value = article;
   }
 }

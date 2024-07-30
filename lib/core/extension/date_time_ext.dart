@@ -15,11 +15,10 @@ extension DateTimeExt on DateTime {
       'Desember'
     ];
 
-    final int hour12 = hour % 12;
     final int years = year;
     final String monthName = monthNames[month - 1];
 
-    return '$day $monthName $years, ${hour12.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+    return '$day $monthName $years';
   }
 
   String toFormattedInHours() {

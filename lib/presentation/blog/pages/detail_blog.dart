@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 import 'package:mybidan/core/components/thumbnail_blog.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
-import 'package:mybidan/data/models/blog_model.dart';
+import 'package:mybidan/data/models/article_model.dart';
 import 'package:mybidan/presentation/blog/controller/blog_controller.dart';
 import 'package:mybidan/presentation/home/controller/main_controller.dart';
 
 class DetailBlogPage extends StatelessWidget {
   final mainC = Get.find<MainController>();
-  final blogController = Get.find<BlogController>();
+  final blogController = Get.find<ArticleController>();
   DetailBlogPage({
     super.key,
   });
@@ -21,7 +21,7 @@ class DetailBlogPage extends StatelessWidget {
       statusBarColor: AppColors.primary,
       statusBarIconBrightness: Brightness.light,
     ));
-    final Blog blog = blogController.currentBlog.value;
+    final Article article = blogController.currentArticle.value;
     return SafeArea(
       child: Scaffold(
         body: ListView(
@@ -32,7 +32,7 @@ class DetailBlogPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap: () => mainC.currentIndex.value = 6,
+                    onTap: () => mainC.currentIndex.value = 6, //! Ke Blog_Page
                     child: const Icon(
                       Icons.arrow_back_outlined,
                     ),
@@ -50,17 +50,17 @@ class DetailBlogPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 38),
               child: ThumbnailBlog(
-                image: blog.image,
-                title: blog.title,
-                desc: blog.desc,
-                author: blog.author,
-                subject: blog.subject,
+                image: article.image,
+                title: article.title,
+                desc: article.desc,
+                author: article.author,
+                subject: article.subject,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                blog.contentBlog,
+                article.contentBlog,
                 style: CustomTextStyle.primaryText.copyWith(
                   color: Colors.grey,
                   fontSize: 14,

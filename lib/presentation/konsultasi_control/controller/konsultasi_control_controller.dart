@@ -76,6 +76,7 @@ class KonsultasiControlController extends GetxController {
         "specialistBidan": specialistController.text,
         "jamAwalKerja": selectedTimeAwal.value,
         "jamAkhirKerja": selectedTimeAkhir.value,
+        'role': 'BIDAN',
         'timestamp': DateTime.now(),
       };
 

@@ -22,7 +22,7 @@ class CustomCardEducation extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
+            child: Image.network(
               image,
               width: Get.width,
               height: 100,

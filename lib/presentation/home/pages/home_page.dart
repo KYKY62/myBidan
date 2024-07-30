@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,8 @@ import 'package:mybidan/core/components/section_header.dart';
 import 'package:mybidan/core/components/small_card.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
-import 'package:mybidan/data/models/blog_model.dart';
+import 'package:mybidan/core/extension/date_time_ext.dart';
+import 'package:mybidan/data/models/article_model.dart';
 import 'package:mybidan/presentation/blog/controller/blog_controller.dart';
 import 'package:mybidan/presentation/home/controller/home_controller.dart';
 import 'package:mybidan/presentation/home/controller/main_controller.dart';
@@ -18,7 +20,7 @@ import 'package:mybidan/presentation/home/controller/main_controller.dart';
 class HomePage extends StatelessWidget {
   final homeC = Get.put(HomeController());
   final mainC = Get.find<MainController>();
-  final blogC = Get.find<BlogController>();
+  final blogC = Get.find<ArticleController>();
   HomePage({super.key});
 
   @override
@@ -241,28 +243,53 @@ class HomePage extends StatelessWidget {
               title: "Layanan Konsultasi",
               onTap: () {},
             ),
-            CarouselSlider.builder(
-              itemCount: 4,
-              itemBuilder: (context, index, realIndex) {
-                return CustomCard(
-                  name: "Dr. Intan erno",
-                  description: "Dermatology & Leprosy",
-                  dateOperational: "13 april 2021",
-                  timeOperational: "13:00 - 14:00",
-                  image: Assets.images.bidan2.path,
-                  horizontalGap: 12,
-                  backgroundColor: const Color(0xfff5faf6),
-                  backgroundImageColor: AppColors.neon,
-                );
-              },
-              options: CarouselOptions(
-                autoPlay: false,
-                enlargeCenterPage: true,
-                viewportFraction: 0.9,
-                aspectRatio: 2,
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
+            StreamBuilder(
+                stream: homeC.getBidan(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Text(
+                      "Belum Ada Bidan",
+                      style: CustomTextStyle.bigText.copyWith(
+                        color: Colors.white,
+                      ),
+                    );
+                  }
+                  var bidanData = snapshot.data!.docs;
+                  return CarouselSlider.builder(
+                    itemCount: bidanData.length,
+                    itemBuilder: (context, index, realIndex) {
+                      Timestamp timeAwalstampConvert =
+                          bidanData[index]['jamAwalKerja'];
+                      Timestamp timeAkhirstampConvert =
+                          bidanData[index]['jamAkhirKerja'];
+
+                      String dateTimeAwal =
+                          timeAwalstampConvert.toDate().toFormattedInHours();
+                      String dateTimeAkhir =
+                          timeAkhirstampConvert.toDate().toFormattedInHours();
+                      return CustomCard(
+                        name: bidanData[index]['name'],
+                        description: bidanData[index]['specialistBidan'],
+                        dateOperational: DateTime.now().toFormattedTime(),
+                        timeOperational: "$dateTimeAwal - $dateTimeAkhir",
+                        image: bidanData[index]['photoBidan'],
+                        horizontalGap: 12,
+                        backgroundColor: const Color(0xfff5faf6),
+                        backgroundImageColor: AppColors.neon,
+                      );
+                    },
+                    options: CarouselOptions(
+                      autoPlay: false,
+                      enlargeCenterPage: true,
+                      viewportFraction: 0.9,
+                      height: 228,
+                      aspectRatio: 2,
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  );
+                }),
             // ?? Akhir Layanan Konsultasi
             const SizedBox(
               height: 10.0,
@@ -274,36 +301,52 @@ class HomePage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10.0),
-            GridView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              itemCount: blogC.mapBlog.length > 2 ? 2 : blogC.mapBlog.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 8.0,
-                crossAxisSpacing: 20,
-                childAspectRatio: 0.77,
-              ),
-              itemBuilder: (context, index) {
-                Blog blog = Blog(
-                  image: blogC.mapBlog[index]['image'],
-                  title: blogC.mapBlog[index]['title'],
-                  desc: blogC.mapBlog[index]['desc'],
-                  author: blogC.mapBlog[index]['author'],
-                  subject: blogC.mapBlog[index]['subject'],
-                  contentBlog: blogC.mapBlog[index]['contentBlog'],
-                );
-                return CustomCardEducation(
-                  image: blogC.mapBlog[index]['image'],
-                  title: blogC.mapBlog[index]['title'],
-                  onTap: () {
-                    blogC.setCurrentBlog(blog);
-                    mainC.currentIndex.value = 7;
-                  },
-                );
-              },
-            )
+            StreamBuilder(
+                stream: homeC.getArticle(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Text(
+                      "Belum Ada Artikel",
+                      style: CustomTextStyle.bigText.copyWith(
+                        color: Colors.white,
+                      ),
+                    );
+                  }
+                  var articleData = snapshot.data!.docs;
+                  return GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    itemCount: articleData.length > 2 ? 2 : articleData.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 8.0,
+                      crossAxisSpacing: 20,
+                      childAspectRatio: 0.77,
+                    ),
+                    itemBuilder: (context, index) {
+                      Article blog = Article(
+                        image: articleData[index]['photo'],
+                        title: articleData[index]['title'],
+                        desc: articleData[index]['shortDesc'],
+                        author: articleData[index]['author'],
+                        subject: articleData[index]['subject'],
+                        contentBlog: articleData[index]['contentArticle'],
+                      );
+                      return CustomCardEducation(
+                        image: articleData[index]['photo'],
+                        title: articleData[index]['title'],
+                        onTap: () {
+                          blogC.setCurrentArticle(blog);
+                          mainC.currentIndex.value = 7; //! Ke Detail_Blog
+                        },
+                      );
+                    },
+                  );
+                })
           ],
         ),
       ),

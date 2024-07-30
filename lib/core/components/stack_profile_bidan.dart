@@ -4,7 +4,10 @@ import 'package:mybidan/core/constants/colors.dart';
 class StackProfileBidan extends StatelessWidget {
   final String image;
 
-  const StackProfileBidan({super.key, required this.image});
+  const StackProfileBidan({
+    super.key,
+    required this.image,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,12 @@ class StackProfileBidan extends StatelessWidget {
             Positioned(
               left: 8,
               right: 8,
-              child: Image.network(image, height: 98, fit: BoxFit.cover),
+              child: Image.network(
+                image,
+                width: 40,
+                height: 98,
+                fit: BoxFit.cover,
+              ),
             ),
           ],
         ),

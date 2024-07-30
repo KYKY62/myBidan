@@ -1,4 +1,4 @@
-class Blog {
+class Article {
   final String image;
   final String title;
   final String desc;
@@ -6,7 +6,7 @@ class Blog {
   final String subject;
   final String contentBlog;
 
-  Blog({
+  Article({
     required this.image,
     required this.title,
     required this.desc,

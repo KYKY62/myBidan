@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
+import 'package:mybidan/core/components/stack_profile_bidan.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 
@@ -43,22 +44,8 @@ class CustomCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: backgroundImageColor,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: Image.asset(
-                      image,
-                      width: 41,
-                    ),
-                  ),
+                StackProfileBidan(
+                  image: image,
                 ),
                 SizedBox(
                   width: horizontalGap,

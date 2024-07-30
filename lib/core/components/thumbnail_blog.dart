@@ -23,11 +23,11 @@ class ThumbnailBlog extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
+          Image.network(
             image,
             height: 160,
             width: Get.width,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
           const SizedBox(
             height: 16.0,

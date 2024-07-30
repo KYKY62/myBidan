@@ -7,7 +7,7 @@ import 'package:mybidan/presentation/blog/pages/nav_page/lokal_page.dart';
 import 'package:mybidan/presentation/blog/pages/nav_page/trending_page.dart';
 
 class BlogPage extends StatelessWidget {
-  final blogC = Get.find<BlogController>();
+  final blogC = Get.find<ArticleController>();
   BlogPage({super.key});
 
   Widget body() {
