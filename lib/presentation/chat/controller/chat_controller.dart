@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +9,10 @@ class ChatController extends GetxController {
   final bool isSender = false;
 
   RxString nameBidan = ''.obs;
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  Stream<QuerySnapshot>? getBidan() =>
+      db.collection('bidan').orderBy('timestamp', descending: true).snapshots();
 
   List bidan = [
     'Saefudin',

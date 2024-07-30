@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
@@ -5,6 +6,7 @@ import 'package:mybidan/core/components/custom_card.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
+import 'package:mybidan/core/extension/date_time_ext.dart';
 import 'package:mybidan/presentation/chat/controller/chat_controller.dart';
 import 'package:mybidan/presentation/home/controller/main_controller.dart';
 
@@ -49,31 +51,58 @@ class ChatPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SizedBox(
-              height: 168,
-              child: ListView.builder(
-                itemCount: chatC.bidan.length,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    mainC.currentIndex.value = 5;
-                    chatC.nameBidan.value = chatC.bidan[index];
-                  },
-                  child: CustomCard(
-                    padding: const EdgeInsets.only(
-                        left: 16, top: 16, bottom: 16, right: 80),
-                    name: 'Bidan ${chatC.bidan[index]}',
-                    description: 'Dermatology & Leprosy',
-                    dateOperational: '13:00 - 13:00',
-                    timeOperational: '13:00 - 13:00',
-                    image: Assets.images.doctor.path,
-                    horizontalGap: 12,
-                    backgroundColor: const Color(0xfff5faf6),
-                    backgroundImageColor: AppColors.neon,
-                    isChatPage: true,
-                  ),
-                ),
-              ),
+              height: 198,
+              child: StreamBuilder(
+                  stream: chatC.getBidan(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (!snapshot.hasData ||
+                        snapshot.data!.docs.isEmpty) {
+                      return Text(
+                        "Belum Ada Bidan",
+                        style: CustomTextStyle.bigText.copyWith(
+                          color: Colors.white,
+                        ),
+                      );
+                    }
+                    var bidanData = snapshot.data!.docs;
+                    return ListView.builder(
+                      itemCount: bidanData.length,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        Timestamp timeAwalstampConvert =
+                            bidanData[index]['jamAwalKerja'];
+                        Timestamp timeAkhirstampConvert =
+                            bidanData[index]['jamAkhirKerja'];
+
+                        String dateTimeAwal =
+                            timeAwalstampConvert.toDate().toFormattedInHours();
+                        String dateTimeAkhir =
+                            timeAkhirstampConvert.toDate().toFormattedInHours();
+                        return GestureDetector(
+                          onTap: () {
+                            mainC.currentIndex.value = 5;
+                            chatC.nameBidan.value = bidanData[index]['name'];
+                          },
+                          child: CustomCard(
+                            padding: const EdgeInsets.only(
+                                left: 16, top: 16, bottom: 16, right: 80),
+                            name: bidanData[index]['name'],
+                            description: bidanData[index]['specialistBidan'],
+                            dateOperational: '',
+                            timeOperational: '$dateTimeAwal - $dateTimeAkhir',
+                            image: bidanData[index]['photoBidan'],
+                            horizontalGap: 12,
+                            backgroundColor: const Color(0xfff5faf6),
+                            backgroundImageColor: AppColors.neon,
+                            isChatPage: true,
+                          ),
+                        );
+                      },
+                    );
+                  }),
             ),
           ),
           const SizedBox(height: 16.0),

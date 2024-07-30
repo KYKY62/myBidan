@@ -100,7 +100,7 @@ class CustomCard extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(6),
                                   child: Image.asset(
-                                    Assets.icons.date.path,
+                                    Assets.icons.time.path,
                                   ),
                                 ),
                               ),
@@ -108,7 +108,7 @@ class CustomCard extends StatelessWidget {
                                 width: 5.0,
                               ),
                               Text(
-                                dateOperational,
+                                timeOperational,
                                 style: CustomTextStyle.greenText.copyWith(
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
