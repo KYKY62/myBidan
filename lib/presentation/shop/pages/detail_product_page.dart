@@ -29,14 +29,14 @@ class DetailProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: AppColors.primary,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarDividerColor: AppColors.primary,
-    ));
-
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.primary,
+          statusBarIconBrightness: Brightness.light,
+        ),
+      ),
       floatingActionButton: GestureDetector(
         onTap: () {},
         child: Container(
@@ -59,208 +59,215 @@ class DetailProductPage extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SizedBox(
-        height: Get.height,
-        child: ListView(
-          children: [
-            Stack(
-              children: [
-                SizedBox(
-                  height: 550,
-                  child: ListView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      Stack(
-                        children: [
-                          Image.asset(
-                            image,
-                            width: Get.width,
-                            fit: BoxFit.fill,
-                          ),
-                          Positioned(
-                            top: 32,
-                            left: 32,
-                            child: GestureDetector(
-                              onTap: () => Get.back(),
-                              child: const Icon(
-                                Icons.arrow_back,
-                                color: Colors.white,
-                                size: 32,
+      body: SafeArea(
+        child: SizedBox(
+          height: Get.height,
+          child: ListView(
+            children: [
+              Stack(
+                children: [
+                  SizedBox(
+                    height: 550,
+                    child: ListView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        Stack(
+                          children: [
+                            Image.asset(
+                              image,
+                              width: Get.width,
+                              fit: BoxFit.fill,
+                            ),
+                            Positioned(
+                              top: 32,
+                              left: 32,
+                              child: GestureDetector(
+                                onTap: () => Get.back(),
+                                child: const Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.white,
+                                  size: 32,
+                                ),
                               ),
                             ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 410,
+                    child: Container(
+                      width: Get.width,
+                      // height: 200,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 28),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 28.0),
+                            Text(
+                              title,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: CustomTextStyle.primaryText.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              type,
+                              style: CustomTextStyle.smallerText.copyWith(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(right: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        int.parse(discountPrice)
+                                            .currencyFormatRp,
+                                        style:
+                                            CustomTextStyle.greenText.copyWith(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        int.parse(normalPrice).currencyFormatRp,
+                                        style: CustomTextStyle.smallerText
+                                            .copyWith(
+                                          color: Colors.grey,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                          decorationColor: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Container(
+                width: Get.width,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28),
+                child: Obx(
+                  () => Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          detailProductC.isSelectedIndex.value = 0;
+                        },
+                        child: SizedBox(
+                          width: 100,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Deskripsi",
+                                style: CustomTextStyle.primaryText.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color:
+                                      detailProductC.isSelectedIndex.value == 0
+                                          ? Colors.black
+                                          : Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5.0,
+                              ),
+                              Container(
+                                width: Get.width,
+                                height: 4,
+                                color: detailProductC.isSelectedIndex.value == 0
+                                    ? AppColors.primary
+                                    : Colors.grey.shade300,
+                              )
+                            ],
                           ),
-                        ],
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          detailProductC.isSelectedIndex.value = 1;
+                        },
+                        child: SizedBox(
+                          width: 100,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Bahan",
+                                style: CustomTextStyle.primaryText.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color:
+                                      detailProductC.isSelectedIndex.value == 1
+                                          ? Colors.black
+                                          : Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5.0,
+                              ),
+                              Container(
+                                width: Get.width,
+                                height: 4,
+                                color: detailProductC.isSelectedIndex.value == 1
+                                    ? AppColors.primary
+                                    : Colors.grey.shade300,
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-                Positioned(
-                  top: 410,
-                  child: Container(
-                    width: Get.width,
-                    // height: 200,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 28.0),
-                          Text(
-                            title,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: CustomTextStyle.primaryText.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            type,
-                            style: CustomTextStyle.smallerText.copyWith(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(right: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      int.parse(discountPrice).currencyFormatRp,
-                                      style: CustomTextStyle.greenText.copyWith(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      int.parse(normalPrice).currencyFormatRp,
-                                      style:
-                                          CustomTextStyle.smallerText.copyWith(
-                                        color: Colors.grey,
-                                        decoration: TextDecoration.lineThrough,
-                                        decorationColor: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28),
+                child: Obx(
+                  () => Text(
+                    detailProductC.isSelectedIndex.value == 0
+                        ? textDesc
+                        : textBahan,
                   ),
-                )
-              ],
-            ),
-            Container(
-              width: Get.width,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Obx(
-                () => Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        detailProductC.isSelectedIndex.value = 0;
-                      },
-                      child: SizedBox(
-                        width: 100,
-                        child: Column(
-                          children: [
-                            Text(
-                              "Deskripsi",
-                              style: CustomTextStyle.primaryText.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: detailProductC.isSelectedIndex.value == 0
-                                    ? Colors.black
-                                    : Colors.grey,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 5.0,
-                            ),
-                            Container(
-                              width: Get.width,
-                              height: 4,
-                              color: detailProductC.isSelectedIndex.value == 0
-                                  ? AppColors.primary
-                                  : Colors.grey.shade300,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10.0,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        detailProductC.isSelectedIndex.value = 1;
-                      },
-                      child: SizedBox(
-                        width: 100,
-                        child: Column(
-                          children: [
-                            Text(
-                              "Bahan",
-                              style: CustomTextStyle.primaryText.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: detailProductC.isSelectedIndex.value == 1
-                                    ? Colors.black
-                                    : Colors.grey,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 5.0,
-                            ),
-                            Container(
-                              width: Get.width,
-                              height: 4,
-                              color: detailProductC.isSelectedIndex.value == 1
-                                  ? AppColors.primary
-                                  : Colors.grey.shade300,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Obx(
-                () => Text(
-                  detailProductC.isSelectedIndex.value == 0
-                      ? textDesc
-                      : textBahan,
-                ),
+              const SizedBox(
+                height: 180.0,
               ),
-            ),
-            const SizedBox(
-              height: 180.0,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

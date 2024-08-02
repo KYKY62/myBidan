@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      defaultTransition: Transition.fade,
+      defaultTransition: Transition.fadeIn,
       getPages: AppPage.pages,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
