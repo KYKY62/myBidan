@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/components/item_chat.dart';
@@ -34,6 +35,11 @@ class PrivateChatPage extends StatelessWidget {
         ),
         title: Text(nameBidan),
         centerTitle: true,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.primary,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarDividerColor: AppColors.primary,
+        ),
       ),
       body: Column(
         children: [

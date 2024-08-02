@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/components/custom_card.dart';
@@ -23,6 +24,11 @@ class ChatPage extends StatelessWidget {
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.primary,
         toolbarHeight: 100,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.primary,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarDividerColor: AppColors.primary,
+        ),
         title: CustomTextField(
           controller: chatC.searchBidan,
           label: 'Search for seller & message',

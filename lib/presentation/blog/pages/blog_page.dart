@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/components/custom_nav_top.dart';
 import 'package:mybidan/core/constants/colors.dart';
@@ -32,6 +33,11 @@ class BlogPage extends StatelessWidget {
         backgroundColor: AppColors.primary,
         elevation: 0,
         scrolledUnderElevation: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.primary,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarDividerColor: AppColors.primary,
+        ),
       ),
       body: ListView(
         children: [

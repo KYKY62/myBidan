@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/components/card_product.dart';
@@ -19,6 +20,11 @@ class ShopPage extends StatelessWidget {
         backgroundColor: AppColors.primary,
         elevation: 0,
         scrolledUnderElevation: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.primary,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarDividerColor: AppColors.primary,
+        ),
       ),
       body: ListView(
         children: [
