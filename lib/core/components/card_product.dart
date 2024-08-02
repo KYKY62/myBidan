@@ -28,7 +28,7 @@ class CardProduct extends StatelessWidget {
             topRight: Radius.circular(10),
           ),
           child: SizedBox(
-            child: Image.asset(
+            child: Image.network(
               image,
               fit: BoxFit.cover,
               width: 200,

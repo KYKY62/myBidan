@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
-import 'package:mybidan/core/components/card_data_article.dart';
+import 'package:mybidan/core/components/card_produk_control.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/components/list_article.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
 import 'package:mybidan/core/routes/route_name.dart';
-import 'package:mybidan/presentation/education_control/controller/education_control_controller.dart';
+import 'package:mybidan/presentation/shop_control/controller/shop_control_controller.dart';
 
-class EducationControlPage extends StatelessWidget {
-  final educationC = Get.find<EducationControlController>();
-  EducationControlPage({super.key});
+class ShopControlPage extends StatelessWidget {
+  final shopC = Get.find<ShopControlController>();
+  ShopControlPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +22,12 @@ class EducationControlPage extends StatelessWidget {
       systemNavigationBarDividerColor: AppColors.primary,
     ));
 
-    Widget shortCutTextFormField({
-      required String title,
-      required TextEditingController controller,
-      required String hintLabel,
-    }) {
+    Widget shortCutTextFormField(
+        {required String title,
+        required TextEditingController controller,
+        required String hintLabel,
+        TextInputType? keyboardType,
+        List<TextInputFormatter>? inputFormatters}) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -46,8 +47,59 @@ class EducationControlPage extends StatelessWidget {
             textStyle: CustomTextStyle.primaryText.copyWith(
               color: Colors.grey,
             ),
-            keyboardType: TextInputType.text,
+            keyboardType: keyboardType ?? TextInputType.text,
             inputColor: Colors.black,
+            inputFormatters: inputFormatters ?? [],
+          ),
+        ],
+      );
+    }
+
+    Widget shortCutMultiTextFrom({
+      required String title,
+      required TextEditingController controller,
+      required String hintLabel,
+    }) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: CustomTextStyle.primaryText.copyWith(
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(
+            height: 7.0,
+          ),
+          TextFormField(
+            controller: controller,
+            minLines: 5,
+            maxLines: null,
+            style: const TextStyle(color: Colors.black),
+            decoration: InputDecoration(
+              hintStyle: CustomTextStyle.primaryText.copyWith(
+                color: Colors.grey,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                borderSide: const BorderSide(color: Colors.grey),
+              ),
+              hintText: hintLabel,
+              fillColor: Colors.white,
+            ),
           ),
         ],
       );
@@ -103,7 +155,7 @@ class EducationControlPage extends StatelessWidget {
                                     top: 39,
                                     left: 20,
                                     child: Text(
-                                      "New artikel",
+                                      "New Produk",
                                       style:
                                           CustomTextStyle.primaryText.copyWith(
                                         color: Colors.white,
@@ -116,50 +168,55 @@ class EducationControlPage extends StatelessWidget {
                                     child: SizedBox(
                                       width: Get.width,
                                       height: 255,
-                                      child: StreamBuilder(
-                                        stream: educationC.getArticle(),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return const Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          } else if (!snapshot.hasData ||
-                                              snapshot.data!.docs.isEmpty) {
-                                            return Text(
-                                              "Artikel Belum Ada",
-                                              style: CustomTextStyle.bigText
-                                                  .copyWith(
-                                                color: Colors.white,
-                                              ),
-                                            );
-                                          }
-                                          var articleData = snapshot.data!.docs;
-
-                                          return ListView.separated(
-                                            scrollDirection: Axis.horizontal,
-                                            shrinkWrap: true,
-                                            padding: const EdgeInsets.only(
-                                                right: 40),
-                                            itemCount: articleData.length,
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    const SizedBox(width: 20),
-                                            itemBuilder: (context, index) {
-                                              return CardDataArticle(
-                                                photo: articleData[index]
-                                                    ['photo'],
-                                                title: articleData[index]
-                                                    ['title'],
-                                                desc: articleData[index]
-                                                    ['contentArticle'],
-                                                author: articleData[index]
-                                                    ['author'],
-                                                onTap: () {},
+                                      child: AspectRatio(
+                                        aspectRatio: 0.9,
+                                        child: StreamBuilder(
+                                          stream: shopC.getArticle(),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            } else if (!snapshot.hasData ||
+                                                snapshot.data!.docs.isEmpty) {
+                                              return Text(
+                                                "Produk Belum Ada",
+                                                style: CustomTextStyle.bigText
+                                                    .copyWith(
+                                                  color: Colors.white,
+                                                ),
                                               );
-                                            },
-                                          );
-                                        },
+                                            }
+                                            var produkData =
+                                                snapshot.data!.docs;
+
+                                            return ListView.separated(
+                                              scrollDirection: Axis.horizontal,
+                                              shrinkWrap: true,
+                                              padding: const EdgeInsets.only(
+                                                  right: 30),
+                                              itemCount: produkData.length,
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      const SizedBox(width: 20),
+                                              itemBuilder: (context, index) {
+                                                return CardProdukControl(
+                                                  photo: produkData[index]
+                                                      ['photo'],
+                                                  title: produkData[index]
+                                                      ['title'],
+                                                  kategori: produkData[index]
+                                                      ['kategori'],
+                                                  hargaAsli: produkData[index]
+                                                      ['harga_asli'],
+                                                  hargaPromo: produkData[index]
+                                                      ['harga_promo'],
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -195,15 +252,15 @@ class EducationControlPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Manajement Artikel ",
+                            "Manajement Produk",
                             style: CustomTextStyle.bigText,
                           ),
                           GestureDetector(
                             onTap: () {
-                              educationC.isEdit.value = false;
-                              educationC.isAdding.value =
-                                  !educationC.isAdding.value;
-                              educationC.image.value = null;
+                              shopC.isEdit.value = false;
+                              shopC.isAddingShop.value =
+                                  !shopC.isAddingShop.value;
+                              shopC.image.value = null;
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -213,7 +270,7 @@ class EducationControlPage extends StatelessWidget {
                                   color: AppColors.primary,
                                 ),
                               ),
-                              child: educationC.isAdding.value
+                              child: shopC.isAddingShop.value
                                   ? const Icon(
                                       Icons.keyboard_arrow_left_outlined)
                                   : const Icon(Icons.add),
@@ -224,7 +281,7 @@ class EducationControlPage extends StatelessWidget {
                       const SizedBox(
                         height: 15,
                       ),
-                      educationC.isAdding.value
+                      shopC.isAddingShop.value
                           // ! ADD BLOG
                           ? SizedBox(
                               child: Column(
@@ -232,8 +289,8 @@ class EducationControlPage extends StatelessWidget {
                                 children: [
                                   shortCutTextFormField(
                                     title: 'Judul',
-                                    controller: educationC.judulController,
-                                    hintLabel: 'Judul artikel',
+                                    controller: shopC.judulController,
+                                    hintLabel: 'Judul Produk',
                                   ),
                                   const SizedBox(
                                     height: 24.0,
@@ -257,14 +314,14 @@ class EducationControlPage extends StatelessWidget {
                                                 const Size.fromWidth(150),
                                           ),
                                           onPressed: () =>
-                                              educationC.selectedImage(),
+                                              shopC.selectedImage(),
                                           child: Text(
                                             'Upload Gambar',
                                             style: CustomTextStyle.smallerText,
                                           ),
                                         ),
                                         const SizedBox(width: 20.0),
-                                        educationC.image.value != null
+                                        shopC.image.value != null
                                             ? const CircleAvatar(
                                                 radius: 15,
                                                 backgroundColor: Colors.green,
@@ -281,72 +338,48 @@ class EducationControlPage extends StatelessWidget {
                                   const SizedBox(
                                     height: 24.0,
                                   ),
-                                  Text(
-                                    "isi artikel",
-                                    style: CustomTextStyle.primaryText.copyWith(
-                                      color: Colors.grey,
-                                    ),
+                                  shortCutMultiTextFrom(
+                                    title: 'Deskripsi',
+                                    controller: shopC.deskripsiController,
+                                    hintLabel: 'Masukkan isi Deskripsi',
                                   ),
-                                  const SizedBox(
-                                    height: 7.0,
-                                  ),
-                                  TextFormField(
-                                    controller:
-                                        educationC.blogContentController,
-                                    minLines: 5,
-                                    maxLines: null,
-                                    style: const TextStyle(color: Colors.black),
-                                    decoration: InputDecoration(
-                                      hintStyle:
-                                          CustomTextStyle.primaryText.copyWith(
-                                        color: Colors.grey,
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        borderSide: const BorderSide(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        borderSide: const BorderSide(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey),
-                                      ),
-                                      hintText: 'Masukkan isi artikel',
-                                      fillColor: Colors.white,
-                                    ),
+                                  const SizedBox(height: 24),
+                                  shortCutMultiTextFrom(
+                                    title: 'Bahan',
+                                    controller: shopC.bahanController,
+                                    hintLabel: 'Masukkan isi Bahan',
                                   ),
                                   const SizedBox(height: 24),
                                   shortCutTextFormField(
-                                    title: 'Deskripsi Singkat',
-                                    controller: educationC.shortDescController,
-                                    hintLabel: 'Deskripsi singkat',
+                                    title: 'Kategori',
+                                    controller: shopC.kategoriController,
+                                    hintLabel: 'Kategori Produk',
                                   ),
                                   const SizedBox(height: 24),
                                   shortCutTextFormField(
-                                    title: 'Penulis',
-                                    controller: educationC.authorController,
-                                    hintLabel: 'Penulis',
+                                    title: 'Harga Asli',
+                                    controller: shopC.hargaAsliController,
+                                    hintLabel: 'Harga Asli',
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'[0-9]'))
+                                    ],
                                   ),
                                   const SizedBox(height: 24),
                                   shortCutTextFormField(
-                                    title: 'Tipe Artikel',
-                                    controller:
-                                        educationC.tipeArticleController,
-                                    hintLabel: 'Tipe',
+                                    title: 'Harga Promo',
+                                    controller: shopC.hargaPromoController,
+                                    hintLabel: 'Harga Promo',
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'[0-9]'))
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 49.0,
                                   ),
-                                  educationC.loading.value
+                                  shopC.loading.value
                                       ? const Center(
                                           child: CircularProgressIndicator(),
                                         )
@@ -356,8 +389,7 @@ class EducationControlPage extends StatelessWidget {
                                             fixedSize:
                                                 Size.fromWidth(Get.width),
                                           ),
-                                          onPressed: () =>
-                                              educationC.editOrAdd(),
+                                          onPressed: () => shopC.editOrAdd(),
                                           child: Text(
                                             'GET STARTED',
                                             style: CustomTextStyle.primaryText
@@ -371,7 +403,7 @@ class EducationControlPage extends StatelessWidget {
                               ),
                             )
                           : StreamBuilder(
-                              stream: educationC.getArticle(),
+                              stream: shopC.getArticle(),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
@@ -386,65 +418,66 @@ class EducationControlPage extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "Artikel Belum Ada",
+                                          "Produk Belum Ada",
                                           style: CustomTextStyle.bigText,
                                         ),
                                       ],
                                     ),
                                   );
                                 }
-                                var articleData = snapshot.data!.docs;
+                                var produkData = snapshot.data!.docs;
 
                                 return ListView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: articleData.length,
+                                  itemCount: produkData.length,
                                   itemBuilder: (context, index) {
                                     dynamic onTapEdits() {
-                                      educationC.doc = articleData[index].id;
-                                      educationC.judulController.text =
-                                          articleData[index]['title'];
-                                      educationC.blogContentController.text =
-                                          articleData[index]['contentArticle'];
-                                      educationC.tipeArticleController.text =
-                                          articleData[index]['subject'];
-                                      educationC.shortDescController.text =
-                                          articleData[index]['shortDesc'];
-                                      educationC.authorController.text =
-                                          articleData[index]['author'];
-                                      educationC.isEdit.value = true;
-                                      educationC.isAdding.value =
-                                          !educationC.isAdding.value;
+                                      shopC.doc = produkData[index].id;
+                                      shopC.judulController.text =
+                                          produkData[index]['title'];
+                                      shopC.deskripsiController.text =
+                                          produkData[index]['deskripsi'];
+                                      shopC.hargaAsliController.text =
+                                          produkData[index]['harga_asli'];
+                                      shopC.kategoriController.text =
+                                          produkData[index]['kategori'];
+                                      shopC.hargaPromoController.text =
+                                          produkData[index]['harga_promo'];
+                                      shopC.bahanController.text =
+                                          produkData[index]['bahan'];
+                                      shopC.isEdit.value = true;
+                                      shopC.isAddingShop.value =
+                                          !shopC.isAddingShop.value;
                                     }
 
-                                    return articleData.length == 1
+                                    return produkData.length == 1
                                         ? SizedBox(
                                             height: 150,
                                             child: Column(
                                               children: [
                                                 ListArticle(
-                                                  photo: articleData[index]
+                                                  photo: produkData[index]
                                                       ['photo'],
-                                                  nameArticle:
-                                                      articleData[index]
-                                                          ['title'],
+                                                  nameArticle: produkData[index]
+                                                      ['title'],
                                                   onTapEdit: () => onTapEdits(),
                                                   onTapDelete: () =>
-                                                      educationC.deleteArticle(
-                                                    doc: articleData[index].id,
+                                                      shopC.deleteArticle(
+                                                    doc: produkData[index].id,
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           )
                                         : ListArticle(
-                                            photo: articleData[index]['photo'],
-                                            nameArticle: articleData[index]
+                                            photo: produkData[index]['photo'],
+                                            nameArticle: produkData[index]
                                                 ['title'],
                                             onTapEdit: () => onTapEdits(),
                                             onTapDelete: () =>
-                                                educationC.deleteArticle(
-                                              doc: articleData[index].id,
+                                                shopC.deleteArticle(
+                                              doc: produkData[index].id,
                                             ),
                                           );
                                   },

@@ -6,10 +6,13 @@ import 'package:mybidan/presentation/dashboard/controller/dashboard_controller.d
 import 'package:mybidan/presentation/education_control/controller/education_control_controller.dart';
 import 'package:mybidan/presentation/education_control/pages/education_control_page.dart';
 import 'package:mybidan/presentation/konsultasi_control/pages/konsultasi_control_page.dart';
+import 'package:mybidan/presentation/shop_control/controller/shop_control_controller.dart';
+import 'package:mybidan/presentation/shop_control/pages/shop_control_page.dart';
 
 class DashboardPage extends StatelessWidget {
   final dashboardC = Get.find<DashboardController>();
   final educationC = Get.find<EducationControlController>();
+  final shopC = Get.find<ShopControlController>();
 
   DashboardPage({super.key}) {
     dashboardC.currentIndex.listen((index) {
@@ -17,6 +20,11 @@ class DashboardPage extends StatelessWidget {
         educationC.clearTextControllers();
         educationC.isAdding.value = false;
         educationC.image.value = null;
+      }
+      if (index != 2) {
+        shopC.clearTextControllers();
+        shopC.isAddingShop.value = false;
+        shopC.image.value = null;
       }
     });
   }
@@ -27,6 +35,8 @@ class DashboardPage extends StatelessWidget {
         return KonsultasiControlPage();
       case 1:
         return EducationControlPage();
+      case 2:
+        return ShopControlPage();
       default:
         return KonsultasiControlPage();
     }
@@ -76,6 +86,16 @@ class DashboardPage extends StatelessWidget {
                         ? AppColors.primary
                         : Colors.grey,
                     AssetImage(Assets.icons.mapInactive.path),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  label: '',
+                  icon: ImageIcon(
+                    size: 19,
+                    color: dashboardC.currentIndex.value == 2
+                        ? AppColors.primary
+                        : Colors.grey,
+                    AssetImage(Assets.icons.cart.path),
                   ),
                 ),
               ],
