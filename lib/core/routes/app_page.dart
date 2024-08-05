@@ -18,7 +18,7 @@ class AppPage {
       name: RouteName.login,
       page: () => LoginPage(),
       binding: LoginBindings(),
-      transition: Transition.fadeIn,
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: RouteName.register,

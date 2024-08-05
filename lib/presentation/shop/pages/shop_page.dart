@@ -145,41 +145,55 @@ class ShopPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          GridView.builder(
-            itemCount: 4,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-              childAspectRatio: 0.65,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Get.toNamed(RouteName.detailProduct, arguments: {
-                    'image': Assets.images.product4.path,
-                    'title': 'Perawatan Kulit Alami untuk Ibu Hamil',
-                    'type': 'Skin Care',
-                    'normalPrice': '52000',
-                    'discountPrice': '120000',
-                    'textDesc':
-                        'Produk perawatan kulit alami dengan Virgin Coconut Oil. Kami menyediakan solusi khusus untuk menghilangkan stretch mark pada ibu hamil, memberikan kilauan sehat dan kepercayaan diri. Jelajahi koleksi kami.',
-                    'textBahan': 'Bahan',
-                  });
-                },
-                child: CardProduct(
-                  image: Assets.images.product3.path,
-                  title: "Virgin Coconut Oil",
-                  type: "Skin Care",
-                  normalPrice: '40000',
-                  discountPrice: '150000',
-                ),
-              );
-            },
-          ),
+          StreamBuilder(
+              stream: shopC.getProduct(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Text(
+                    "Belum Ada Produk",
+                    style: CustomTextStyle.bigText.copyWith(
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                var produkData = snapshot.data!.docs;
+                return GridView.builder(
+                  itemCount: produkData.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    childAspectRatio: 0.61,
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(RouteName.detailProduct, arguments: {
+                          'image': produkData[index]['photo'],
+                          'title': produkData[index]['title'],
+                          'type': produkData[index]['kategori'],
+                          'normalPrice': produkData[index]['harga_asli'],
+                          'discountPrice': produkData[index]['harga_promo'],
+                          'textDesc': produkData[index]['deskripsi'],
+                          'textBahan': produkData[index]['bahan'],
+                        });
+                      },
+                      child: CardProduct(
+                        image: produkData[index]['photo'],
+                        title: produkData[index]['title'],
+                        type: produkData[index]['kategori'],
+                        normalPrice: produkData[index]['harga_asli'],
+                        discountPrice: produkData[index]['harga_promo'],
+                      ),
+                    );
+                  },
+                );
+              }),
           const SizedBox(height: 50),
         ],
       ),

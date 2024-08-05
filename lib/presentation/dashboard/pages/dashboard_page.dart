@@ -5,6 +5,8 @@ import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/presentation/dashboard/controller/dashboard_controller.dart';
 import 'package:mybidan/presentation/education_control/controller/education_control_controller.dart';
 import 'package:mybidan/presentation/education_control/pages/education_control_page.dart';
+import 'package:mybidan/presentation/find_klinik_control/controller/find_klinik_control_controller.dart';
+import 'package:mybidan/presentation/find_klinik_control/pages/find_klinik_control_page.dart';
 import 'package:mybidan/presentation/konsultasi_control/pages/konsultasi_control_page.dart';
 import 'package:mybidan/presentation/shop_control/controller/shop_control_controller.dart';
 import 'package:mybidan/presentation/shop_control/pages/shop_control_page.dart';
@@ -13,6 +15,7 @@ class DashboardPage extends StatelessWidget {
   final dashboardC = Get.find<DashboardController>();
   final educationC = Get.find<EducationControlController>();
   final shopC = Get.find<ShopControlController>();
+  final findKlinik = Get.find<FindKlinikControlController>();
 
   DashboardPage({super.key}) {
     dashboardC.currentIndex.listen((index) {
@@ -26,6 +29,11 @@ class DashboardPage extends StatelessWidget {
         shopC.isAddingShop.value = false;
         shopC.image.value = null;
       }
+      if (index != 3) {
+        findKlinik.clearTextControllers();
+        findKlinik.isAddingKlinik.value = false;
+        findKlinik.image.value = null;
+      }
     });
   }
 
@@ -37,6 +45,8 @@ class DashboardPage extends StatelessWidget {
         return EducationControlPage();
       case 2:
         return ShopControlPage();
+      case 3:
+        return FindKlinikControlPage();
       default:
         return KonsultasiControlPage();
     }
@@ -85,7 +95,7 @@ class DashboardPage extends StatelessWidget {
                     color: dashboardC.currentIndex.value == 1
                         ? AppColors.primary
                         : Colors.grey,
-                    AssetImage(Assets.icons.mapInactive.path),
+                    AssetImage(Assets.icons.education.path),
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -96,6 +106,16 @@ class DashboardPage extends StatelessWidget {
                         ? AppColors.primary
                         : Colors.grey,
                     AssetImage(Assets.icons.cart.path),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  label: '',
+                  icon: ImageIcon(
+                    size: 19,
+                    color: dashboardC.currentIndex.value == 3
+                        ? AppColors.primary
+                        : Colors.grey,
+                    AssetImage(Assets.icons.mapInactive.path),
                   ),
                 ),
               ],

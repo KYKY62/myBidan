@@ -73,9 +73,10 @@ class DetailProductPage extends StatelessWidget {
                       children: [
                         Stack(
                           children: [
-                            Image.asset(
+                            Image.network(
                               image,
                               width: Get.width,
+                              height: 520,
                               fit: BoxFit.fill,
                             ),
                             Positioned(

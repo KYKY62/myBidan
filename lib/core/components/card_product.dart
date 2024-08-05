@@ -31,7 +31,8 @@ class CardProduct extends StatelessWidget {
             child: Image.network(
               image,
               fit: BoxFit.cover,
-              width: 200,
+              width: 200, height: 200,
+              // height: 100,
             ),
           ),
         ),
@@ -96,11 +97,11 @@ class CardProduct extends StatelessWidget {
                           ),
                           const SizedBox(width: 5.0),
                           SizedBox(
-                            width: 90,
+                            width: 83,
                             child: Text(
                               int.parse(discountPrice).currencyFormatRp,
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
+                              maxLines: 1,
                               style: CustomTextStyle.bigText.copyWith(
                                 fontSize: 14,
                               ),
