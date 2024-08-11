@@ -88,6 +88,7 @@ class MainPage extends StatelessWidget {
                 onTap: (value) {
                   mainC.currentIndex.value = value;
                   findBidanC.selectedObject.value = false;
+                  findBidanC.detailObject.value = null;
                 },
                 items: [
                   BottomNavigationBarItem(

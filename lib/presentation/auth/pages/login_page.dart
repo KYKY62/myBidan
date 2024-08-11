@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/constants/colors.dart';
@@ -13,6 +14,17 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        backgroundColor: AppColors.primary,
+        toolbarHeight: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.primary,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarDividerColor: AppColors.primary,
+        ),
+      ),
       backgroundColor: AppColors.primary,
       body: Center(
         child: SingleChildScrollView(

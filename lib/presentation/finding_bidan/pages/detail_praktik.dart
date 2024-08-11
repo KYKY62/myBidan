@@ -1,12 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:mybidan/core/components/custom_card.dart';
-import 'package:mybidan/core/constants/text_style.dart';
+import 'package:mybidan/core.dart';
 
 class DetailPraktikPage extends StatelessWidget {
-  const DetailPraktikPage({super.key});
+  final DocumentSnapshot? klinikData;
+  const DetailPraktikPage({super.key, this.klinikData});
 
   @override
   Widget build(BuildContext context) {
+    Timestamp timeAwalstampConvert = klinikData!['jamAwalKerja'];
+    Timestamp timeAkhirstampConvert = klinikData!['jamAkhirKerja'];
+
+    String dateTimeAwal = timeAwalstampConvert.toDate().toFormattedInHours();
+    String dateTimeAkhir = timeAkhirstampConvert.toDate().toFormattedInHours();
     return Container(
       margin: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -19,15 +25,14 @@ class DetailPraktikPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const CustomCard(
-              name: "Praktek Fatmawati",
-              description: "Fatmawati S.Keb M.Keb",
-              dateOperational: "13 april 2021",
-              timeOperational: "13:00 - 14:00",
+            CustomCard(
+              name: klinikData!['namaKlinik'],
+              description: klinikData!['namaBidan'],
+              dateOperational: DateTime.now().toFormattedTime(),
+              timeOperational: "$dateTimeAwal - $dateTimeAkhir",
               horizontalGap: 25,
               findBidanPage: true,
-              image:
-                  'https://firebasestorage.googleapis.com/v0/b/getconnect-project-9b7d7.appspot.com/o/photoArticle-1722013448480.jpg?alt=media&token=3a57bdea-aa8b-41ca-b596-52d4bab7647c',
+              image: klinikData!['photo'],
               backgroundColor: Colors.white,
             ),
             Padding(
@@ -49,7 +54,7 @@ class DetailPraktikPage extends StatelessWidget {
                       SizedBox(
                         width: 160,
                         child: Text(
-                          "Jl. Ir. H. Juanda No.17, Jodipan, Kec. Blimbing, Kota Malang, Jawa Timur 65126",
+                          klinikData!['alamat'],
                           overflow: TextOverflow.ellipsis,
                           maxLines: 4,
                           style: CustomTextStyle.smText.copyWith(
@@ -77,7 +82,7 @@ class DetailPraktikPage extends StatelessWidget {
                       SizedBox(
                         width: 140,
                         child: Text(
-                          "0812-3456-7890",
+                          klinikData!['telepon'],
                           style: CustomTextStyle.smText.copyWith(
                             color: Colors.black,
                           ),
@@ -103,7 +108,7 @@ class DetailPraktikPage extends StatelessWidget {
                       SizedBox(
                         width: 160,
                         child: Text(
-                          "Senin 07.00-11.00, 16.00-20.00\nSelasa 07.00-11.00, 16.00-20.00",
+                          klinikData!['jamPraktek'],
                           style: CustomTextStyle.smText.copyWith(
                             color: Colors.black,
                           ),

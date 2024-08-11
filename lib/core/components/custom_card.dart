@@ -144,9 +144,9 @@ class CustomCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 7),
+                            padding: const EdgeInsets.symmetric(vertical: 7),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
                                   width: 20,
@@ -189,9 +189,9 @@ class CustomCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 7),
+                            padding: const EdgeInsets.symmetric(vertical: 7),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
                                   width: 20,

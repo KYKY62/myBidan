@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
@@ -6,6 +7,7 @@ import 'package:mybidan/core/components/custom_card.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
+import 'package:mybidan/core/extension/date_time_ext.dart';
 import 'package:mybidan/presentation/finding_bidan/controller/find_bidan_controller.dart';
 import 'package:mybidan/presentation/finding_bidan/pages/detail_praktik.dart';
 
@@ -92,8 +94,10 @@ class FindBidanPage extends StatelessWidget {
               ),
             ),
             Obx(() {
-              return findBidanC.selectedObject.value == true
-                  ? const DetailPraktikPage()
+              return findBidanC.detailObject.value != null
+                  ? DetailPraktikPage(
+                      klinikData: findBidanC.detailObject.value,
+                    )
                   : Stack(
                       children: [
                         Image.asset(
@@ -110,31 +114,67 @@ class FindBidanPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 22, vertical: 20),
-                            child: ListView.separated(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: 4,
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(
-                                height: 16.0,
-                              ),
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    findBidanC.selectedObject.value =
-                                        !findBidanC.selectedObject.value;
-                                  },
-                                  child: const CustomCard(
-                                    name: "Praktek Fatmawati",
-                                    description: "Fatmawati S.Keb M.Keb",
-                                    dateOperational: "13 april 2021",
-                                    timeOperational: "13:00 - 14:00",
-                                    image:
-                                        'https://firebasestorage.googleapis.com/v0/b/getconnect-project-9b7d7.appspot.com/o/photoArticle-1722013448480.jpg?alt=media&token=3a57bdea-aa8b-41ca-b596-52d4bab7647c',
-                                    horizontalGap: 25,
-                                    findBidanPage: true,
-                                    backgroundColor: Color(0xfff5faf6),
+                            child: StreamBuilder(
+                              stream: findBidanC.getKlinik(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else if (!snapshot.hasData ||
+                                    snapshot.data!.docs.isEmpty) {
+                                  return Text(
+                                    "Data Klinik Belum Ada",
+                                    style: CustomTextStyle.bigText.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                }
+                                var daftarKlinik = snapshot.data!.docs;
+                                return ListView.separated(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: daftarKlinik.length,
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(
+                                    height: 16.0,
                                   ),
+                                  itemBuilder: (context, index) {
+                                    Timestamp timeAwalstampConvert =
+                                        daftarKlinik[index]['jamAwalKerja'];
+                                    Timestamp timeAkhirstampConvert =
+                                        daftarKlinik[index]['jamAkhirKerja'];
+
+                                    String dateTimeAwal = timeAwalstampConvert
+                                        .toDate()
+                                        .toFormattedInHours();
+                                    String dateTimeAkhir = timeAkhirstampConvert
+                                        .toDate()
+                                        .toFormattedInHours();
+
+                                    return GestureDetector(
+                                      onTap: () {
+                                        findBidanC.selectedObject.value =
+                                            !findBidanC.selectedObject.value;
+                                        findBidanC.detailObject.value =
+                                            daftarKlinik[index];
+                                      },
+                                      child: CustomCard(
+                                        name: daftarKlinik[index]['namaKlinik'],
+                                        description: daftarKlinik[index]
+                                            ['namaBidan'],
+                                        dateOperational:
+                                            DateTime.now().toFormattedTime(),
+                                        timeOperational:
+                                            "$dateTimeAwal - $dateTimeAkhir",
+                                        image: daftarKlinik[index]['photo'],
+                                        horizontalGap: 25,
+                                        findBidanPage: true,
+                                        backgroundColor:
+                                            const Color(0xfff5faf6),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                             ),
