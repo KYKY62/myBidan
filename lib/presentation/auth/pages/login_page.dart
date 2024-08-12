@@ -67,17 +67,18 @@ class LoginPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        onPressed: () {
-                          if (loginC.emailController.text == 'admin') {
-                            Get.offAllNamed(RouteName.dasboard);
-                          } else {
-                            Get.offAllNamed(RouteName.main);
-                          }
-                          // Get.offAllNamed(RouteName.dasboard);
-                        },
+                        onPressed: () => loginC.login(
+                          email: loginC.emailController.text,
+                          password: loginC.passwordController.text,
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text("Login", style: CustomTextStyle.bigText),
+                          child: Obx(
+                            () => Text(
+                              loginC.isLoading.value ? "Loading" : "Login",
+                              style: CustomTextStyle.bigText,
+                            ),
+                          ),
                         ),
                       ),
                     ),

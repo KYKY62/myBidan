@@ -69,13 +69,15 @@ class RegisterPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Get.toNamed(
-                            '/register',
+                          registerC.register(
+                            email: registerC.emailController.text,
+                            password: registerC.passwordController.text,
                           );
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text("Login", style: CustomTextStyle.bigText),
+                          child:
+                              Text("Register", style: CustomTextStyle.bigText),
                         ),
                       ),
                     ),

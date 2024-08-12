@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mybidan/core/assets/assets.gen.dart';
-import 'package:mybidan/core/components/card_setting.dart';
-import 'package:mybidan/core/constants/colors.dart';
-import 'package:mybidan/core/constants/text_style.dart';
+import 'package:mybidan/core.dart';
 import 'package:flutter/services.dart';
+import 'package:mybidan/presentation/setting/controller/setting_controller.dart';
 
 class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
+  final settingC = Get.put(SettingController());
+  final authC = Get.put(LoginController());
+  SettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +149,7 @@ class SettingPage extends StatelessWidget {
                               ),
                             ),
                             CardSetting(
-                              onTap: () => Get.offAllNamed('/'),
+                              onTap: () => authC.logOut(),
                               icon: Assets.icons.logout.path,
                               title: 'Log out account',
                             ),

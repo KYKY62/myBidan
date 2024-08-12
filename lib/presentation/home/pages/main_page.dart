@@ -29,7 +29,7 @@ class MainPage extends StatelessWidget {
       case 2:
         return FindBidanPage();
       case 3:
-        return const SettingPage();
+        return SettingPage();
       case 4:
         return ShopPage();
       case 5:
