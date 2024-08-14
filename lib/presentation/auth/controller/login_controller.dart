@@ -47,7 +47,6 @@ class LoginController extends GetxController {
       // check UID nya apakah ada di Firestore
       final checkUid = credentialUser.user!.uid;
 
-      // filter berdasarkan Role
       final adminCollection = await roleUser.doc(checkUid).get();
       final usersCollection = await roleAdmin.doc(checkUid).get();
       final bidanCollection = await roleBidan.doc(checkUid).get();
@@ -70,6 +69,7 @@ class LoginController extends GetxController {
           // simpan ke GetStorage
           final box = GetStorage();
           box.write('autoLogin', true);
+          box.write('role', role);
           isLoading.value = false;
 
           emailController.clear();
@@ -87,7 +87,7 @@ class LoginController extends GetxController {
 
   void logOut() async {
     final box = GetStorage();
-    if (box.read('autoLogin') != null) {
+    if (box.read('autoLogin') != null && box.read('role') != null) {
       await box.erase();
       isAuth.value = false;
       await _auth.signOut();
@@ -95,6 +95,7 @@ class LoginController extends GetxController {
     }
   }
 
+  // untuk initialRouteDiawal jika sudah autoLogin
   void navigateToHomePageBasedOnRole(String role) {
     switch (role) {
       case 'USER':
@@ -104,8 +105,21 @@ class LoginController extends GetxController {
         Get.offNamed(RouteName.dasboard);
         break;
       case 'BIDAN':
-        Get.offNamed(RouteName.dasboard);
+        Get.offNamed(RouteName.roomBidan);
         break;
+    }
+  }
+
+  String getInitialRouteBasedOnRole(String? role) {
+    switch (role) {
+      case 'USER':
+        return RouteName.main;
+      case 'ADMIN':
+        return RouteName.dasboard;
+      case 'BIDAN':
+        return RouteName.roomBidan;
+      default:
+        return RouteName.login; // Fallback ke login jika role tidak dikenal
     }
   }
 }

@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mybidan/core/assets/assets.gen.dart';
-import 'package:mybidan/core/components/card_data_article.dart';
-import 'package:mybidan/core/components/custom_text_field.dart';
-import 'package:mybidan/core/components/list_article.dart';
-import 'package:mybidan/core/constants/colors.dart';
-import 'package:mybidan/core/constants/text_style.dart';
-import 'package:mybidan/core/routes/route_name.dart';
-import 'package:mybidan/presentation/education_control/controller/education_control_controller.dart';
+import 'package:mybidan/core.dart';
 
 class EducationControlPage extends StatelessWidget {
   final educationC = Get.find<EducationControlController>();
+  final authC = Get.find<LoginController>();
   EducationControlPage({super.key});
 
   @override
@@ -68,7 +62,7 @@ class EducationControlPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: GestureDetector(
-              onTap: () => Get.offAllNamed(RouteName.login),
+              onTap: () => authC.logOut(),
               child: const Icon(
                 Icons.exit_to_app,
                 color: Colors.white,

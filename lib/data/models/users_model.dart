@@ -1,45 +1,49 @@
+// To parse this JSON data, do
+//
+//     final usersModel = usersModelFromJson(jsonString);
+
 import 'dart:convert';
 
-class Users {
-  final String uid;
-  final String name;
-  final String keyName;
-  final String email;
-  final DateTime creationTime;
-  final DateTime lastSignInTime;
-  final String photoUrl;
-  final String status;
-  final DateTime updatedTime;
-  final List<Chat> chats;
+UsersModel usersModelFromJson(String str) =>
+    UsersModel.fromJson(json.decode(str));
 
-  Users({
-    required this.uid,
-    required this.name,
-    required this.keyName,
-    required this.email,
-    required this.creationTime,
-    required this.lastSignInTime,
-    required this.photoUrl,
-    required this.status,
-    required this.updatedTime,
-    required this.chats,
+String usersModelToJson(UsersModel data) => json.encode(data.toJson());
+
+class UsersModel {
+  UsersModel({
+    this.uid,
+    this.name,
+    this.keyName,
+    this.email,
+    this.creationTime,
+    this.lastSignInTime,
+    this.photoUrl,
+    this.status,
+    this.updatedTime,
+    this.chats,
   });
 
-  factory Users.fromRawJson(String str) => Users.fromJson(json.decode(str));
+  String? uid;
+  String? name;
+  String? keyName;
+  String? email;
+  String? creationTime;
+  String? lastSignInTime;
+  String? photoUrl;
+  String? status;
+  String? updatedTime;
+  List<ChatUser>? chats;
 
-  String toRawJson() => json.encode(toJson());
-
-  factory Users.fromJson(Map<String, dynamic> json) => Users(
+  factory UsersModel.fromJson(Map<String, dynamic> json) => UsersModel(
         uid: json["uid"],
         name: json["name"],
         keyName: json["keyName"],
         email: json["email"],
-        creationTime: DateTime.parse(json["creationTime"]),
-        lastSignInTime: DateTime.parse(json["lastSignInTime"]),
+        creationTime: json["creationTime"],
+        lastSignInTime: json["lastSignInTime"],
         photoUrl: json["photoUrl"],
         status: json["status"],
-        updatedTime: DateTime.parse(json["updatedTime"]),
-        chats: List<Chat>.from(json["chats"].map((x) => Chat.fromJson(x))),
+        updatedTime: json["updatedTime"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,43 +51,38 @@ class Users {
         "name": name,
         "keyName": keyName,
         "email": email,
-        "creationTime": creationTime.toIso8601String(),
-        "lastSignInTime": lastSignInTime.toIso8601String(),
+        "creationTime": creationTime,
+        "lastSignInTime": lastSignInTime,
         "photoUrl": photoUrl,
         "status": status,
-        "updatedTime": updatedTime.toIso8601String(),
-        "chats": List<dynamic>.from(chats.map((x) => x.toJson())),
+        "updatedTime": updatedTime,
       };
 }
 
-class Chat {
-  final String connection;
-  final String chatId;
-  final DateTime lastTime;
-  final int totalUnread;
-
-  Chat({
-    required this.connection,
-    required this.chatId,
-    required this.lastTime,
-    required this.totalUnread,
+class ChatUser {
+  ChatUser({
+    this.connection,
+    this.chatId,
+    this.lastTime,
+    this.totalUnread,
   });
 
-  factory Chat.fromRawJson(String str) => Chat.fromJson(json.decode(str));
+  String? connection;
+  String? chatId;
+  String? lastTime;
+  int? totalUnread;
 
-  String toRawJson() => json.encode(toJson());
-
-  factory Chat.fromJson(Map<String, dynamic> json) => Chat(
+  factory ChatUser.fromJson(Map<String, dynamic> json) => ChatUser(
         connection: json["connection"],
         chatId: json["chat_id"],
-        lastTime: DateTime.parse(json["lastTime"]),
+        lastTime: json["lastTime"],
         totalUnread: json["total_unread"],
       );
 
   Map<String, dynamic> toJson() => {
         "connection": connection,
         "chat_id": chatId,
-        "lastTime": lastTime.toIso8601String(),
+        "lastTime": lastTime,
         "total_unread": totalUnread,
       };
 }

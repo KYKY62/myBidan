@@ -91,6 +91,9 @@ class ChatPage extends StatelessWidget {
                           onTap: () {
                             mainC.currentIndex.value = 5;
                             chatC.nameBidan.value = bidanData[index]['name'];
+                            chatC.addNewConnection(
+                              bidanEmail: bidanData[index]['email'],
+                            );
                           },
                           child: CustomCard(
                             padding: const EdgeInsets.only(

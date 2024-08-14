@@ -28,16 +28,26 @@ class MyApp extends StatelessWidget {
       future: Future.delayed(const Duration(seconds: 2)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return Obx(
-            () => GetMaterialApp(
-              debugShowCheckedModeBanner: false,
-              defaultTransition: Transition.fadeIn,
-              initialRoute:
-                  authC.isAuth.value ? RouteName.main : RouteName.login,
-              getPages: AppPage.pages,
-              theme: ThemeData(
-                scaffoldBackgroundColor: Colors.white,
-              ),
+          final box = GetStorage();
+          bool isAutoLogin = box.read('autoLogin') ?? false;
+          String initialRoute;
+
+          if (isAutoLogin) {
+            // Dapatkan role dari GetStorage
+            String? role = box.read('role');
+            // Atur initialRoute berdasarkan role
+            initialRoute = authC.getInitialRouteBasedOnRole(role);
+          } else {
+            initialRoute = RouteName.login;
+          }
+
+          return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            defaultTransition: Transition.fadeIn,
+            initialRoute: initialRoute,
+            getPages: AppPage.pages,
+            theme: ThemeData(
+              scaffoldBackgroundColor: Colors.white,
             ),
           );
         }
