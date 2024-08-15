@@ -30,7 +30,7 @@ class BidanPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () =>
-                    bidanC.addNewConnection(bidanEmail: 'testing@gmail.com'),
+                    bidanC.addNewConnection(userEmail: 'testing@gmail.com'),
                 child: const Text("Save"),
               ),
               ElevatedButton(

@@ -1,23 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:mybidan/data/models/bidan_model.dart';
 import 'package:mybidan/data/models/users_model.dart';
 
 class BidanController extends GetxController {
   var userModel = UsersModel().obs;
+  var bidanModel = BidanModel().obs;
   final _currentUser = FirebaseAuth.instance.currentUser!;
-  CollectionReference users = FirebaseFirestore.instance.collection('bidan');
+  CollectionReference bidan = FirebaseFirestore.instance.collection('bidan');
   CollectionReference chats = FirebaseFirestore.instance.collection('chats');
   var date = DateTime.now().toIso8601String();
 
   void addNewConnection({
-    required String bidanEmail,
+    required String userEmail,
   }) async {
     bool createNewConnection = false;
     // ignore: prefer_typing_uninitialized_variables
     var chatId;
     // get collection users
-    var docUsers = await users.doc(_currentUser.uid).get();
+    var docUsers = await bidan.doc(_currentUser.uid).get();
     // ubah chats jadi bentuk map dan List karna bentuk chats nya List
     final docChatUser =
         (docUsers.data() as Map<String, dynamic>)['chats'] as List;
@@ -25,12 +27,12 @@ class BidanController extends GetxController {
     if (docChatUser.isNotEmpty) {
       // user sudah pernah chat dengan bidan
       for (var singleChat in docChatUser) {
-        if (singleChat['connection'] == bidanEmail) {
+        if (singleChat['connection'] == userEmail) {
           chatId = singleChat;
         }
       }
       if (chatId != null) {
-        // sudah pernah buat koneksi dengan =>bidanEmail
+        // sudah pernah buat koneksi dengan =>userEmail
         //! Get.to ke?
         createNewConnection = false;
       } else {
@@ -44,10 +46,10 @@ class BidanController extends GetxController {
       final chatDocs = await chats.where('connection', whereIn: [
         [
           _currentUser.email,
-          bidanEmail,
+          userEmail,
         ],
         [
-          bidanEmail,
+          userEmail,
           _currentUser.email,
         ]
       ]).get();
@@ -56,32 +58,33 @@ class BidanController extends GetxController {
         final chatDataId = chatDocs.docs[0].id;
         final chatData = chatDocs.docs[0].data() as Map<String, dynamic>;
 
-        users.doc(_currentUser.uid).update({
-          "chats": [
-            {
-              "chat_id": chatDataId,
-              "connection": bidanEmail,
-              "lastTime": chatData['lastTime'],
-            }
-          ]
+        // agar tidak mereplace data yang lama
+        docChatUser.add({
+          "chat_id": chatDataId,
+          "connection": userEmail,
+          "lastTime": chatData['lastTime'],
         });
-        userModel.update(
-          (val) {
-            ChatUser(
+
+        bidan.doc(_currentUser.uid).update({"chats": docChatUser});
+
+        bidanModel.update(
+          (bidan) => bidan!.chatsBidan = [
+            ChatsBidan(
               chatId: chatDataId,
-              connection: bidanEmail,
+              connection: userEmail,
               lastTime: chatData['lastTime'],
-            );
-          },
+            )
+          ],
         );
         chatId = chatDataId;
-        userModel.refresh();
+        // userModel.refresh();
+        bidanModel.refresh();
       } else {
         // add collection chats
         final newChat = await chats.add({
           "connection": [
             _currentUser.email,
-            bidanEmail,
+            userEmail,
           ],
           "total_chats": 0,
           "total_reads": 0,
@@ -90,28 +93,27 @@ class BidanController extends GetxController {
           "lastTime": date,
         });
 
-        // update field chats di user collection
-        users.doc(_currentUser.uid).update({
-          "chats": [
-            {
-              "chat_id": newChat.id,
-              "connection": bidanEmail,
-              "lastTime": date,
-            }
-          ]
+        // agar tidak mereplace data yang lama
+        docChatUser.add({
+          "chat_id": newChat.id,
+          "connection": userEmail,
+          "lastTime": date,
         });
 
-        userModel.update(
-          (val) {
-            ChatUser(
+        // update field chats di bidan collection
+        bidan.doc(_currentUser.uid).update({"chats": docChatUser});
+
+        bidanModel.update(
+          (bidan) => bidan!.chatsBidan = [
+            ChatsBidan(
               chatId: newChat.id,
-              connection: bidanEmail,
+              connection: userEmail,
               lastTime: date,
-            );
-          },
+            )
+          ],
         );
         chatId = newChat.id;
-        userModel.refresh();
+        bidanModel.refresh();
       }
     }
   }

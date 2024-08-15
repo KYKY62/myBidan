@@ -64,7 +64,8 @@ class KonsultasiControlController extends GetxController {
       loading.value = true;
       String imgUrl = await uploadImage(image.value!, 'photoBidan');
 
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final currentUser =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -73,14 +74,21 @@ class KonsultasiControlController extends GetxController {
         "email": emailController.text,
         "name": nameController.text,
         "photoBidan": imgUrl,
+        "keyName": nameController.text.substring(0, 1).toUpperCase(),
         "specialistBidan": specialistController.text,
         "jamAwalKerja": selectedTimeAwal.value,
         "jamAkhirKerja": selectedTimeAkhir.value,
         'role': 'BIDAN',
+        "creationTime":
+            currentUser.user!.metadata.lastSignInTime!.toIso8601String(),
+        "lastSignInTime":
+            currentUser.user!.metadata.lastSignInTime!.toIso8601String(),
+        "updatedTime": DateTime.now().toIso8601String(),
+        'chats': [],
         'timestamp': DateTime.now(),
       };
 
-      await db.collection('bidan').doc().set(bidanData);
+      await db.collection('bidan').doc(currentUser.user!.uid).set(bidanData);
 
       clearController();
       loading.value = false;

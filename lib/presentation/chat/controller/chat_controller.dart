@@ -68,24 +68,23 @@ class ChatController extends GetxController {
         final chatDataId = chatDocs.docs[0].id;
         final chatData = chatDocs.docs[0].data() as Map<String, dynamic>;
 
-        users.doc(_currentUser.uid).update({
-          "chats": [
-            {
-              "chat_id": chatDataId,
-              "connection": bidanEmail,
-              "lastTime": chatData['lastTime'],
-            }
-          ]
+        docChatUser.add({
+          "chat_id": chatDataId,
+          "connection": bidanEmail,
+          "lastTime": chatData['lastTime'],
         });
+        users.doc(_currentUser.uid).update({"chats": docChatUser});
+
         userModel.update(
-          (val) {
+          (user) => user!.chats = [
             ChatUser(
               chatId: chatDataId,
               connection: bidanEmail,
               lastTime: chatData['lastTime'],
-            );
-          },
+            )
+          ],
         );
+
         chatId = chatDataId;
         userModel.refresh();
       } else {
@@ -102,25 +101,23 @@ class ChatController extends GetxController {
           "lastTime": date,
         });
 
-        // update field chats di user collection
-        users.doc(_currentUser.uid).update({
-          "chats": [
-            {
-              "chat_id": newChat.id,
-              "connection": bidanEmail,
-              "lastTime": date,
-            }
-          ]
+        docChatUser.add({
+          "chat_id": newChat.id,
+          "connection": bidanEmail,
+          "lastTime": date,
         });
 
+        // update field chats di user collection
+        users.doc(_currentUser.uid).update({"chats": docChatUser});
+
         userModel.update(
-          (val) {
+          (user) => user!.chats = [
             ChatUser(
               chatId: newChat.id,
               connection: bidanEmail,
               lastTime: date,
-            );
-          },
+            )
+          ],
         );
         chatId = newChat.id;
         userModel.refresh();
