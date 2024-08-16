@@ -70,6 +70,9 @@ class KonsultasiControlController extends GetxController {
         password: passwordController.text,
       );
 
+      // cek UID akun yang baru didaftarkan
+      var checkEmail = currentUser.user!.email;
+
       Map<String, dynamic> bidanData = {
         "email": emailController.text,
         "name": nameController.text,
@@ -88,7 +91,7 @@ class KonsultasiControlController extends GetxController {
         'timestamp': DateTime.now(),
       };
 
-      await db.collection('bidan').doc(currentUser.user!.uid).set(bidanData);
+      await db.collection('bidan').doc(checkEmail).set(bidanData);
 
       clearController();
       loading.value = false;

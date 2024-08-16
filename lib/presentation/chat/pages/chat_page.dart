@@ -115,79 +115,115 @@ class ChatPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16.0),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: chatC.bidan.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 16.0),
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () {
-                mainC.currentIndex.value = 5;
-                chatC.nameBidan.value = chatC.bidan[index];
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 28,
-                      backgroundColor: const Color(0xfff5faf6),
-                      child: Image.asset(
-                        Assets.images.doctor.path,
-                        width: 41,
-                      ),
-                    ),
-                    const SizedBox(width: 12.0),
-                    Expanded(
-                      child: SizedBox(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "H&M Official Store",
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: CustomTextStyle.primaryText.copyWith(
-                                fontWeight: FontWeight.bold,
+          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+              stream: chatC.getListChatUser(),
+              builder: (context, snapshot) {
+                // jika collection belum ada dan datanya gadak
+                if (!snapshot.hasData || snapshot.data!.data() == null) {
+                  return const SizedBox();
+                }
+                if (snapshot.connectionState == ConnectionState.active) {
+                  var allChatsUser = snapshot.data!.data()!['chats'] as List;
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: allChatsUser.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 16.0),
+                    itemBuilder: (context, index) => StreamBuilder<
+                            DocumentSnapshot<Map<String, dynamic>>>(
+                        stream: chatC
+                            .getProfileBidan(allChatsUser[index]['connection']),
+                        builder: (context, snapshotProfile) {
+                          if (snapshotProfile.connectionState ==
+                              ConnectionState.active) {
+                            var data = snapshotProfile.data!.data();
+                            return GestureDetector(
+                              onTap: () {
+                                mainC.currentIndex.value = 5;
+                                chatC.nameBidan.value = data['name'];
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 28,
+                                      backgroundColor: const Color(0xfff5faf6),
+                                      child: Image.network(
+                                        data!['photoBidan'],
+                                        width: 41,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12.0),
+                                    Expanded(
+                                      child: SizedBox(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              data['name'],
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: CustomTextStyle.primaryText
+                                                  .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8.0),
+                                            Text(
+                                              chatC.chatList[index]['chat'],
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "09.22",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: CustomTextStyle.smallerText
+                                              .copyWith(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8.0),
+                                        allChatsUser[index]['total_unread'] == 0
+                                            ? const SizedBox()
+                                            : CircleAvatar(
+                                                radius: 10,
+                                                backgroundColor:
+                                                    AppColors.green,
+                                                child: Text(
+                                                  allChatsUser[index]
+                                                          ['total_unread']
+                                                      .toString(),
+                                                  style: CustomTextStyle.smText,
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 8.0),
-                            Text(
-                              chatC.chatList[index]['chat'],
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "09.22",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: CustomTextStyle.smallerText.copyWith(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        CircleAvatar(
-                          radius: 10,
-                          backgroundColor: AppColors.green,
-                          child: Text(
-                            "1",
-                            style: CustomTextStyle.smText,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+                            );
+                          }
+
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }),
+                  );
+                }
+                return const Center(child: CircularProgressIndicator());
+              }),
           const SizedBox(height: 46.0),
         ],
       ),

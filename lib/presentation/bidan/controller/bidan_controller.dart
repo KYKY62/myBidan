@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/data/models/bidan_model.dart';
-import 'package:mybidan/data/models/users_model.dart';
 
 class BidanController extends GetxController {
-  var userModel = UsersModel().obs;
   var bidanModel = BidanModel().obs;
   final _currentUser = FirebaseAuth.instance.currentUser!;
   CollectionReference bidan = FirebaseFirestore.instance.collection('bidan');
@@ -19,7 +17,7 @@ class BidanController extends GetxController {
     // ignore: prefer_typing_uninitialized_variables
     var chatId;
     // get collection users
-    var docUsers = await bidan.doc(_currentUser.uid).get();
+    var docUsers = await bidan.doc(_currentUser.email).get();
     // ubah chats jadi bentuk map dan List karna bentuk chats nya List
     final docChatUser =
         (docUsers.data() as Map<String, dynamic>)['chats'] as List;
@@ -62,22 +60,24 @@ class BidanController extends GetxController {
         docChatUser.add({
           "chat_id": chatDataId,
           "connection": userEmail,
-          "lastTime": chatData['lastTime'],
+          "lastTime": date,
+          "total_unread": 0,
         });
 
-        bidan.doc(_currentUser.uid).update({"chats": docChatUser});
+        bidan.doc(_currentUser.email).update({"chats": docChatUser});
 
         bidanModel.update(
           (bidan) => bidan!.chatsBidan = [
             ChatsBidan(
               chatId: chatDataId,
               connection: userEmail,
-              lastTime: chatData['lastTime'],
+              lastTime: date,
+              totalUnread: 0,
             )
           ],
         );
         chatId = chatDataId;
-        // userModel.refresh();
+        // bidanModel.refresh();
         bidanModel.refresh();
       } else {
         // add collection chats
@@ -86,22 +86,20 @@ class BidanController extends GetxController {
             _currentUser.email,
             userEmail,
           ],
-          "total_chats": 0,
-          "total_reads": 0,
-          "total_unreads": 0,
           "chat": [],
-          "lastTime": date,
         });
 
         // agar tidak mereplace data yang lama
+        // total unread dibuat 0 karena diawal pasti belum ada yang chat
         docChatUser.add({
           "chat_id": newChat.id,
           "connection": userEmail,
           "lastTime": date,
+          "total_unread": 0,
         });
 
         // update field chats di bidan collection
-        bidan.doc(_currentUser.uid).update({"chats": docChatUser});
+        bidan.doc(_currentUser.email).update({"chats": docChatUser});
 
         bidanModel.update(
           (bidan) => bidan!.chatsBidan = [
@@ -109,6 +107,7 @@ class BidanController extends GetxController {
               chatId: newChat.id,
               connection: userEmail,
               lastTime: date,
+              totalUnread: 0,
             )
           ],
         );

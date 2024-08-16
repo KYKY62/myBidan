@@ -22,6 +22,13 @@ class ChatController extends GetxController {
   Stream<QuerySnapshot>? getBidan() =>
       db.collection('bidan').orderBy('timestamp', descending: true).snapshots();
 
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getListChatUser() =>
+      db.collection('users').doc(_currentUser.email).snapshots();
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getProfileBidan(
+          String bidanEmail) =>
+      db.collection('bidan').doc(bidanEmail).snapshots();
+
   void addNewConnection({
     required String bidanEmail,
   }) async {
@@ -29,7 +36,7 @@ class ChatController extends GetxController {
     // ignore: prefer_typing_uninitialized_variables
     var chatId;
     // get collection users
-    var docUsers = await users.doc(_currentUser.uid).get();
+    var docUsers = await users.doc(_currentUser.email).get();
     // ubah chats jadi bentuk map dan List karna bentuk chats nya List
     final docChatUser =
         (docUsers.data() as Map<String, dynamic>)['chats'] as List;
@@ -68,19 +75,22 @@ class ChatController extends GetxController {
         final chatDataId = chatDocs.docs[0].id;
         final chatData = chatDocs.docs[0].data() as Map<String, dynamic>;
 
+        // total unread dibuat 0 karena diawal pasti belum ada yang chat
         docChatUser.add({
           "chat_id": chatDataId,
           "connection": bidanEmail,
-          "lastTime": chatData['lastTime'],
+          "lastTime": date,
+          "total_unread": 0,
         });
-        users.doc(_currentUser.uid).update({"chats": docChatUser});
+        users.doc(_currentUser.email).update({"chats": docChatUser});
 
         userModel.update(
           (user) => user!.chats = [
             ChatUser(
               chatId: chatDataId,
               connection: bidanEmail,
-              lastTime: chatData['lastTime'],
+              lastTime: date,
+              totalUnread: 0,
             )
           ],
         );
@@ -94,21 +104,18 @@ class ChatController extends GetxController {
             _currentUser.email,
             bidanEmail,
           ],
-          "total_chats": 0,
-          "total_reads": 0,
-          "total_unreads": 0,
           "chat": [],
-          "lastTime": date,
         });
 
         docChatUser.add({
           "chat_id": newChat.id,
           "connection": bidanEmail,
           "lastTime": date,
+          "total_unread": 0,
         });
 
         // update field chats di user collection
-        users.doc(_currentUser.uid).update({"chats": docChatUser});
+        users.doc(_currentUser.email).update({"chats": docChatUser});
 
         userModel.update(
           (user) => user!.chats = [
@@ -116,6 +123,7 @@ class ChatController extends GetxController {
               chatId: newChat.id,
               connection: bidanEmail,
               lastTime: date,
+              totalUnread: 0,
             )
           ],
         );

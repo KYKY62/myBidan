@@ -26,7 +26,7 @@ class RegisterController extends GetxController {
       String checkUid = currentUser.user!.uid;
 
       // simpan data login ke firestore
-      await db.doc(checkUid).set({
+      await db.doc(email).set({
         "uid": checkUid,
         "name": 'Testing',
         "keyName": 'T',

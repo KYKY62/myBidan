@@ -44,12 +44,12 @@ class LoginController extends GetxController {
         password: password,
       );
 
-      // check UID nya apakah ada di Firestore
-      final checkUid = credentialUser.user!.uid;
+      // check doc nya apakah ada di Firestore dan sesuai emailnya
+      final checkEmail = credentialUser.user!.email;
 
-      final adminCollection = await roleUser.doc(checkUid).get();
-      final usersCollection = await roleAdmin.doc(checkUid).get();
-      final bidanCollection = await roleBidan.doc(checkUid).get();
+      final adminCollection = await roleUser.doc(checkEmail).get();
+      final usersCollection = await roleAdmin.doc(checkEmail).get();
+      final bidanCollection = await roleBidan.doc(checkEmail).get();
 
       if (adminCollection.exists ||
           usersCollection.exists ||
