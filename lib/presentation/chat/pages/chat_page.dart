@@ -90,7 +90,9 @@ class ChatPage extends StatelessWidget {
                         return GestureDetector(
                           onTap: () {
                             mainC.currentIndex.value = 5;
-                            chatC.nameBidan.value = bidanData[index]['name'];
+                            chatC.chatPageValue.value = {
+                              'name': bidanData[index]['name'],
+                            };
                             chatC.addNewConnection(
                               bidanEmail: bidanData[index]['email'],
                             );
@@ -115,15 +117,15 @@ class ChatPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16.0),
-          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: chatC.getListChatUser(),
               builder: (context, snapshot) {
                 // jika collection belum ada dan datanya gadak
-                if (!snapshot.hasData || snapshot.data!.data() == null) {
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                   return const SizedBox();
                 }
                 if (snapshot.connectionState == ConnectionState.active) {
-                  var allChatsUser = snapshot.data!.data()!['chats'] as List;
+                  var allChatsUser = snapshot.data!.docs;
                   return ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -135,13 +137,18 @@ class ChatPage extends StatelessWidget {
                         stream: chatC
                             .getProfileBidan(allChatsUser[index]['connection']),
                         builder: (context, snapshotProfile) {
+                          DateTime lastTime = DateTime.parse(
+                              "${allChatsUser[index]['lastTime']}");
                           if (snapshotProfile.connectionState ==
                               ConnectionState.active) {
                             var data = snapshotProfile.data!.data();
                             return GestureDetector(
                               onTap: () {
                                 mainC.currentIndex.value = 5;
-                                chatC.nameBidan.value = data['name'];
+                                chatC.chatPageValue.value = {
+                                  'name': data['name'],
+                                  'chat_id': allChatsUser[index].id,
+                                };
                               },
                               child: Padding(
                                 padding:
@@ -185,9 +192,11 @@ class ChatPage extends StatelessWidget {
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "09.22",
+                                          lastTime.toFormattedInHours(),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: CustomTextStyle.smallerText
@@ -195,9 +204,12 @@ class ChatPage extends StatelessWidget {
                                             color: Colors.grey,
                                           ),
                                         ),
-                                        const SizedBox(height: 8.0),
+                                        const SizedBox(height: 8),
                                         allChatsUser[index]['total_unread'] == 0
-                                            ? const SizedBox()
+                                            ? const SizedBox(
+                                                width: 10,
+                                                height: 20,
+                                              )
                                             : CircleAvatar(
                                                 radius: 10,
                                                 backgroundColor:

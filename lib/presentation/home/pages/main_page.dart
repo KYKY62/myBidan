@@ -36,7 +36,7 @@ class MainPage extends StatelessWidget {
         return PrivateChatPage(
           backToOntap: () => mainC.currentIndex.value = 1,
           hideFloating: () => mainC.currentIndex.value = 5,
-          nameBidan: chatC.nameBidan.value,
+          nameBidan: chatC.chatPageValue['name'],
         );
       case 6:
         return BlogPage();

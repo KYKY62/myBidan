@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:mybidan/data/models/users_model.dart';
 
 class ChatController extends GetxController {
@@ -15,23 +16,25 @@ class ChatController extends GetxController {
 
   final bool isSender = false;
 
-  RxString nameBidan = ''.obs;
+  RxMap chatPageValue = {}.obs;
   var userModel = UsersModel().obs;
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   Stream<QuerySnapshot>? getBidan() =>
       db.collection('bidan').orderBy('timestamp', descending: true).snapshots();
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getListChatUser() =>
-      db.collection('users').doc(_currentUser.email).snapshots();
+  Stream<QuerySnapshot<Map<String, dynamic>>> getListChatUser() => db
+      .collection('users')
+      .doc(_currentUser.email)
+      .collection('chats')
+      .orderBy("lastTime", descending: true)
+      .snapshots();
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> getProfileBidan(
           String bidanEmail) =>
       db.collection('bidan').doc(bidanEmail).snapshots();
 
-  void addNewConnection({
-    required String bidanEmail,
-  }) async {
+  void addNewConnection({required String bidanEmail}) async {
     bool createNewConnection = false;
     // ignore: prefer_typing_uninitialized_variables
     var chatId;
@@ -39,19 +42,21 @@ class ChatController extends GetxController {
     var docUsers = await users.doc(_currentUser.email).get();
     // ubah chats jadi bentuk map dan List karna bentuk chats nya List
     final docChatUser =
-        (docUsers.data() as Map<String, dynamic>)['chats'] as List;
+        await users.doc(_currentUser.email).collection('chats').get();
 
-    if (docChatUser.isNotEmpty) {
+    if (docChatUser.docs.isEmpty) {
       // user sudah pernah chat dengan bidan
-      for (var singleChat in docChatUser) {
-        if (singleChat['connection'] == bidanEmail) {
-          chatId = singleChat;
-        }
-      }
-      if (chatId != null) {
+      final checkConnection = await users
+          .doc(_currentUser.email)
+          .collection("chats")
+          .where("connection", isEqualTo: bidanEmail)
+          .get();
+      if (checkConnection.docs.isNotEmpty) {
         // sudah pernah buat koneksi dengan =>bidanEmail
         //! Get.to ke?
         createNewConnection = false;
+        chatId = checkConnection.docs[0].id;
+        print('INi chatID = $chatId');
       } else {
         createNewConnection = true;
       }
@@ -76,24 +81,34 @@ class ChatController extends GetxController {
         final chatData = chatDocs.docs[0].data() as Map<String, dynamic>;
 
         // total unread dibuat 0 karena diawal pasti belum ada yang chat
-        docChatUser.add({
-          "chat_id": chatDataId,
+        await users
+            .doc(_currentUser.email)
+            .collection("chats")
+            .doc(chatDataId)
+            .set({
           "connection": bidanEmail,
           "lastTime": date,
           "total_unread": 0,
         });
-        users.doc(_currentUser.email).update({"chats": docChatUser});
+        final listChats =
+            await users.doc(_currentUser.email).collection("chats").get();
 
-        userModel.update(
-          (user) => user!.chats = [
-            ChatUser(
-              chatId: chatDataId,
-              connection: bidanEmail,
-              lastTime: date,
-              totalUnread: 0,
-            )
-          ],
-        );
+        if (listChats.docs.isNotEmpty) {
+          List<ChatUser> dataListChats = [];
+          for (var element in listChats.docs) {
+            var dataDocChat = element.data();
+            var dataDocChatId = element.id;
+            dataListChats.add(ChatUser(
+              chatId: dataDocChatId,
+              connection: dataDocChat['connection'],
+              lastTime: dataDocChat["lastTime"],
+              totalUnread: dataDocChat["total_unread"],
+            ));
+          }
+          userModel.update((user) => user!.chats = dataListChats);
+        } else {
+          userModel.update((user) => user!.chats = []);
+        }
 
         chatId = chatDataId;
         userModel.refresh();
@@ -104,29 +119,40 @@ class ChatController extends GetxController {
             _currentUser.email,
             bidanEmail,
           ],
-          "chat": [],
         });
 
-        docChatUser.add({
-          "chat_id": newChat.id,
+        chats.doc(newChat.id).collection("chat");
+
+        await users
+            .doc(_currentUser.email)
+            .collection("chats")
+            .doc(newChat.id)
+            .set({
           "connection": bidanEmail,
           "lastTime": date,
           "total_unread": 0,
         });
 
-        // update field chats di user collection
-        users.doc(_currentUser.email).update({"chats": docChatUser});
+        final listChats =
+            await users.doc(_currentUser.email).collection("chats").get();
 
-        userModel.update(
-          (user) => user!.chats = [
-            ChatUser(
-              chatId: newChat.id,
-              connection: bidanEmail,
-              lastTime: date,
-              totalUnread: 0,
-            )
-          ],
-        );
+        if (listChats.docs.isNotEmpty) {
+          List<ChatUser> dataListChats = [];
+          for (var element in listChats.docs) {
+            var dataDocChat = element.data();
+            var dataDocChatId = element.id;
+            dataListChats.add(ChatUser(
+              chatId: dataDocChatId,
+              connection: dataDocChat["connection"],
+              lastTime: dataDocChat["lastTime"],
+              totalUnread: dataDocChat["total_unread"],
+            ));
+          }
+          userModel.update((user) => user!.chats = dataListChats);
+        } else {
+          userModel.update((user) => user!.chats = []);
+        }
+
         chatId = newChat.id;
         userModel.refresh();
       }

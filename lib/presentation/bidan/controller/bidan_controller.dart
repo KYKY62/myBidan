@@ -20,19 +20,20 @@ class BidanController extends GetxController {
     var docUsers = await bidan.doc(_currentUser.email).get();
     // ubah chats jadi bentuk map dan List karna bentuk chats nya List
     final docChatUser =
-        (docUsers.data() as Map<String, dynamic>)['chats'] as List;
+        await bidan.doc(_currentUser.email).collection('chats').get();
 
-    if (docChatUser.isNotEmpty) {
+    if (docChatUser.docs.isEmpty) {
       // user sudah pernah chat dengan bidan
-      for (var singleChat in docChatUser) {
-        if (singleChat['connection'] == userEmail) {
-          chatId = singleChat;
-        }
-      }
-      if (chatId != null) {
+      final checkConnection = await bidan
+          .doc(_currentUser.email)
+          .collection("chats")
+          .where("connection", isEqualTo: userEmail)
+          .get();
+      if (checkConnection.docs.isNotEmpty) {
         // sudah pernah buat koneksi dengan =>userEmail
         //! Get.to ke?
         createNewConnection = false;
+        chatId = checkConnection.docs[0].id;
       } else {
         createNewConnection = true;
       }
@@ -57,25 +58,35 @@ class BidanController extends GetxController {
         final chatData = chatDocs.docs[0].data() as Map<String, dynamic>;
 
         // agar tidak mereplace data yang lama
-        docChatUser.add({
-          "chat_id": chatDataId,
+        await bidan
+            .doc(_currentUser.email)
+            .collection("chats")
+            .doc(chatDataId)
+            .set({
           "connection": userEmail,
           "lastTime": date,
           "total_unread": 0,
         });
 
-        bidan.doc(_currentUser.email).update({"chats": docChatUser});
+        final listChats =
+            await bidan.doc(_currentUser.email).collection("chats").get();
 
-        bidanModel.update(
-          (bidan) => bidan!.chatsBidan = [
-            ChatsBidan(
-              chatId: chatDataId,
-              connection: userEmail,
-              lastTime: date,
-              totalUnread: 0,
-            )
-          ],
-        );
+        if (listChats.docs.isNotEmpty) {
+          List<ChatsBidan> dataListChats = [];
+          for (var element in listChats.docs) {
+            var dataDocChat = element.data();
+            var dataDocChatId = element.id;
+            dataListChats.add(ChatsBidan(
+              chatId: dataDocChatId,
+              connection: dataDocChat['connection'],
+              lastTime: dataDocChat["lastTime"],
+              totalUnread: dataDocChat["total_unread"],
+            ));
+          }
+          bidanModel.update((bidan) => bidan!.chatsBidan = dataListChats);
+        } else {
+          bidanModel.update((bidan) => bidan!.chatsBidan = []);
+        }
         chatId = chatDataId;
         // bidanModel.refresh();
         bidanModel.refresh();
@@ -86,31 +97,37 @@ class BidanController extends GetxController {
             _currentUser.email,
             userEmail,
           ],
-          "chat": [],
         });
 
-        // agar tidak mereplace data yang lama
-        // total unread dibuat 0 karena diawal pasti belum ada yang chat
-        docChatUser.add({
-          "chat_id": newChat.id,
+        await bidan
+            .doc(_currentUser.email)
+            .collection("chats")
+            .doc(newChat.id)
+            .set({
           "connection": userEmail,
           "lastTime": date,
           "total_unread": 0,
         });
 
-        // update field chats di bidan collection
-        bidan.doc(_currentUser.email).update({"chats": docChatUser});
+        final listChats =
+            await bidan.doc(_currentUser.email).collection("chats").get();
 
-        bidanModel.update(
-          (bidan) => bidan!.chatsBidan = [
-            ChatsBidan(
-              chatId: newChat.id,
-              connection: userEmail,
-              lastTime: date,
-              totalUnread: 0,
-            )
-          ],
-        );
+        if (listChats.docs.isNotEmpty) {
+          List<ChatsBidan> dataListChats = [];
+          for (var element in listChats.docs) {
+            var dataDocChat = element.data();
+            var dataDocChatId = element.id;
+            dataListChats.add(ChatsBidan(
+              chatId: dataDocChatId,
+              connection: dataDocChat['connection'],
+              lastTime: dataDocChat["lastTime"],
+              totalUnread: dataDocChat["total_unread"],
+            ));
+          }
+          bidanModel.update((bidan) => bidan!.chatsBidan = dataListChats);
+        } else {
+          bidanModel.update((bidan) => bidan!.chatsBidan = []);
+        }
         chatId = newChat.id;
         bidanModel.refresh();
       }
