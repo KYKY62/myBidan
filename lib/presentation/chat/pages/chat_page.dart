@@ -138,7 +138,6 @@ class ChatPage extends StatelessWidget {
                             return GestureDetector(
                               onTap: () {
                                 mainC.currentIndex.value = 5;
-                                print(allChatsUser[index].id);
                                 chatC.chatPageValue.value = {
                                   'name': data['name'],
                                   'chat_id': allChatsUser[index].id,

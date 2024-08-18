@@ -24,7 +24,7 @@ class ItemChat extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: isSender == true ? AppColors.neonBold : Colors.white,
+          color: isSender == true ? Colors.white : AppColors.neonBold,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(8),
             topRight: const Radius.circular(8),
@@ -47,7 +47,7 @@ class ItemChat extends StatelessWidget {
                 chat,
                 style: CustomTextStyle.smallerText.copyWith(
                   fontSize: 12,
-                  color: isSender == true ? Colors.white : Colors.black,
+                  color: isSender == true ? Colors.black : Colors.white,
                 ),
               ),
             ),

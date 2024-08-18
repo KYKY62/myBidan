@@ -6,4 +6,5 @@ abstract class RouteName {
   static const dasboard = '/dasboard';
   static const addBidan = '/addBidan';
   static const roomBidan = '/roomBidan';
+  static const roomBidanPrivate = '/roomBidanPrivate';
 }

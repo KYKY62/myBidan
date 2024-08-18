@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/data/models/bidan_model.dart';
 
-class BidanController extends GetxController {
+class BidanChatController extends GetxController {
   var bidanModel = BidanModel().obs;
   final _currentUser = FirebaseAuth.instance.currentUser!;
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -137,7 +137,7 @@ class BidanController extends GetxController {
     }
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getListChatUser() => bidan
+  Stream<QuerySnapshot<Map<String, dynamic>>> getListChatBidan() => bidan
       .doc(_currentUser.email)
       .collection('chats')
       .orderBy("lastTime", descending: true)
@@ -146,4 +146,14 @@ class BidanController extends GetxController {
   Stream<DocumentSnapshot<Map<String, dynamic>>> getProfileUsers(
           String usersEmail) =>
       db.collection('users').doc(usersEmail).snapshots();
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> historyChat({
+    required String chatId,
+  }) =>
+      db
+          .collection('chats')
+          .doc(chatId)
+          .collection('chat')
+          .orderBy("time", descending: true)
+          .snapshots();
 }

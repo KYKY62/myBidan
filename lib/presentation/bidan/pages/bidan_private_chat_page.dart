@@ -2,27 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mybidan/core/components/custom_text_field.dart';
-import 'package:mybidan/core/components/item_chat.dart';
-import 'package:mybidan/core/constants/colors.dart';
-import 'package:mybidan/core/extension/date_time_ext.dart';
-import 'package:mybidan/presentation/chat/controller/chat_controller.dart';
-import 'package:mybidan/presentation/chat/controller/private_chat_controller.dart';
+import 'package:mybidan/core.dart';
+import 'package:mybidan/presentation/bidan/controller/bidan_private_chat_controller.dart';
 
-class PrivateChatPage extends StatelessWidget {
+class BidanPrivateChatPage extends StatelessWidget {
+  final bidanPrivateC = Get.put(BidanPrivateChatController());
   final String nameBidan;
   final String chatId;
   final String penerima;
-  final dynamic backToOntap;
-  final dynamic hideFloating;
-
-  final chatC = Get.put(ChatController());
-  final privateC = Get.put(PrivateChatController());
-  PrivateChatPage({
+  BidanPrivateChatPage({
     super.key,
     required this.nameBidan,
-    required this.backToOntap,
-    required this.hideFloating,
     required this.chatId,
     required this.penerima,
   });
@@ -35,7 +25,7 @@ class PrivateChatPage extends StatelessWidget {
         elevation: 0,
         scrolledUnderElevation: 0,
         leading: GestureDetector(
-          onTap: backToOntap,
+          onTap: () => Get.back(),
           child: const Icon(
             Icons.arrow_back,
             size: 24.0,
@@ -54,7 +44,7 @@ class PrivateChatPage extends StatelessWidget {
           Expanded(
             child: SizedBox(
               child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: privateC.streamChats(chatId),
+                  stream: bidanPrivateC.streamChats(chatId),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                       return const SizedBox();
@@ -87,7 +77,6 @@ class PrivateChatPage extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: hideFloating,
             child: Container(
               margin: EdgeInsets.only(bottom: context.mediaQueryPadding.bottom),
               width: Get.width,
@@ -98,7 +87,7 @@ class PrivateChatPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomTextField(
-                        controller: privateC.chatBidan,
+                        controller: bidanPrivateC.chatBidan,
                         label: 'Ketik Pesan',
                         keyboardType: TextInputType.text,
                         inputColor: Colors.black,
@@ -109,8 +98,8 @@ class PrivateChatPage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        privateC.newChat(
-                          email: privateC.currentUser.email!,
+                        bidanPrivateC.newChat(
+                          email: bidanPrivateC.currentUser.email!,
                           chatId: chatId,
                           penerima: penerima,
                         );

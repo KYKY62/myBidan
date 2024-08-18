@@ -75,7 +75,6 @@ class LoginController extends GetxController {
           emailController.clear();
           passwordController.clear();
           navigateToHomePageBasedOnRole(role);
-          Get.delete<LoginController>();
         }
       }
     } on FirebaseAuthException catch (_) {

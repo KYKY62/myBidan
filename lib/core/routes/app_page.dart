@@ -8,7 +8,8 @@ import 'package:mybidan/core/bindings/register_bindings.dart';
 import 'package:mybidan/core/routes/route_name.dart';
 import 'package:mybidan/presentation/auth/pages/login_page.dart';
 import 'package:mybidan/presentation/auth/pages/register_page.dart';
-import 'package:mybidan/presentation/bidan/pages/bidan_page.dart';
+import 'package:mybidan/presentation/bidan/pages/bidan_chat_page.dart';
+import 'package:mybidan/presentation/bidan/pages/bidan_private_chat_page.dart';
 import 'package:mybidan/presentation/dashboard/pages/dashboard_page.dart';
 import 'package:mybidan/presentation/home/pages/main_page.dart';
 import 'package:mybidan/presentation/konsultasi_control/pages/add_bidan_page.dart';
@@ -61,7 +62,15 @@ class AppPage {
     GetPage(
       name: RouteName.roomBidan,
       binding: BidanBindings(),
-      page: () => BidanPage(),
+      page: () => BidanChatPage(),
+    ),
+    GetPage(
+      name: RouteName.roomBidanPrivate,
+      page: () => BidanPrivateChatPage(
+        chatId: Get.arguments['chatId'],
+        nameBidan: Get.arguments['nameBidan'],
+        penerima: Get.arguments['penerima'],
+      ),
     )
   ];
 }
