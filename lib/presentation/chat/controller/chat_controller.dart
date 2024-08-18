@@ -28,13 +28,23 @@ class ChatController extends GetxController {
       .orderBy("lastTime", descending: true)
       .snapshots();
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> historyChat({
+    required String chatId,
+  }) =>
+      db
+          .collection('chats')
+          .doc(chatId)
+          .collection('chat')
+          .orderBy("time", descending: true)
+          .snapshots();
+
   Stream<DocumentSnapshot<Map<String, dynamic>>> getProfileBidan(
           String bidanEmail) =>
       db.collection('bidan').doc(bidanEmail).snapshots();
 
   void addNewConnection({required String bidanEmail}) async {
     bool createNewConnection = false;
-    // ignore: prefer_typing_uninitialized_variables
+    // ignore: prefer_typing_uninitialized_variables, unused_local_variable
     var chatId;
 
     // ubah chats jadi bentuk map dan List karna bentuk chats nya List
@@ -53,7 +63,6 @@ class ChatController extends GetxController {
         //! Get.to ke?
         createNewConnection = false;
         chatId = checkConnection.docs[0].id;
-        print('INi chatID = $chatId');
       } else {
         createNewConnection = true;
       }

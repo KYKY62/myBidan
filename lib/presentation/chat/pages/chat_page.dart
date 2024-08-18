@@ -138,6 +138,7 @@ class ChatPage extends StatelessWidget {
                             return GestureDetector(
                               onTap: () {
                                 mainC.currentIndex.value = 5;
+                                print(allChatsUser[index].id);
                                 chatC.chatPageValue.value = {
                                   'name': data['name'],
                                   'chat_id': allChatsUser[index].id,
@@ -174,11 +175,30 @@ class ChatPage extends StatelessWidget {
                                               ),
                                             ),
                                             const SizedBox(height: 8.0),
-                                            Text(
-                                              chatC.chatList[index]['chat'],
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
+                                            StreamBuilder<
+                                                    QuerySnapshot<
+                                                        Map<String, dynamic>>>(
+                                                stream: chatC.historyChat(
+                                                  chatId:
+                                                      allChatsUser[index].id,
+                                                ),
+                                                builder:
+                                                    (context, snapshotHistory) {
+                                                  if (!snapshotHistory
+                                                          .hasData ||
+                                                      snapshotHistory
+                                                          .data!.docs.isEmpty) {
+                                                    return const Text('');
+                                                  }
+                                                  var data = snapshotHistory
+                                                      .data!.docs;
+                                                  return Text(
+                                                    data[0]['msg'],
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                  );
+                                                }),
                                           ],
                                         ),
                                       ),

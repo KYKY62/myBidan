@@ -1,14 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/data/models/bidan_model.dart';
 
 class BidanController extends GetxController {
   var bidanModel = BidanModel().obs;
   final _currentUser = FirebaseAuth.instance.currentUser!;
+  FirebaseFirestore db = FirebaseFirestore.instance;
   CollectionReference bidan = FirebaseFirestore.instance.collection('bidan');
   CollectionReference chats = FirebaseFirestore.instance.collection('chats');
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
   var date = DateTime.now().toIso8601String();
+
+  final TextEditingController chatUser = TextEditingController();
 
   void addNewConnection({
     required String userEmail,
@@ -131,4 +136,14 @@ class BidanController extends GetxController {
       }
     }
   }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getListChatUser() => bidan
+      .doc(_currentUser.email)
+      .collection('chats')
+      .orderBy("lastTime", descending: true)
+      .snapshots();
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getProfileUsers(
+          String usersEmail) =>
+      db.collection('users').doc(usersEmail).snapshots();
 }
