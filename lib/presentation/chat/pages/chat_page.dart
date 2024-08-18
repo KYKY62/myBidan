@@ -88,15 +88,9 @@ class ChatPage extends StatelessWidget {
                         String dateTimeAkhir =
                             timeAkhirstampConvert.toDate().toFormattedInHours();
                         return GestureDetector(
-                          onTap: () {
-                            mainC.currentIndex.value = 5;
-                            chatC.chatPageValue.value = {
-                              'name': bidanData[index]['name'],
-                            };
-                            chatC.addNewConnection(
-                              bidanEmail: bidanData[index]['email'],
-                            );
-                          },
+                          onTap: () => chatC.addNewConnection(
+                            bidanEmail: bidanData[index]['email'],
+                          ),
                           child: CustomCard(
                             padding: const EdgeInsets.only(
                                 left: 16, top: 16, bottom: 16, right: 80),
@@ -144,10 +138,14 @@ class ChatPage extends StatelessWidget {
                             var data = snapshotProfile.data!.data();
                             return GestureDetector(
                               onTap: () {
+                                print('user chat ke bidan');
+                                print(allChatsUser[index].id);
+                                print(allChatsUser[index]['connection']);
                                 mainC.currentIndex.value = 5;
                                 chatC.chatPageValue.value = {
                                   'name': data['name'],
                                   'chat_id': allChatsUser[index].id,
+                                  'penerima': allChatsUser[index]['connection'],
                                 };
                               },
                               child: Padding(

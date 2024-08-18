@@ -2,12 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:mybidan/data/models/users_model.dart';
 
 class ChatController extends GetxController {
   final TextEditingController searchBidan = TextEditingController();
-  final TextEditingController chatBidan = TextEditingController();
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference chats = FirebaseFirestore.instance.collection('chats');
@@ -38,8 +36,7 @@ class ChatController extends GetxController {
     bool createNewConnection = false;
     // ignore: prefer_typing_uninitialized_variables
     var chatId;
-    // get collection users
-    var docUsers = await users.doc(_currentUser.email).get();
+
     // ubah chats jadi bentuk map dan List karna bentuk chats nya List
     final docChatUser =
         await users.doc(_currentUser.email).collection('chats').get();
@@ -144,7 +141,7 @@ class ChatController extends GetxController {
             dataListChats.add(ChatUser(
               chatId: dataDocChatId,
               connection: dataDocChat["connection"],
-              lastTime: dataDocChat["lastTime"],
+              lastTime: date,
               totalUnread: dataDocChat["total_unread"],
             ));
           }

@@ -1,22 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/components/item_chat.dart';
 import 'package:mybidan/core/constants/colors.dart';
+import 'package:mybidan/core/extension/date_time_ext.dart';
 import 'package:mybidan/presentation/chat/controller/chat_controller.dart';
+import 'package:mybidan/presentation/chat/controller/private_chat_controller.dart';
 
 class PrivateChatPage extends StatelessWidget {
   final String nameBidan;
+  final String chatId;
+  final String penerima;
   final dynamic backToOntap;
   final dynamic hideFloating;
 
   final chatC = Get.put(ChatController());
+  final privateC = Get.put(PrivateChatController());
   PrivateChatPage({
     super.key,
     required this.nameBidan,
     required this.backToOntap,
     required this.hideFloating,
+    required this.chatId,
+    required this.penerima,
   });
 
   @override
@@ -45,26 +53,38 @@ class PrivateChatPage extends StatelessWidget {
         children: [
           Expanded(
             child: SizedBox(
-              child: ListView.builder(
-                itemCount: chatC.chatList.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment:
-                          chatC.chatList[index]['isSender'] == true
-                              ? CrossAxisAlignment.start
-                              : CrossAxisAlignment.end,
-                      children: [
-                        ItemChat(
-                          chat: chatC.chatList[index]['chat'],
-                          isSender: chatC.chatList[index]['isSender'],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+              child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  stream: privateC.streamChats(chatId),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return const SizedBox();
+                    }
+                    var allChat = snapshot.data!.docs;
+                    print(allChat.length);
+                    return ListView.builder(
+                      itemCount: allChat.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment:
+                                allChat[index]['penerima'] == penerima
+                                    ? CrossAxisAlignment.end
+                                    : CrossAxisAlignment.start,
+                            children: [
+                              ItemChat(
+                                chat: allChat[index]['msg'],
+                                isSender:
+                                    allChat[index]['penerima'] == penerima,
+                                timeChat: DateTime.parse(allChat[index]['time'])
+                                    .toFormattedInHours(),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }),
             ),
           ),
           GestureDetector(
@@ -79,7 +99,7 @@ class PrivateChatPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomTextField(
-                        controller: chatC.chatBidan,
+                        controller: privateC.chatBidan,
                         label: 'Ketik Pesan',
                         keyboardType: TextInputType.text,
                         inputColor: Colors.black,
@@ -88,12 +108,21 @@ class PrivateChatPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const CircleAvatar(
-                      maxRadius: 30,
-                      backgroundColor: AppColors.primary,
-                      child: Icon(
-                        Icons.send,
-                        color: Colors.white,
+                    GestureDetector(
+                      onTap: () {
+                        privateC.newChat(
+                          email: 'testing@gmail.com',
+                          chatId: chatId,
+                          penerima: penerima,
+                        );
+                      },
+                      child: const CircleAvatar(
+                        maxRadius: 30,
+                        backgroundColor: AppColors.primary,
+                        child: Icon(
+                          Icons.send,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],

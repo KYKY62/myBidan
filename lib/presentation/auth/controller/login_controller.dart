@@ -18,6 +18,12 @@ class LoginController extends GetxController {
   RxBool isAuth = false.obs;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  @override
+  void onClose() {
+    print('onclose and delete from memory');
+    super.onClose();
+  }
+
   Future<void> firstInitialized() async {
     return await autoLogin().then((value) {
       if (value) {
@@ -76,6 +82,7 @@ class LoginController extends GetxController {
           passwordController.clear();
 
           navigateToHomePageBasedOnRole(role);
+          onClose();
         }
       }
     } on FirebaseAuthException catch (_) {

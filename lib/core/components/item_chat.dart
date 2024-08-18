@@ -6,10 +6,12 @@ import 'package:mybidan/core/constants/text_style.dart';
 class ItemChat extends StatelessWidget {
   final String chat;
   final bool isSender;
+  final String timeChat;
   const ItemChat({
     super.key,
     required this.isSender,
     required this.chat,
+    required this.timeChat,
   });
 
   @override
@@ -53,7 +55,7 @@ class ItemChat extends StatelessWidget {
               height: 16.0,
             ),
             Text(
-              "12:10",
+              timeChat,
               style: CustomTextStyle.smallerText.copyWith(
                 fontSize: 12,
                 color: const Color(0xff8A8A8E),

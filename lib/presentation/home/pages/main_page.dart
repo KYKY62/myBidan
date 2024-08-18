@@ -37,6 +37,8 @@ class MainPage extends StatelessWidget {
           backToOntap: () => mainC.currentIndex.value = 1,
           hideFloating: () => mainC.currentIndex.value = 5,
           nameBidan: chatC.chatPageValue['name'],
+          chatId: chatC.chatPageValue['chat_id'],
+          penerima: chatC.chatPageValue['penerima'],
         );
       case 6:
         return BlogPage();

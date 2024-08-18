@@ -73,6 +73,9 @@ class KonsultasiControlController extends GetxController {
       // cek UID akun yang baru didaftarkan
       var checkEmail = currentUser.user!.email;
 
+      // buat nested collection
+      db.collection('bidan').doc(checkEmail).collection('chats');
+
       Map<String, dynamic> bidanData = {
         "email": emailController.text,
         "name": nameController.text,
@@ -87,7 +90,6 @@ class KonsultasiControlController extends GetxController {
         "lastSignInTime":
             currentUser.user!.metadata.lastSignInTime!.toIso8601String(),
         "updatedTime": DateTime.now().toIso8601String(),
-        'chats': [],
         'timestamp': DateTime.now(),
       };
 
