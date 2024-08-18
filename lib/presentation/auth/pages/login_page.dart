@@ -95,6 +95,7 @@ class LoginPage extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             Get.offNamed(RouteName.register);
+                            Get.delete<LoginController>();
                           },
                           child: Text(
                             "Daftar Sekarang",

@@ -75,7 +75,6 @@ class ChatController extends GetxController {
 
       if (chatDocs.docs.isNotEmpty) {
         final chatDataId = chatDocs.docs[0].id;
-        final chatData = chatDocs.docs[0].data() as Map<String, dynamic>;
 
         // total unread dibuat 0 karena diawal pasti belum ada yang chat
         await users
@@ -87,6 +86,7 @@ class ChatController extends GetxController {
           "lastTime": date,
           "total_unread": 0,
         });
+
         final listChats =
             await users.doc(_currentUser.email).collection("chats").get();
 
@@ -141,7 +141,7 @@ class ChatController extends GetxController {
             dataListChats.add(ChatUser(
               chatId: dataDocChatId,
               connection: dataDocChat["connection"],
-              lastTime: date,
+              lastTime: dataDocChat["lastTime"],
               totalUnread: dataDocChat["total_unread"],
             ));
           }

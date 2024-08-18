@@ -60,7 +60,6 @@ class PrivateChatPage extends StatelessWidget {
                       return const SizedBox();
                     }
                     var allChat = snapshot.data!.docs;
-                    print(allChat.length);
                     return ListView.builder(
                       itemCount: allChat.length,
                       itemBuilder: (context, index) {

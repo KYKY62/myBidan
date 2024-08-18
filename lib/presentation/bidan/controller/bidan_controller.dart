@@ -14,13 +14,12 @@ class BidanController extends GetxController {
     required String userEmail,
   }) async {
     bool createNewConnection = false;
-    // ignore: prefer_typing_uninitialized_variables
+    // ignore: prefer_typing_uninitialized_variables, unused_local_variable
     var chatId;
     // get collection users
-    var docUsers = await bidan.doc(_currentUser.email).get();
+    var docUsers = bidan.doc(_currentUser.email);
     // ubah chats jadi bentuk map dan List karna bentuk chats nya List
-    final docChatUser =
-        await bidan.doc(_currentUser.email).collection('chats').get();
+    final docChatUser = await docUsers.collection('chats').get();
 
     if (docChatUser.docs.isEmpty) {
       // user sudah pernah chat dengan bidan
@@ -55,7 +54,6 @@ class BidanController extends GetxController {
 
       if (chatDocs.docs.isNotEmpty) {
         final chatDataId = chatDocs.docs[0].id;
-        final chatData = chatDocs.docs[0].data() as Map<String, dynamic>;
 
         // agar tidak mereplace data yang lama
         await bidan

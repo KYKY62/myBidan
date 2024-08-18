@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/components/custom_card.dart';
 import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/constants/colors.dart';
@@ -138,9 +137,6 @@ class ChatPage extends StatelessWidget {
                             var data = snapshotProfile.data!.data();
                             return GestureDetector(
                               onTap: () {
-                                print('user chat ke bidan');
-                                print(allChatsUser[index].id);
-                                print(allChatsUser[index]['connection']);
                                 mainC.currentIndex.value = 5;
                                 chatC.chatPageValue.value = {
                                   'name': data['name'],
