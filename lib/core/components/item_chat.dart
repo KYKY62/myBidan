@@ -43,7 +43,7 @@ class ItemChat extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
+              child: SelectableText(
                 chat,
                 style: CustomTextStyle.smallerText.copyWith(
                   fontSize: 12,
