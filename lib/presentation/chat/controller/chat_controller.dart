@@ -165,6 +165,32 @@ class ChatController extends GetxController {
     }
   }
 
+  void goToPrivateChat({
+    required String chatId,
+  }) async {
+    final updateStatusChat = await chats
+        .doc(chatId)
+        .collection("chat")
+        .where("isRead", isEqualTo: false)
+        .where("penerima", isEqualTo: _currentUser.email)
+        .get();
+
+    // Mengambil data di chats lalu update IsRead
+    for (var statusChat in updateStatusChat.docs) {
+      await chats
+          .doc(chatId)
+          .collection("chat")
+          .doc(statusChat.id)
+          .update({"isRead": true});
+    }
+    // update users
+    await users
+        .doc(_currentUser.email)
+        .collection("chats")
+        .doc(chatId)
+        .update({"total_unread": 0});
+  }
+
   List bidan = [
     'Saefudin',
     'Dono',

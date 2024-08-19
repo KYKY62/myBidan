@@ -143,6 +143,9 @@ class ChatPage extends StatelessWidget {
                                   'chat_id': allChatsUser[index].id,
                                   'penerima': allChatsUser[index]['connection'],
                                 };
+                                chatC.goToPrivateChat(
+                                  chatId: allChatsUser[index].id,
+                                );
                               },
                               child: Padding(
                                 padding:

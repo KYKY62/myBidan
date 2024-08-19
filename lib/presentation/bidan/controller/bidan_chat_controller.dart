@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:mybidan/core/routes/route_name.dart';
 import 'package:mybidan/data/models/bidan_model.dart';
 
 class BidanChatController extends GetxController {
@@ -156,4 +157,38 @@ class BidanChatController extends GetxController {
           .collection('chat')
           .orderBy("time", descending: true)
           .snapshots();
+
+  void goToPrivateChat({
+    required String chatId,
+    required String penerimaEmail,
+    required String namaBidan,
+  }) async {
+    final updateStatusChat = await chats
+        .doc(chatId)
+        .collection("chat")
+        .where("isRead", isEqualTo: false)
+        .where("penerima", isEqualTo: _currentUser.email)
+        .get();
+
+    // Mengambil data di chats lalu update IsRead
+    for (var statusChat in updateStatusChat.docs) {
+      await chats
+          .doc(chatId)
+          .collection("chat")
+          .doc(statusChat.id)
+          .update({"isRead": true});
+    }
+    // update users
+    await bidan
+        .doc(_currentUser.email)
+        .collection("chats")
+        .doc(chatId)
+        .update({"total_unread": 0});
+
+    Get.toNamed(RouteName.roomBidanPrivate, arguments: {
+      'chatId': chatId,
+      'nameBidan': namaBidan,
+      'penerima': penerimaEmail,
+    });
+  }
 }

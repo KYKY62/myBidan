@@ -70,13 +70,11 @@ class BidanChatPage extends StatelessWidget {
                             ConnectionState.active) {
                           var data = snapshotProfile.data!.data();
                           return GestureDetector(
-                            onTap: () => Get.toNamed(RouteName.roomBidanPrivate,
-                                arguments: {
-                                  'chatId': allChatsBidan[index].id,
-                                  'nameBidan': data['name'],
-                                  'penerima': allChatsBidan[index]
-                                      ['connection'],
-                                }),
+                            onTap: () => bidanC.goToPrivateChat(
+                              chatId: allChatsBidan[index].id,
+                              namaBidan: data['name'],
+                              penerimaEmail: allChatsBidan[index]['connection'],
+                            ),
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
