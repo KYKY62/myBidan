@@ -9,13 +9,16 @@ class RegisterController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
 
   FirebaseAuth auth = FirebaseAuth.instance;
-  var db = FirebaseFirestore.instance.collection('users');
+  var db = FirebaseFirestore.instance;
+
+  RxBool isLoading = false.obs;
 
   void register({
     required String email,
     required String password,
   }) async {
     try {
+      isLoading.value = true;
       // Register Akun
       final currentUser = await auth.createUserWithEmailAndPassword(
         email: email,
@@ -25,8 +28,18 @@ class RegisterController extends GetxController {
       // cek UID akun yang baru didaftarkan
       String checkUid = currentUser.user!.uid;
 
+      // collection Transaksi
+      DocumentReference transaksi = await db.collection('transaksi').add({
+        'emailUser': email,
+        'harga': '',
+        'buktiPembayaran': '',
+        'status': 'FREE',
+        'isPremium': false,
+        'time': '',
+      });
+
       // simpan data login ke firestore
-      await db.doc(email).set({
+      await db.collection('users').doc(email).set({
         "uid": checkUid,
         "name": 'Testing',
         "keyName": 'T',
@@ -39,9 +52,9 @@ class RegisterController extends GetxController {
             currentUser.user!.metadata.lastSignInTime!.toIso8601String(),
         "updatedTime": DateTime.now().toIso8601String(),
         'role': 'USER',
-        'chats': [],
+        'idPremium': transaksi.id,
       });
-
+      isLoading.value = false;
       Get.offNamed(RouteName.login);
     } catch (_) {}
   }

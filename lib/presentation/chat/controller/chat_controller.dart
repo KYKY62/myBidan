@@ -191,39 +191,32 @@ class ChatController extends GetxController {
         .update({"total_unread": 0});
   }
 
-  List bidan = [
-    'Saefudin',
-    'Dono',
-    'Indro',
-    'Kasino',
-    'Danang',
-  ];
+  Future<bool> checkAccountPremium() async {
+    try {
+      final docUser = await users.doc(_currentUser.email).get();
 
-  List<Map<String, dynamic>> chatList = [
-    {
-      'chat':
-          'Halo, saya Sarah. Baru saja melahirkan dan rasanya mood saya seperti naik turun roller coaster. Apakah ada yang bisa membantu?',
-      'isSender': false
-    },
-    {
-      'chat':
-          'Halo Sarah, saya senang Anda mencari bantuan. Saya adalah konselor di Holo Pablues. Ceritakan lebih lanjut, apa yang membuat suasana hati Anda berubah-ubah?',
-      'isSender': true
-    },
-    {
-      'chat':
-          'Rasanya seperti saya berada dalam gelembung perasaan. Kadang-kadang saya bahagia, tapi kemudian tiba-tiba saya merasa cemas dan sedih. Saya khawatir ini akan berdampak pada hubungan saya dengan bayi saya.',
-      'isSender': false
-    },
-    {
-      'chat':
-          'Terima kasih telah berbagi, Sarah. Anda tidak sendirian dalam perasaan ini. Bagaimana jika kita mencoba menjelajahi perasaan dan pengalaman Anda lebih dalam?',
-      'isSender': true
-    },
-    {
-      'chat':
-          'Terima kasih telah berbagi, Sarah. Anda tidak sendirian dalam perasaan ini. Bagaimana jika kita mencoba menjelajahi perasaan dan pengalaman Anda lebih dalam?',
-      'isSender': true
+      if (docUser.exists) {
+        final idPremium = docUser['idPremium'];
+        print(idPremium);
+
+        final checkTransaksi =
+            await db.collection('transaksi').doc(idPremium).get();
+
+        if (checkTransaksi.exists) {
+          bool isPremium = checkTransaksi['isPremium'];
+          if (isPremium) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } catch (_) {
+      return false;
     }
-  ];
+  }
 }

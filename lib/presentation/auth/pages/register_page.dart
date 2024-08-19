@@ -68,16 +68,20 @@ class RegisterPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        onPressed: () {
-                          registerC.register(
-                            email: registerC.emailController.text,
-                            password: registerC.passwordController.text,
-                          );
-                        },
+                        onPressed: () => registerC.register(
+                          email: registerC.emailController.text,
+                          password: registerC.passwordController.text,
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child:
-                              Text("Register", style: CustomTextStyle.bigText),
+                          child: Obx(
+                            () => Text(
+                              registerC.isLoading.value
+                                  ? "Loading..."
+                                  : "Register",
+                              style: CustomTextStyle.bigText,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -92,9 +96,7 @@ class RegisterPage extends StatelessWidget {
                           width: 5.0,
                         ),
                         GestureDetector(
-                          onTap: () {
-                            Get.offNamed(RouteName.login);
-                          },
+                          onTap: () => Get.offNamed(RouteName.login),
                           child: Text(
                             "Login Sekarang",
                             style: CustomTextStyle.greenText.copyWith(
