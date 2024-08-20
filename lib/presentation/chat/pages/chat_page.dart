@@ -43,8 +43,8 @@ class ChatPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: FutureBuilder<bool>(
-          future: chatC.checkAccountPremium(),
+      body: StreamBuilder<bool>(
+          stream: chatC.checkAccountPremium(),
           builder: (context, snapshotIsPremium) {
             if (snapshotIsPremium.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -303,7 +303,7 @@ class ChatPage extends StatelessWidget {
                       const SizedBox(height: 46.0),
                     ],
                   )
-                : const PremiumAction();
+                : PremiumAction();
           }),
     );
   }

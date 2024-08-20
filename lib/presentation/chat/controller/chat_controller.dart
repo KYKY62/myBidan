@@ -1,7 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/state_manager.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mybidan/data/models/users_model.dart';
 
 class ChatController extends GetxController {
@@ -13,10 +20,16 @@ class ChatController extends GetxController {
   final _currentUser = FirebaseAuth.instance.currentUser!;
 
   final bool isSender = false;
+  RxBool loading = false.obs;
+  RxInt isSelected = 0.obs;
 
   RxMap chatPageValue = {}.obs;
   var userModel = UsersModel().obs;
   FirebaseFirestore db = FirebaseFirestore.instance;
+
+  var image = Rx<Uint8List?>(null);
+  final storage = FirebaseStorage.instance;
+  RxString accountBank = ''.obs;
 
   Stream<QuerySnapshot>? getBidan() =>
       db.collection('bidan').orderBy('timestamp', descending: true).snapshots();
@@ -41,6 +54,9 @@ class ChatController extends GetxController {
   Stream<DocumentSnapshot<Map<String, dynamic>>> getProfileBidan(
           String bidanEmail) =>
       db.collection('bidan').doc(bidanEmail).snapshots();
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAdmin() =>
+      db.collection('admin').snapshots();
 
   void addNewConnection({required String bidanEmail}) async {
     bool createNewConnection = false;
@@ -191,32 +207,85 @@ class ChatController extends GetxController {
         .update({"total_unread": 0});
   }
 
-  Future<bool> checkAccountPremium() async {
+  Stream<bool> checkAccountPremium() async* {
     try {
       final docUser = await users.doc(_currentUser.email).get();
 
       if (docUser.exists) {
         final idPremium = docUser['idPremium'];
-        print(idPremium);
 
-        final checkTransaksi =
-            await db.collection('transaksi').doc(idPremium).get();
-
-        if (checkTransaksi.exists) {
-          bool isPremium = checkTransaksi['isPremium'];
-          if (isPremium) {
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          return false;
-        }
+        yield* db.collection('transaksi').doc(idPremium).snapshots().map(
+          (snapshot) {
+            if (snapshot.exists) {
+              bool isPremium = snapshot['isPremium'];
+              return isPremium;
+            } else {
+              return false;
+            }
+          },
+        );
       } else {
-        return false;
+        yield false;
       }
     } catch (_) {
-      return false;
+      yield false;
     }
+  }
+
+  pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? xFile = await picker.pickImage(source: ImageSource.gallery);
+    if (xFile != null) {
+      return await xFile.readAsBytes();
+    }
+  }
+
+  selectedImage() async {
+    Uint8List? img = await pickImage();
+    image.value = img;
+    image.refresh();
+  }
+
+  Future<String> uploadImage(Uint8List file, String childName) async {
+    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    String fileName = '$childName-$timestamp';
+    final storageRef = storage.ref();
+    final uploadTask = storageRef.child('$fileName.jpg');
+    await uploadTask.putData(file);
+    return await uploadTask.getDownloadURL();
+  }
+
+  void pembayaranAction() async {
+    try {
+      loading.value = true;
+      String imgUrl = await uploadImage(image.value!, 'buktiTF');
+      final docUser = await users.doc(_currentUser.email).get();
+
+      final idTransaksi = docUser['idPremium'];
+
+      Map<String, dynamic> updateData = {
+        "buktiPembayaran": imgUrl,
+        "time": DateTime.now().toIso8601String(),
+      };
+
+      await db.collection('transaksi').doc(idTransaksi).update(updateData);
+      loading.value = false;
+      image.value = null;
+      Get.back();
+    } catch (e) {
+      loading.value = false;
+      Get.defaultDialog(
+        title: 'Produk Gagal Ditambahkan',
+        middleText: 'Lengkapi Form Data',
+      );
+    }
+  }
+
+  void chipSelected({
+    required int chipValue,
+    required String akunBank,
+  }) {
+    isSelected.value = chipValue;
+    accountBank.value = akunBank;
   }
 }
