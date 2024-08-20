@@ -14,8 +14,7 @@ class KonsultasiControlController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController specialistController = TextEditingController();
-  // final TextEditingController jamMulaiPraktekController =
-  //     TextEditingController();
+  final TextEditingController hargaLayananController = TextEditingController();
   // final TextEditingController jamAkhirPraktekController =
   //     TextEditingController();
 
@@ -57,6 +56,17 @@ class KonsultasiControlController extends GetxController {
 
   Stream<QuerySnapshot>? getBidan() =>
       db.collection('bidan').orderBy('timestamp', descending: true).snapshots();
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getListOrder() =>
+      db.collection('transaksi').orderBy('time').snapshots();
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getHargaLayanan() =>
+      db.collection('hargaLayanan').doc('hargaLayanan').snapshots();
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getProfileUser({
+    required String doc,
+  }) =>
+      db.collection('users').doc(doc).snapshots();
 
   Future<String> addBidan() async {
     String resp = 'Some error Occurred';
@@ -107,6 +117,18 @@ class KonsultasiControlController extends GetxController {
       );
     }
     return resp;
+  }
+
+  void updateHargaLayanan() async {
+    loading.value = true;
+    Map<String, String> updateData = {
+      'harga': hargaLayananController.text,
+      'time': DateTime.now().toIso8601String(),
+    };
+    await db.collection('hargaLayanan').doc('hargaLayanan').update(updateData);
+    hargaLayananController.clear();
+    loading.value = false;
+    Get.back();
   }
 
   void clearController() {

@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:mybidan/core.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/components/card_data_bidan.dart';
+import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/components/list_order.dart';
 
 import 'package:mybidan/core/constants/colors.dart';
@@ -228,13 +230,38 @@ class KonsultasiControlPage extends StatelessWidget {
                                   const SizedBox(
                                     height: 5.0,
                                   ),
-                                  Text(
-                                    int.parse('400000').currencyFormatRp,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: CustomTextStyle.bigText.copyWith(
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  StreamBuilder<
+                                      QuerySnapshot<Map<String, dynamic>>>(
+                                    stream: konsultasiC.getListOrder(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Text(
+                                          int.parse('0').currencyFormatRp,
+                                          overflow: TextOverflow.ellipsis,
+                                          style:
+                                              CustomTextStyle.bigText.copyWith(
+                                            color: Colors.white,
+                                          ),
+                                        );
+                                      }
+                                      int totalPemasukan = 0;
+                                      if (snapshot.hasData) {
+                                        for (var doc in snapshot.data!.docs) {
+                                          totalPemasukan += int.parse(
+                                            doc['harga'],
+                                          );
+                                        }
+                                      }
+                                      return Text(
+                                        totalPemasukan.currencyFormatRp,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: CustomTextStyle.bigText.copyWith(
+                                          color: Colors.white,
+                                        ),
+                                      );
+                                    },
+                                  )
                                 ],
                               ),
                             ),
@@ -244,53 +271,118 @@ class KonsultasiControlPage extends StatelessWidget {
                           width: 20.0,
                         ),
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Harga Layanan",
-                                    style: CustomTextStyle.smallerText.copyWith(
-                                      color: Colors.black,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.defaultDialog(
+                                title: 'Update Harga Layanan',
+                                middleText: "",
+                                content: Column(
+                                  children: [
+                                    CustomTextField(
+                                      controller:
+                                          konsultasiC.hargaLayananController,
+                                      label: 'Harga layanan',
+                                      keyboardType: TextInputType.number,
+                                      inputColor: Colors.black,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                          RegExp(r'[0-9]'),
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                  Image.asset(
-                                    Assets.icons.create.path,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 6.0,
-                              ),
-                              Text(
-                                int.parse('120000').currencyFormatRp,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: CustomTextStyle.greenText.copyWith(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.primary,
+                                        foregroundColor: Colors.white,
+                                      ),
+                                      onPressed: () =>
+                                          konsultasiC.updateHargaLayanan(),
+                                      child: Obx(
+                                        () => Text(
+                                          konsultasiC.loading.value
+                                              ? "Loading..."
+                                              : "Simpan",
+                                          style: CustomTextStyle.primaryText
+                                              .copyWith(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image.asset(
-                                    Assets.images.metodePembayaran1.path,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  Image.asset(
-                                    Assets.icons.create.path,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ],
-                              ),
-                            ],
+                              );
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Harga Layanan",
+                                      style:
+                                          CustomTextStyle.smallerText.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Image.asset(
+                                      Assets.icons.create.path,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 6.0,
+                                ),
+                                StreamBuilder<
+                                        DocumentSnapshot<Map<String, dynamic>>>(
+                                    stream: konsultasiC.getHargaLayanan(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Text(
+                                          int.parse('0').currencyFormatRp,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: CustomTextStyle.greenText
+                                              .copyWith(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        );
+                                      }
+                                      var hargaLayanan = snapshot.data!.data();
+                                      return Text(
+                                        int.parse(hargaLayanan!['harga'])
+                                            .currencyFormatRp,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style:
+                                            CustomTextStyle.greenText.copyWith(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                    }),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Image.asset(
+                                      Assets.images.metodePembayaran1.path,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Image.asset(
+                                      Assets.icons.create.path,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -315,20 +407,47 @@ class KonsultasiControlPage extends StatelessWidget {
                     const SizedBox(
                       height: 15.0,
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 6,
-                      itemBuilder: (context, index) {
-                        return ListOrder(
-                          image: Assets.images.ronaldo.path,
-                          nameOrder: 'C.Ronaldo do santos',
-                          dateOrder: '15 Juni 2024',
-                          isSuccess: false,
-                          pay: '120000',
-                        );
-                      },
-                    )
+                    StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                        stream: konsultasiC.getListOrder(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          var listOrder = snapshot.data!.docs;
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: listOrder.length,
+                            itemBuilder: (context, index) {
+                              return StreamBuilder<
+                                      DocumentSnapshot<Map<String, dynamic>>>(
+                                  stream: konsultasiC.getProfileUser(
+                                    doc: listOrder[index]['emailUser'],
+                                  ),
+                                  builder: (context, snapshotProfile) {
+                                    if (snapshotProfile.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const SizedBox();
+                                    }
+                                    var profileUser =
+                                        snapshotProfile.data!.data();
+                                    return ListOrder(
+                                      image: profileUser!['photoUrl'],
+                                      nameOrder: listOrder[index]['name'],
+                                      dateOrder: DateTime.parse(
+                                              listOrder[index]['time'])
+                                          .toFormattedTime(),
+                                      isSuccess: listOrder[index]['isPremium'],
+                                      pay: listOrder[index]['harga'],
+                                    );
+                                  });
+                            },
+                          );
+                        })
                   ],
                 ),
               ),

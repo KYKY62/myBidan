@@ -24,10 +24,10 @@ class ListOrder extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 15),
       child: Row(
         children: [
-          Image.asset(
+          Image.network(
             image,
             width: 49,
-            height: 46,
+            height: 49,
             fit: BoxFit.cover,
           ),
           const SizedBox(

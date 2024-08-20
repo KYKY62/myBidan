@@ -260,11 +260,14 @@ class ChatController extends GetxController {
       loading.value = true;
       String imgUrl = await uploadImage(image.value!, 'buktiTF');
       final docUser = await users.doc(_currentUser.email).get();
+      final dataHarga =
+          await db.collection('hargaLayanan').doc('hargaLayanan').get();
 
       final idTransaksi = docUser['idPremium'];
 
       Map<String, dynamic> updateData = {
         "buktiPembayaran": imgUrl,
+        'harga': dataHarga['harga'],
         "time": DateTime.now().toIso8601String(),
       };
 
