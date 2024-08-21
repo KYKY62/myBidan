@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/constants/colors.dart';
@@ -37,27 +38,60 @@ class DetailProductPage extends StatelessWidget {
           statusBarIconBrightness: Brightness.light,
         ),
       ),
-      floatingActionButton: GestureDetector(
-        onTap: () {},
-        child: Container(
-          width: 319,
-          height: 58,
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Center(
-            child: Text(
-              "Beli Sekarang",
-              style: CustomTextStyle.bigText.copyWith(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+      floatingActionButton: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: detailProductC.getAdmin(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 319,
+                  height: 58,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Beli Sekarang",
+                      style: CustomTextStyle.bigText.copyWith(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+            var dataAdmin = snapshot.data!.docs;
+
+            return GestureDetector(
+              onTap: () => detailProductC.launchPesan(
+                message:
+                    'Saya ingin memesan produk :\n\nNama Produk : $title\nHarga : $discountPrice\n',
+                phoneNumber: dataAdmin[0]['telepon'],
               ),
-            ),
-          ),
-        ),
-      ),
+              child: Container(
+                width: 319,
+                height: 58,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Text(
+                    "Beli Sekarang",
+                    style: CustomTextStyle.bigText.copyWith(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
         child: SizedBox(

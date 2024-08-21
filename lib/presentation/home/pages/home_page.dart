@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/components/custom_card.dart';
 import 'package:mybidan/core/components/custom_card_education.dart';
-import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/components/section_header.dart';
 import 'package:mybidan/core/components/small_card.dart';
 import 'package:mybidan/core/constants/colors.dart';
