@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:mybidan/core.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/components/card_data_bidan.dart';
@@ -437,12 +438,70 @@ class KonsultasiControlPage extends StatelessWidget {
                                         snapshotProfile.data!.data();
                                     return ListOrder(
                                       image: profileUser!['photoUrl'],
-                                      nameOrder: listOrder[index]['name'],
+                                      nameOrder: profileUser['name'],
                                       dateOrder: DateTime.parse(
                                               listOrder[index]['time'])
                                           .toFormattedTime(),
                                       isSuccess: listOrder[index]['isPremium'],
                                       pay: listOrder[index]['harga'],
+                                      viewDoc: () => Get.defaultDialog(
+                                        title: 'Bukti Pembayaran',
+                                        middleText: '',
+                                        content: SizedBox(
+                                          height: 240,
+                                          child: InstaImageViewer(
+                                            child: Image.network(
+                                              listOrder[index]
+                                                  ['buktiPembayaran'],
+                                              loadingBuilder:
+                                                  (BuildContext context,
+                                                      Widget child,
+                                                      ImageChunkEvent?
+                                                          loadingProgress) {
+                                                if (loadingProgress == null) {
+                                                  return child;
+                                                } else {
+                                                  return Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: loadingProgress
+                                                                  .expectedTotalBytes !=
+                                                              null
+                                                          ? loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              loadingProgress
+                                                                  .expectedTotalBytes!
+                                                          : null,
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                              errorBuilder:
+                                                  (context, error, stackTrace) {
+                                                return const Icon(
+                                                  Icons.error,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      updateStatus: () {
+                                        listOrder[index]['isPremium']
+                                            ? () {}
+                                            : Get.defaultDialog(
+                                                title: 'Ubah Status Transaksi',
+                                                middleText:
+                                                    'Status Transaksi "Pending"',
+                                                textConfirm: 'Berhasil',
+                                                textCancel: 'Batal',
+                                                onConfirm: () => konsultasiC
+                                                        .updateStatusTransaksi(
+                                                      listOrder[index].id,
+                                                    ),
+                                                buttonColor: AppColors.primary,
+                                                confirmTextColor: Colors.white);
+                                      },
                                     );
                                   });
                             },

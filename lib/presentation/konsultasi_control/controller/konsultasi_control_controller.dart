@@ -131,6 +131,15 @@ class KonsultasiControlController extends GetxController {
     Get.back();
   }
 
+  void updateStatusTransaksi(String doc) async {
+    Map<String, dynamic> updateData = {
+      'isPremium': true,
+      'status': 'BERHASIL',
+    };
+    await db.collection('transaksi').doc(doc).update(updateData);
+    Get.back();
+  }
+
   void clearController() {
     emailController.clear();
     passwordController.clear();

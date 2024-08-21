@@ -9,6 +9,8 @@ class ListOrder extends StatelessWidget {
   final String dateOrder;
   final bool isSuccess;
   final String pay;
+  final VoidCallback viewDoc;
+  final VoidCallback updateStatus;
   const ListOrder({
     super.key,
     required this.image,
@@ -16,6 +18,8 @@ class ListOrder extends StatelessWidget {
     required this.dateOrder,
     required this.isSuccess,
     required this.pay,
+    required this.viewDoc,
+    required this.updateStatus,
   });
 
   @override
@@ -61,20 +65,26 @@ class ListOrder extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Image.asset(
-            Assets.icons.documentTextSharp.path,
-            width: 24,
-            height: 24,
-            fit: BoxFit.cover,
+          GestureDetector(
+            onTap: viewDoc,
+            child: Image.asset(
+              Assets.icons.documentTextSharp.path,
+              width: 24,
+              height: 24,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(width: 8),
-          Image.asset(
-            isSuccess == true
-                ? Assets.icons.checkmarkCircleOutline.path
-                : Assets.icons.failedIcon.path,
-            width: 24,
-            height: 24,
-            fit: BoxFit.cover,
+          GestureDetector(
+            onTap: updateStatus,
+            child: Image.asset(
+              isSuccess == true
+                  ? Assets.icons.checkmarkCircleOutline.path
+                  : Assets.icons.failedIcon.path,
+              width: 24,
+              height: 24,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(width: 8),
           Container(
