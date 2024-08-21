@@ -17,6 +17,7 @@ class FindKlinikControlController extends GetxController {
   final TextEditingController jamPraktekController = TextEditingController();
   final TextEditingController alamatController = TextEditingController();
   final TextEditingController teleponController = TextEditingController();
+  final TextEditingController linkGoogleMapController = TextEditingController();
 
   final storage = FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -75,6 +76,7 @@ class FindKlinikControlController extends GetxController {
         "jamAkhirKerja": selectedTimeAkhir.value,
         "namaBidan": namaBidanController.text,
         "alamat": alamatController.text,
+        "map": linkGoogleMapController.text,
         "jamPraktek": jamPraktekController.text,
         "telepon": teleponController.text,
         'timestamp': DateTime.now(),
@@ -110,6 +112,7 @@ class FindKlinikControlController extends GetxController {
         "jamAkhirKerja": selectedTimeAkhir.value,
         "namaBidan": namaBidanController.text,
         "alamat": alamatController.text,
+        "map": linkGoogleMapController.text,
         "jamPraktek": jamPraktekController.text,
         "telepon": teleponController.text,
         'timestamp': DateTime.now(),
@@ -148,6 +151,7 @@ class FindKlinikControlController extends GetxController {
     jamPraktekController.clear();
     alamatController.clear();
     teleponController.clear();
+    linkGoogleMapController.clear();
     image.value = null;
   }
 
@@ -157,6 +161,7 @@ class FindKlinikControlController extends GetxController {
     jamPraktekController.dispose();
     alamatController.dispose();
     teleponController.dispose();
+    linkGoogleMapController.dispose();
     image.value = null;
   }
 

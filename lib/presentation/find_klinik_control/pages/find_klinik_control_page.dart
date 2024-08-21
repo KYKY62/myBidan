@@ -382,7 +382,14 @@ class FindKlinikControlPage extends StatelessWidget {
                                   shortCutTextFormField(
                                     title: 'Telepon',
                                     controller: findBidanC.teleponController,
-                                    hintLabel: 'Telepon',
+                                    hintLabel: 'Telepon(diawali 62)',
+                                  ),
+                                  const SizedBox(height: 24),
+                                  shortCutTextFormField(
+                                    title: 'Link Google Map',
+                                    controller:
+                                        findBidanC.linkGoogleMapController,
+                                    hintLabel: 'Link Google Map',
                                   ),
                                   const SizedBox(height: 24),
                                   Text(
@@ -496,7 +503,7 @@ class FindKlinikControlPage extends StatelessWidget {
                                   );
                                 }
                                 var produkData = snapshot.data!.docs;
-
+// nampilkan data
                                 return ListView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
@@ -510,6 +517,8 @@ class FindKlinikControlPage extends StatelessWidget {
                                           produkData[index]['namaBidan'];
                                       findBidanC.teleponController.text =
                                           produkData[index]['telepon'];
+                                      findBidanC.linkGoogleMapController.text =
+                                          produkData[index]['map'];
                                       findBidanC.alamatController.text =
                                           produkData[index]['alamat'];
                                       findBidanC.jamPraktekController.text =

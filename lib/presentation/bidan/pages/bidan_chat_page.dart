@@ -14,6 +14,7 @@ class BidanChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffF7F7FD),
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,

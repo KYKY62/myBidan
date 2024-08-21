@@ -23,6 +23,7 @@ class BidanPrivateChatPage extends StatelessWidget {
       backgroundColor: const Color(0xffF7F7FD),
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: const Color(0xffF7F7FD),
         scrolledUnderElevation: 0,
         leading: GestureDetector(
           onTap: () => Get.back(),

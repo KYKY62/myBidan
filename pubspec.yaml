@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.19.0
   mobkit_dashed_border: ^0.0.6
   time_picker_spinner_pop_up: ^2.0.0
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   build_runner: ^2.4.11

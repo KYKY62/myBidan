@@ -137,7 +137,9 @@ class CustomCard extends StatelessWidget {
                           ),
                         ),
                       )
-                    : Expanded(
+                    :
+                    // untuk findBidan ini
+                    Expanded(
                         child: Container(
                           decoration: BoxDecoration(
                             color: const Color(0xffE0E9E6),
@@ -182,7 +184,9 @@ class CustomCard extends StatelessWidget {
                 ),
                 isChatPage == true
                     ? const SizedBox()
-                    : Expanded(
+                    :
+                    // ini juga untuk findBidan
+                    Expanded(
                         child: Container(
                           decoration: BoxDecoration(
                             color: const Color(0xffE0E9E6),

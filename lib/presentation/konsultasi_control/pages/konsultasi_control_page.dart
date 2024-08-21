@@ -4,17 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:mybidan/core.dart';
-import 'package:mybidan/core/assets/assets.gen.dart';
-import 'package:mybidan/core/components/card_data_bidan.dart';
-import 'package:mybidan/core/components/custom_text_field.dart';
-import 'package:mybidan/core/components/list_order.dart';
-
-import 'package:mybidan/core/constants/colors.dart';
-import 'package:mybidan/core/constants/text_style.dart';
-import 'package:mybidan/core/extension/date_time_ext.dart';
-import 'package:mybidan/core/extension/int_ext.dart';
-import 'package:mybidan/core/routes/route_name.dart';
-import 'package:mybidan/presentation/konsultasi_control/controller/konsultasi_control_controller.dart';
 
 class KonsultasiControlPage extends StatelessWidget {
   final konsultasiC = Get.find<KonsultasiControlController>();

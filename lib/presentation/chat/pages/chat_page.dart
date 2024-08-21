@@ -49,7 +49,6 @@ class ChatPage extends StatelessWidget {
             if (snapshotIsPremium.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-            print(snapshotIsPremium.data);
             return snapshotIsPremium.data == true
                 ? ListView(
                     children: [
@@ -156,22 +155,23 @@ class ChatPage extends StatelessWidget {
                                       if (snapshotProfile.connectionState ==
                                           ConnectionState.active) {
                                         var data = snapshotProfile.data!.data();
-                                        return GestureDetector(
-                                          onTap: () {
-                                            mainC.currentIndex.value = 5;
-                                            chatC.chatPageValue.value = {
-                                              'name': data['name'],
-                                              'chat_id': allChatsUser[index].id,
-                                              'penerima': allChatsUser[index]
-                                                  ['connection'],
-                                            };
-                                            chatC.goToPrivateChat(
-                                              chatId: allChatsUser[index].id,
-                                            );
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20),
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              mainC.currentIndex.value = 5;
+                                              chatC.chatPageValue.value = {
+                                                'name': data['name'],
+                                                'chat_id':
+                                                    allChatsUser[index].id,
+                                                'penerima': allChatsUser[index]
+                                                    ['connection'],
+                                              };
+                                              chatC.goToPrivateChat(
+                                                chatId: allChatsUser[index].id,
+                                              );
+                                            },
                                             child: Row(
                                               children: [
                                                 CircleAvatar(

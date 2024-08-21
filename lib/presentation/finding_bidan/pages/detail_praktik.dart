@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mybidan/core.dart';
+import 'package:mybidan/core/components/detail_praktik_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailPraktikPage extends StatelessWidget {
   final DocumentSnapshot? klinikData;
@@ -8,11 +10,26 @@ class DetailPraktikPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timestamp timeAwalstampConvert = klinikData!['jamAwalKerja'];
-    Timestamp timeAkhirstampConvert = klinikData!['jamAkhirKerja'];
+    Future<void> launchWhatsApp({
+      required String phoneNumber,
+    }) async {
+      final url = "https://wa.me/$phoneNumber";
+      if (!await launchUrl(Uri.parse(url),
+          mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $url');
+      }
+    }
 
-    String dateTimeAwal = timeAwalstampConvert.toDate().toFormattedInHours();
-    String dateTimeAkhir = timeAkhirstampConvert.toDate().toFormattedInHours();
+    Future<void> launchMap({
+      required String linkMap,
+    }) async {
+      final url = linkMap;
+      if (!await launchUrl(Uri.parse(url),
+          mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $url');
+      }
+    }
+
     return Container(
       margin: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -25,15 +42,13 @@ class DetailPraktikPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CustomCard(
+            DetailPraktikCard(
+              image: klinikData!['photo'],
               name: klinikData!['namaKlinik'],
               description: klinikData!['namaBidan'],
-              dateOperational: DateTime.now().toFormattedTime(),
-              timeOperational: "$dateTimeAwal - $dateTimeAkhir",
-              horizontalGap: 25,
-              findBidanPage: true,
-              image: klinikData!['photo'],
-              backgroundColor: Colors.white,
+              onTapHubungi: () =>
+                  launchWhatsApp(phoneNumber: klinikData!['telepon']),
+              onTapPeta: () => launchMap(linkMap: klinikData!['map']),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 22),

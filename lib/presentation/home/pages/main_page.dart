@@ -86,6 +86,7 @@ class MainPage extends StatelessWidget {
               height: 63,
               padding: const EdgeInsets.all(0),
               child: BottomNavigationBar(
+                backgroundColor: Colors.white,
                 type: BottomNavigationBarType.fixed,
                 onTap: (value) {
                   mainC.currentIndex.value = value;

@@ -66,6 +66,7 @@ class AppPage {
     ),
     GetPage(
       name: RouteName.roomBidanPrivate,
+      transition: Transition.leftToRightWithFade,
       page: () => BidanPrivateChatPage(
         chatId: Get.arguments['chatId'],
         nameBidan: Get.arguments['nameBidan'],
