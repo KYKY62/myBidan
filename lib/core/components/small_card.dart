@@ -6,6 +6,7 @@ class SmallCard extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final String icon;
   final String label;
+  final VoidCallback onTap;
 
   const SmallCard({
     super.key,
@@ -13,27 +14,31 @@ class SmallCard extends StatelessWidget {
     required this.padding,
     required this.icon,
     required this.label,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          color: color,
-          child: Padding(
-            padding: padding,
-            child: Image.asset(
-              icon,
-              width: 20,
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Card(
+            color: color,
+            child: Padding(
+              padding: padding,
+              child: Image.asset(
+                icon,
+                width: 20,
+              ),
             ),
           ),
-        ),
-        Text(
-          label,
-          style: CustomTextStyle.smallerText,
-        )
-      ],
+          Text(
+            label,
+            style: CustomTextStyle.smallerText,
+          )
+        ],
+      ),
     );
   }
 }

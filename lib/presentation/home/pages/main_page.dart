@@ -61,6 +61,8 @@ class MainPage extends StatelessWidget {
             }
           },
           child: Scaffold(
+            resizeToAvoidBottomInset:
+                mainC.currentIndex.value == 5 ? true : false,
             floatingActionButton: mainC.currentIndex.value == 5
                 ? const SizedBox()
                 : FloatingActionButton(

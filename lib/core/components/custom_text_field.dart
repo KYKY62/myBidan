@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final TextStyle? textStyle;
   final bool filled;
+  final bool? readOnly;
   final Color inputColor;
   final double? padding;
   final List<TextInputFormatter>? inputFormatters;
@@ -25,6 +26,7 @@ class CustomTextField extends StatelessWidget {
     required this.inputColor,
     this.padding,
     this.inputFormatters,
+    this.readOnly,
   });
 
   @override
@@ -37,6 +39,7 @@ class CustomTextField extends StatelessWidget {
         obscureText: obscureText,
         style: TextStyle(color: inputColor),
         inputFormatters: inputFormatters ?? [],
+        readOnly: readOnly ?? false,
         decoration: InputDecoration(
           hintStyle: textStyle,
           prefixIcon: prefixIcon,

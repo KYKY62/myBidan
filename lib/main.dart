@@ -54,10 +54,18 @@ class MyApp extends StatelessWidget {
 
         return FutureBuilder(
           future: authC.firstInitialized(),
-          builder: (context, snapshot) => const MaterialApp(
+          builder: (context, snapshot) => MaterialApp(
               debugShowCheckedModeBanner: false,
               home: Scaffold(
-                body: Center(child: CircularProgressIndicator()),
+                appBar: AppBar(
+                  toolbarHeight: 0,
+                  systemOverlayStyle: const SystemUiOverlayStyle(
+                    statusBarColor: AppColors.primary,
+                    statusBarIconBrightness: Brightness.light,
+                    systemNavigationBarDividerColor: AppColors.primary,
+                  ),
+                ),
+                body: const Center(child: CircularProgressIndicator()),
               )),
         );
       },

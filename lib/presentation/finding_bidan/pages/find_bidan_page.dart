@@ -20,6 +20,7 @@ class FindBidanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           toolbarHeight: 0,
           systemOverlayStyle: const SystemUiOverlayStyle(

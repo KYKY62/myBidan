@@ -75,23 +75,70 @@ class HomePage extends StatelessWidget {
                                       ),
                                     ),
                                     Positioned(
-                                      top: 115,
+                                      top: 130,
                                       left: 8,
                                       right: 8,
-                                      child: SizedBox(
-                                        width: 370,
-                                        child: CustomTextField(
-                                          controller: homeC.searchDoctor,
-                                          label: 'Search Doctor or Symptoms',
-                                          keyboardType: TextInputType.text,
-                                          inputColor: Colors.white,
-                                          prefixIcon: const Icon(
-                                            Icons.search,
-                                            size: 24.0,
-                                            color: Colors.grey,
-                                          ),
-                                          textStyle: const TextStyle(
-                                            color: Colors.grey,
+                                      child: GestureDetector(
+                                        onTap: () =>
+                                            mainC.currentIndex.value = 1,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          child: SizedBox(
+                                            width: 370,
+                                            height: 50,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                                border: Border.all(
+                                                  width: 1.0,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              child: const Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.search,
+                                                      size: 24.0,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    SizedBox(width: 10),
+                                                    Text(
+                                                      "Search Doctor or Symptoms",
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            //  CustomTextField(
+                                            //   controller: homeC.searchDoctor,
+                                            //   label: 'Search Doctor or Symptoms',
+                                            //   keyboardType: TextInputType.text,
+                                            //   inputColor: Colors.white,
+                                            //   readOnly: true,
+                                            //   prefixIcon: const Icon(
+                                            //     Icons.search,
+                                            //     size: 24.0,
+                                            //     color: Colors.grey,
+                                            //   ),
+                                            //   textStyle: const TextStyle(
+                                            //     color: Colors.grey,
+                                            //   ),
+                                            // ),
                                           ),
                                         ),
                                       ),
@@ -110,21 +157,29 @@ class HomePage extends StatelessWidget {
                                               padding: const EdgeInsets.all(18),
                                               icon: Assets.icons.chat.path,
                                               label: 'Konsultasi',
+                                              onTap: () =>
+                                                  mainC.currentIndex.value = 1,
                                             ),
                                             SmallCard(
                                               padding: const EdgeInsets.all(18),
                                               icon: Assets.icons.map.path,
                                               label: 'Maps',
+                                              onTap: () =>
+                                                  mainC.currentIndex.value = 2,
                                             ),
                                             SmallCard(
                                               padding: const EdgeInsets.all(18),
                                               icon: Assets.icons.education.path,
                                               label: 'Edukasi',
+                                              onTap: () =>
+                                                  mainC.currentIndex.value = 6,
                                             ),
                                             SmallCard(
                                               padding: const EdgeInsets.all(18),
                                               icon: Assets.icons.cart.path,
                                               label: 'E-commerce',
+                                              onTap: () =>
+                                                  mainC.currentIndex.value = 4,
                                             ),
                                           ],
                                         ),
@@ -181,7 +236,8 @@ class HomePage extends StatelessWidget {
                                           SizedBox(
                                             height: 29,
                                             child: ElevatedButton(
-                                              onPressed: () {},
+                                              onPressed: () =>
+                                                  mainC.currentIndex.value = 6,
                                               child: Text(
                                                 "Selengkapnya",
                                                 style: CustomTextStyle.smText
@@ -244,7 +300,7 @@ class HomePage extends StatelessWidget {
               // ?? Layanan Konsultasi
               SectionHeader(
                 title: "Layanan Konsultasi",
-                onTap: () {},
+                onTap: () => mainC.currentIndex.value = 1,
               ),
               StreamBuilder(
                   stream: homeC.getBidan(),
@@ -273,15 +329,18 @@ class HomePage extends StatelessWidget {
                             timeAwalstampConvert.toDate().toFormattedInHours();
                         String dateTimeAkhir =
                             timeAkhirstampConvert.toDate().toFormattedInHours();
-                        return CustomCard(
-                          name: bidanData[index]['name'],
-                          description: bidanData[index]['specialistBidan'],
-                          dateOperational: DateTime.now().toFormattedTime(),
-                          timeOperational: "$dateTimeAwal - $dateTimeAkhir",
-                          image: bidanData[index]['photoBidan'],
-                          horizontalGap: 12,
-                          backgroundColor: const Color(0xfff5faf6),
-                          backgroundImageColor: AppColors.neon,
+                        return GestureDetector(
+                          onTap: () => mainC.currentIndex.value = 1,
+                          child: CustomCard(
+                            name: bidanData[index]['name'],
+                            description: bidanData[index]['specialistBidan'],
+                            dateOperational: DateTime.now().toFormattedTime(),
+                            timeOperational: "$dateTimeAwal - $dateTimeAkhir",
+                            image: bidanData[index]['photoBidan'],
+                            horizontalGap: 12,
+                            backgroundColor: const Color(0xfff5faf6),
+                            backgroundImageColor: AppColors.neon,
+                          ),
                         );
                       },
                       options: CarouselOptions(
@@ -290,6 +349,7 @@ class HomePage extends StatelessWidget {
                         viewportFraction: 0.9,
                         height: 228,
                         aspectRatio: 2,
+                        enableInfiniteScroll: false,
                         scrollDirection: Axis.horizontal,
                       ),
                     );

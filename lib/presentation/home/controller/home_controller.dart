@@ -8,8 +8,11 @@ class HomeController extends GetxController {
   RxInt currentIndex = 0.obs;
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Stream<QuerySnapshot>? getBidan() =>
-      db.collection('bidan').orderBy('timestamp', descending: true).snapshots();
+  Stream<QuerySnapshot>? getBidan() => db
+      .collection('bidan')
+      .orderBy('timestamp', descending: true)
+      .limit(3)
+      .snapshots();
 
   Stream<QuerySnapshot>? getArticle() => db
       .collection('article')

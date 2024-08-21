@@ -19,6 +19,7 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -47,7 +48,7 @@ class ChatPage extends StatelessWidget {
           stream: chatC.checkAccountPremium(),
           builder: (context, snapshotIsPremium) {
             if (snapshotIsPremium.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const SizedBox();
             }
             return snapshotIsPremium.data == true
                 ? ListView(
