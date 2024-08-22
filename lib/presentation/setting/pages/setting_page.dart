@@ -153,7 +153,7 @@ class SettingPage extends StatelessWidget {
                                     height: 5.0,
                                   ),
                                   Text(
-                                    dataUser['name'],
+                                    '${dataUser['name']}'.capitalize!,
                                     style: CustomTextStyle.primaryText.copyWith(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -182,7 +182,7 @@ class SettingPage extends StatelessWidget {
                             width: Get.width,
                             height: 60,
                             child: CardSetting(
-                              onTap: () {},
+                              onTap: () => Get.toNamed(RouteName.informasiAkun),
                               icon: Assets.icons.infoAccount.path,
                               title: 'Informasi akun',
                             ),

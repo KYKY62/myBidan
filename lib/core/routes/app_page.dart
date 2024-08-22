@@ -13,6 +13,7 @@ import 'package:mybidan/presentation/bidan/pages/bidan_private_chat_page.dart';
 import 'package:mybidan/presentation/dashboard/pages/dashboard_page.dart';
 import 'package:mybidan/presentation/home/pages/main_page.dart';
 import 'package:mybidan/presentation/konsultasi_control/pages/add_bidan_page.dart';
+import 'package:mybidan/presentation/setting/pages/informasi_akun/informasi_page.dart';
 import 'package:mybidan/presentation/shop/pages/detail_product_page.dart';
 
 class AppPage {
@@ -72,6 +73,11 @@ class AppPage {
         nameBidan: Get.arguments['nameBidan'],
         penerima: Get.arguments['penerima'],
       ),
+    ),
+    GetPage(
+      name: RouteName.informasiAkun,
+      transition: Transition.noTransition,
+      page: () => InformasiPage(),
     )
   ];
 }

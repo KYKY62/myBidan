@@ -11,12 +11,21 @@ class SettingController extends GetxController {
   FirebaseFirestore db = FirebaseFirestore.instance;
   final _currentUser = FirebaseAuth.instance.currentUser!;
   final storage = FirebaseStorage.instance;
+  RxString labelDropdown = ''.obs;
 
   TextEditingController nameController = TextEditingController();
   var image = Rx<Uint8List?>(null);
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> getProfileUser() =>
       db.collection('users').doc(_currentUser.email).snapshots();
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getKlinikUser(final doc) =>
+      db.collection('klinik').doc(doc).snapshots();
+
+  Stream<QuerySnapshot>? getKlinik() => db
+      .collection('klinik')
+      .orderBy('timestamp', descending: true)
+      .snapshots();
 
   pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -55,6 +64,21 @@ class SettingController extends GetxController {
       nameController.text;
       image.value = null;
       await db.collection('users').doc(_currentUser.email).update(updateUser);
+      Get.back();
+    } catch (_) {}
+  }
+
+  void updatePanicButton() async {
+    try {
+      Map<String, dynamic> updatePanicButton = {
+        "uidKlinik": labelDropdown.value,
+      };
+      await db
+          .collection('users')
+          .doc(_currentUser.email)
+          .update(updatePanicButton);
+
+      labelDropdown.value = '';
       Get.back();
     } catch (_) {}
   }

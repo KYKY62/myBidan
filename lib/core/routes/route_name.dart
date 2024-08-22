@@ -7,4 +7,5 @@ abstract class RouteName {
   static const addBidan = '/addBidan';
   static const roomBidan = '/roomBidan';
   static const roomBidanPrivate = '/roomBidanPrivate';
+  static const informasiAkun = '/informasiAkun';
 }
