@@ -41,6 +41,13 @@ class ChatPage extends StatelessWidget {
             color: Colors.grey,
           ),
           keyboardType: TextInputType.text,
+          onChange: (value) {
+            chatC.searchQuery.value = value;
+            print('isi searchQuery: ${chatC.searchQuery.value}');
+          },
+          onFieldSubmit: (value) {
+            chatC.focusNode.unfocus();
+          },
         ),
         centerTitle: true,
       ),
@@ -65,68 +72,75 @@ class ChatPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: SizedBox(
-                          height: 198,
-                          child: StreamBuilder(
-                              stream: chatC.getBidan(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                } else if (!snapshot.hasData ||
-                                    snapshot.data!.docs.isEmpty) {
-                                  return Text(
-                                    "Belum Ada Bidan",
-                                    style: CustomTextStyle.bigText.copyWith(
-                                      color: Colors.white,
-                                    ),
-                                  );
-                                }
-                                var bidanData = snapshot.data!.docs;
-                                return ListView.builder(
-                                  itemCount: bidanData.length,
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    Timestamp timeAwalstampConvert =
-                                        bidanData[index]['jamAwalKerja'];
-                                    Timestamp timeAkhirstampConvert =
-                                        bidanData[index]['jamAkhirKerja'];
-
-                                    String dateTimeAwal = timeAwalstampConvert
-                                        .toDate()
-                                        .toFormattedInHours();
-                                    String dateTimeAkhir = timeAkhirstampConvert
-                                        .toDate()
-                                        .toFormattedInHours();
-                                    return GestureDetector(
-                                      onTap: () => chatC.addNewConnection(
-                                        bidanEmail: bidanData[index]['email'],
-                                      ),
-                                      child: CustomCard(
-                                        padding: const EdgeInsets.only(
-                                            left: 16,
-                                            top: 16,
-                                            bottom: 16,
-                                            right: 80),
-                                        name: bidanData[index]['name'],
-                                        description: bidanData[index]
-                                            ['specialistBidan'],
-                                        dateOperational: '',
-                                        timeOperational:
-                                            '$dateTimeAwal - $dateTimeAkhir',
-                                        image: bidanData[index]['photoBidan'],
-                                        horizontalGap: 12,
-                                        backgroundColor:
-                                            const Color(0xfff5faf6),
-                                        backgroundImageColor: AppColors.neon,
-                                        isChatPage: true,
+                            height: 198,
+                            child: Obx(
+                              () => StreamBuilder<QuerySnapshot<Object?>>(
+                                stream: chatC.searchQuery.value != ''
+                                    ? chatC.getBidanWithSearch(
+                                        chatC.searchQuery.value,
+                                      )
+                                    : chatC.getBidan(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (!snapshot.hasData ||
+                                      snapshot.data!.docs.isEmpty) {
+                                    return Text(
+                                      "Belum Ada Bidan",
+                                      style: CustomTextStyle.bigText.copyWith(
+                                        color: Colors.white,
                                       ),
                                     );
-                                  },
-                                );
-                              }),
-                        ),
+                                  }
+                                  var bidanData = snapshot.data!.docs;
+                                  return ListView.builder(
+                                    itemCount: bidanData.length,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      Timestamp timeAwalstampConvert =
+                                          bidanData[index]['jamAwalKerja'];
+                                      Timestamp timeAkhirstampConvert =
+                                          bidanData[index]['jamAkhirKerja'];
+
+                                      String dateTimeAwal = timeAwalstampConvert
+                                          .toDate()
+                                          .toFormattedInHours();
+                                      String dateTimeAkhir =
+                                          timeAkhirstampConvert
+                                              .toDate()
+                                              .toFormattedInHours();
+                                      return GestureDetector(
+                                        onTap: () => chatC.addNewConnection(
+                                          bidanEmail: bidanData[index]['email'],
+                                        ),
+                                        child: CustomCard(
+                                          padding: const EdgeInsets.only(
+                                              left: 16,
+                                              top: 16,
+                                              bottom: 16,
+                                              right: 80),
+                                          name: bidanData[index]['name'],
+                                          description: bidanData[index]
+                                              ['specialistBidan'],
+                                          dateOperational: '',
+                                          timeOperational:
+                                              '$dateTimeAwal - $dateTimeAkhir',
+                                          image: bidanData[index]['photoBidan'],
+                                          horizontalGap: 12,
+                                          backgroundColor:
+                                              const Color(0xfff5faf6),
+                                          backgroundImageColor: AppColors.neon,
+                                          isChatPage: true,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            )),
                       ),
                       const SizedBox(height: 16.0),
                       StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(

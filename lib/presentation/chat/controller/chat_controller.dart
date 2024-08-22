@@ -10,6 +10,8 @@ import 'package:mybidan/data/models/users_model.dart';
 
 class ChatController extends GetxController {
   final TextEditingController searchBidan = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+  RxString searchQuery = ''.obs;
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference chats = FirebaseFirestore.instance.collection('chats');
@@ -30,6 +32,13 @@ class ChatController extends GetxController {
 
   Stream<QuerySnapshot>? getBidan() =>
       db.collection('bidan').orderBy('timestamp', descending: true).snapshots();
+
+  Stream<QuerySnapshot>? getBidanWithSearch(final searchquery) => db
+      .collection('bidan')
+      .orderBy('name')
+      .where('name', isGreaterThanOrEqualTo: searchquery)
+      .where('name', isLessThanOrEqualTo: '$searchquery\uf8ff')
+      .snapshots();
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getListChatUser() => db
       .collection('users')

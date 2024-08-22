@@ -378,6 +378,14 @@ class FindKlinikControlPage extends StatelessWidget {
                                     controller: findBidanC.alamatController,
                                     hintLabel: 'Alamat',
                                   ),
+                                  const SizedBox(
+                                    height: 24.0,
+                                  ),
+                                  shortCutTextFormField(
+                                    title: 'Kota',
+                                    controller: findBidanC.kotaController,
+                                    hintLabel: 'Kota',
+                                  ),
                                   const SizedBox(height: 24),
                                   shortCutTextFormField(
                                     title: 'Telepon',
@@ -503,7 +511,7 @@ class FindKlinikControlPage extends StatelessWidget {
                                   );
                                 }
                                 var produkData = snapshot.data!.docs;
-// nampilkan data
+                                // nampilkan data
                                 return ListView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
@@ -515,6 +523,8 @@ class FindKlinikControlPage extends StatelessWidget {
                                           produkData[index]['namaKlinik'];
                                       findBidanC.namaBidanController.text =
                                           produkData[index]['namaBidan'];
+                                      findBidanC.kotaController.text =
+                                          produkData[index]['kota'];
                                       findBidanC.teleponController.text =
                                           produkData[index]['telepon'];
                                       findBidanC.linkGoogleMapController.text =

@@ -12,6 +12,8 @@ class CustomTextField extends StatelessWidget {
   final bool? readOnly;
   final Color inputColor;
   final double? padding;
+  final Function(String)? onChange;
+  final Function(String)? onFieldSubmit;
   final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextField({
@@ -27,6 +29,8 @@ class CustomTextField extends StatelessWidget {
     this.padding,
     this.inputFormatters,
     this.readOnly,
+    this.onChange,
+    this.onFieldSubmit,
   });
 
   @override
@@ -40,6 +44,8 @@ class CustomTextField extends StatelessWidget {
         style: TextStyle(color: inputColor),
         inputFormatters: inputFormatters ?? [],
         readOnly: readOnly ?? false,
+        onChanged: onChange ?? (value) {},
+        onFieldSubmitted: onFieldSubmit ?? (value) {},
         decoration: InputDecoration(
           hintStyle: textStyle,
           prefixIcon: prefixIcon,

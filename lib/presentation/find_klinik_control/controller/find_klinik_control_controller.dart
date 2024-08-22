@@ -16,6 +16,7 @@ class FindKlinikControlController extends GetxController {
   final TextEditingController namaBidanController = TextEditingController();
   final TextEditingController jamPraktekController = TextEditingController();
   final TextEditingController alamatController = TextEditingController();
+  final TextEditingController kotaController = TextEditingController();
   final TextEditingController teleponController = TextEditingController();
   final TextEditingController linkGoogleMapController = TextEditingController();
 
@@ -76,6 +77,7 @@ class FindKlinikControlController extends GetxController {
         "jamAkhirKerja": selectedTimeAkhir.value,
         "namaBidan": namaBidanController.text,
         "alamat": alamatController.text,
+        "kota": kotaController.text.toLowerCase(),
         "map": linkGoogleMapController.text,
         "jamPraktek": jamPraktekController.text,
         "telepon": teleponController.text,
@@ -112,6 +114,7 @@ class FindKlinikControlController extends GetxController {
         "jamAkhirKerja": selectedTimeAkhir.value,
         "namaBidan": namaBidanController.text,
         "alamat": alamatController.text,
+        "kota": kotaController.text.toLowerCase(),
         "map": linkGoogleMapController.text,
         "jamPraktek": jamPraktekController.text,
         "telepon": teleponController.text,
@@ -152,6 +155,7 @@ class FindKlinikControlController extends GetxController {
     alamatController.clear();
     teleponController.clear();
     linkGoogleMapController.clear();
+    kotaController.clear();
     image.value = null;
   }
 
@@ -162,6 +166,7 @@ class FindKlinikControlController extends GetxController {
     alamatController.dispose();
     teleponController.dispose();
     linkGoogleMapController.dispose();
+    kotaController.dispose();
     image.value = null;
   }
 

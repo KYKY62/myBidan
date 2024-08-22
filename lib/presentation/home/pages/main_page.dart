@@ -94,6 +94,8 @@ class MainPage extends StatelessWidget {
                   mainC.currentIndex.value = value;
                   findBidanC.selectedObject.value = false;
                   findBidanC.detailObject.value = null;
+                  findBidanC.searchBidan.clear();
+                  findBidanC.searchQuery.value = '';
                 },
                 items: [
                   BottomNavigationBarItem(

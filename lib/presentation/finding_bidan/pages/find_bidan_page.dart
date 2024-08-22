@@ -86,6 +86,12 @@ class FindBidanPage extends StatelessWidget {
                             textStyle: const TextStyle(
                               color: Colors.grey,
                             ),
+                            onChange: (value) {
+                              findBidanC.searchQuery.value = value;
+                            },
+                            onFieldSubmit: (value) {
+                              findBidanC.focusNode.unfocus();
+                            },
                           ),
                         ),
                       ),
@@ -115,69 +121,81 @@ class FindBidanPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 22, vertical: 20),
-                            child: StreamBuilder(
-                              stream: findBidanC.getKlinik(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                } else if (!snapshot.hasData ||
-                                    snapshot.data!.docs.isEmpty) {
-                                  return Text(
-                                    "Data Klinik Belum Ada",
-                                    style: CustomTextStyle.bigText.copyWith(
-                                      color: Colors.white,
-                                    ),
-                                  );
-                                }
-                                var daftarKlinik = snapshot.data!.docs;
-                                return ListView.separated(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: daftarKlinik.length,
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(
-                                    height: 16.0,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    Timestamp timeAwalstampConvert =
-                                        daftarKlinik[index]['jamAwalKerja'];
-                                    Timestamp timeAkhirstampConvert =
-                                        daftarKlinik[index]['jamAkhirKerja'];
-
-                                    String dateTimeAwal = timeAwalstampConvert
-                                        .toDate()
-                                        .toFormattedInHours();
-                                    String dateTimeAkhir = timeAkhirstampConvert
-                                        .toDate()
-                                        .toFormattedInHours();
-
-                                    return GestureDetector(
-                                      onTap: () {
-                                        findBidanC.selectedObject.value =
-                                            !findBidanC.selectedObject.value;
-                                        findBidanC.detailObject.value =
-                                            daftarKlinik[index];
-                                      },
-                                      child: CustomCard(
-                                        name: daftarKlinik[index]['namaKlinik'],
-                                        description: daftarKlinik[index]
-                                            ['namaBidan'],
-                                        dateOperational:
-                                            DateTime.now().toFormattedTime(),
-                                        timeOperational:
-                                            "$dateTimeAwal - $dateTimeAkhir",
-                                        image: daftarKlinik[index]['photo'],
-                                        horizontalGap: 25,
-                                        findBidanPage: true,
-                                        backgroundColor:
-                                            const Color(0xfff5faf6),
+                            child: Obx(
+                              () => StreamBuilder(
+                                stream: findBidanC.searchQuery.value != ''
+                                    ? findBidanC.getKlinikWithSearch(
+                                        findBidanC.searchQuery.value
+                                            .toLowerCase(),
+                                      )
+                                    : findBidanC.getKlinik(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (!snapshot.hasData ||
+                                      snapshot.data!.docs.isEmpty) {
+                                    return Center(
+                                      child: Text(
+                                        "Data Klinik Belum Ada",
+                                        style: CustomTextStyle.bigText,
                                       ),
                                     );
-                                  },
-                                );
-                              },
+                                  }
+                                  var daftarKlinik = snapshot.data!.docs;
+                                  return ListView.separated(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: daftarKlinik.length,
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(
+                                      height: 16.0,
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      Timestamp timeAwalstampConvert =
+                                          daftarKlinik[index]['jamAwalKerja'];
+                                      Timestamp timeAkhirstampConvert =
+                                          daftarKlinik[index]['jamAkhirKerja'];
+
+                                      String dateTimeAwal = timeAwalstampConvert
+                                          .toDate()
+                                          .toFormattedInHours();
+                                      String dateTimeAkhir =
+                                          timeAkhirstampConvert
+                                              .toDate()
+                                              .toFormattedInHours();
+
+                                      return GestureDetector(
+                                        onTap: () {
+                                          findBidanC.searchQuery.value = '';
+                                          findBidanC.searchBidan.clear();
+                                          findBidanC.selectedObject.value =
+                                              !findBidanC.selectedObject.value;
+                                          findBidanC.detailObject.value =
+                                              daftarKlinik[index];
+                                        },
+                                        child: CustomCard(
+                                          name: daftarKlinik[index]
+                                              ['namaKlinik'],
+                                          description: daftarKlinik[index]
+                                              ['namaBidan'],
+                                          dateOperational:
+                                              DateTime.now().toFormattedTime(),
+                                          timeOperational:
+                                              "$dateTimeAwal - $dateTimeAkhir",
+                                          image: daftarKlinik[index]['photo'],
+                                          horizontalGap: 25,
+                                          findBidanPage: true,
+                                          backgroundColor:
+                                              const Color(0xfff5faf6),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         )
