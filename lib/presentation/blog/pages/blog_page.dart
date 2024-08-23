@@ -5,6 +5,8 @@ import 'package:mybidan/core/components/custom_nav_top.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/presentation/blog/controller/blog_controller.dart';
 import 'package:mybidan/presentation/blog/pages/nav_page/lokal_page.dart';
+import 'package:mybidan/presentation/blog/pages/nav_page/news_page.dart';
+import 'package:mybidan/presentation/blog/pages/nav_page/other_news.dart';
 import 'package:mybidan/presentation/blog/pages/nav_page/trending_page.dart';
 
 class BlogPage extends StatelessWidget {
@@ -16,11 +18,11 @@ class BlogPage extends StatelessWidget {
       case 0:
         return TrendingPage();
       case 1:
-        return const LokalPage();
+        return NewsPage();
       case 2:
-        return TrendingPage();
+        return LokalPage();
       case 3:
-        return TrendingPage();
+        return OtherNews();
       default:
         return TrendingPage();
     }
@@ -32,6 +34,7 @@ class BlogPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         elevation: 0,
+        toolbarHeight: 0,
         scrolledUnderElevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: AppColors.primary,

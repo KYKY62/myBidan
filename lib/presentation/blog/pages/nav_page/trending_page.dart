@@ -31,7 +31,7 @@ class TrendingPage extends StatelessWidget {
               height: 16.0,
             ),
             StreamBuilder(
-                stream: articleC.getArticle(),
+                stream: articleC.getArticleTrending(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -72,7 +72,7 @@ class TrendingPage extends StatelessWidget {
                   );
                 }),
             StreamBuilder(
-                stream: articleC.getArticle(),
+                stream: articleC.getArticleTrending(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -85,6 +85,7 @@ class TrendingPage extends StatelessWidget {
                     );
                   }
                   var articleData = snapshot.data!.docs;
+
                   return GridView.builder(
                     itemCount: articleData.length,
                     shrinkWrap: true,

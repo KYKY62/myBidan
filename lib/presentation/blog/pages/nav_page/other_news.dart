@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core.dart';
 
-class LokalPage extends StatelessWidget {
+class OtherNews extends StatelessWidget {
   final mainC = Get.find<MainController>();
   final articleC = Get.find<ArticleController>();
-  LokalPage({super.key});
+  OtherNews({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class LokalPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Berita Lokal Today🔥",
+              "Berita Lainnya Today🔥",
               style: CustomTextStyle.primaryText.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -26,7 +26,7 @@ class LokalPage extends StatelessWidget {
               height: 16.0,
             ),
             StreamBuilder(
-                stream: articleC.getArticleLocal(),
+                stream: articleC.getArticleOther(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -38,6 +38,7 @@ class LokalPage extends StatelessWidget {
                       ),
                     );
                   }
+
                   var articleData = snapshot.data!.docs;
                   return ListView.builder(
                     shrinkWrap: true,
@@ -67,7 +68,7 @@ class LokalPage extends StatelessWidget {
                   );
                 }),
             StreamBuilder(
-                stream: articleC.getArticleLocal(),
+                stream: articleC.getArticleOther(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
