@@ -7,7 +7,6 @@ import 'package:mybidan/core/components/custom_text_field.dart';
 import 'package:mybidan/core/components/list_article.dart';
 import 'package:mybidan/core/constants/colors.dart';
 import 'package:mybidan/core/constants/text_style.dart';
-import 'package:mybidan/core/routes/route_name.dart';
 import 'package:mybidan/presentation/shop_control/controller/shop_control_controller.dart';
 
 class ShopControlPage extends StatelessWidget {

@@ -86,10 +86,12 @@ class ChatPage extends StatelessWidget {
                                         child: CircularProgressIndicator());
                                   } else if (!snapshot.hasData ||
                                       snapshot.data!.docs.isEmpty) {
-                                    return Text(
-                                      "Belum Ada Bidan",
-                                      style: CustomTextStyle.bigText.copyWith(
-                                        color: Colors.white,
+                                    return Center(
+                                      child: Text(
+                                        "Belum Ada Bidan",
+                                        style: CustomTextStyle.bigText.copyWith(
+                                          color: Colors.black,
+                                        ),
                                       ),
                                     );
                                   }
@@ -166,6 +168,7 @@ class ChatPage extends StatelessWidget {
                                     builder: (context, snapshotProfile) {
                                       DateTime lastTime = DateTime.parse(
                                           "${allChatsUser[index]['lastTime']}");
+
                                       if (snapshotProfile.connectionState ==
                                           ConnectionState.active) {
                                         var data = snapshotProfile.data!.data();

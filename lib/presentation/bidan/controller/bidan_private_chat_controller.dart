@@ -9,9 +9,8 @@ class BidanPrivateChatController extends GetxController {
   CollectionReference chats = FirebaseFirestore.instance.collection("chats");
   CollectionReference bidan = FirebaseFirestore.instance.collection("bidan");
   CollectionReference users = FirebaseFirestore.instance.collection("users");
-  String date = DateTime.now().toIso8601String();
   final currentUser = FirebaseAuth.instance.currentUser!;
-
+  String date = DateTime.now().toIso8601String();
   Stream<QuerySnapshot<Map<String, dynamic>>> streamChats(String chatId) {
     return chats.doc(chatId).collection("chat").orderBy("time").snapshots();
   }
@@ -26,9 +25,9 @@ class BidanPrivateChatController extends GetxController {
         "pengirim": email,
         "penerima": penerima,
         "msg": chatBidan.text,
-        "time": date,
+        "time": DateTime.now(),
         "isRead": false,
-        "groupTime": DateTime.parse(date).toFormattedInHours(),
+        "groupTime": DateTime.now(),
       });
 
       chatBidan.clear();

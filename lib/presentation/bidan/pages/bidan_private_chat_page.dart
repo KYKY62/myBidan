@@ -54,6 +54,8 @@ class BidanPrivateChatPage extends StatelessWidget {
                     return ListView.builder(
                       itemCount: allChat.length,
                       itemBuilder: (context, index) {
+                        Timestamp timestamp = allChat[index]['groupTime'];
+                        DateTime groupTime = timestamp.toDate();
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -66,8 +68,7 @@ class BidanPrivateChatPage extends StatelessWidget {
                                 chat: allChat[index]['msg'],
                                 isSender:
                                     allChat[index]['penerima'] == penerima,
-                                timeChat: DateTime.parse(allChat[index]['time'])
-                                    .toFormattedInHours(),
+                                timeChat: groupTime.toFormattedInHours(),
                               ),
                             ],
                           ),

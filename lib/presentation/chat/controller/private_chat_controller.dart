@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:mybidan/core/extension/date_time_ext.dart';
 
 class PrivateChatController extends GetxController {
   final TextEditingController chatBidan = TextEditingController();
@@ -11,6 +12,7 @@ class PrivateChatController extends GetxController {
   CollectionReference chats = FirebaseFirestore.instance.collection("chats");
   CollectionReference users = FirebaseFirestore.instance.collection("users");
   CollectionReference bidan = FirebaseFirestore.instance.collection("bidan");
+  late ScrollController scrollC;
 
   final currentUser = FirebaseAuth.instance.currentUser!;
 
@@ -28,10 +30,15 @@ class PrivateChatController extends GetxController {
         "pengirim": email,
         "penerima": penerima,
         "msg": chatBidan.text,
-        "time": date,
+        "time": DateTime.now(),
         "isRead": false,
-        "groupTime": DateTime.parse(date).toFormattedInHours(),
+        "groupTime": DateTime.now(),
       });
+
+      Timer(
+        Duration.zero,
+        () => scrollC.jumpTo(scrollC.position.maxScrollExtent),
+      );
 
       chatBidan.clear();
 
@@ -68,5 +75,11 @@ class PrivateChatController extends GetxController {
         });
       }
     }
+  }
+
+  @override
+  void onInit() {
+    scrollC = ScrollController();
+    super.onInit();
   }
 }

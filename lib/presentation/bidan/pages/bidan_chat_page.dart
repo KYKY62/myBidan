@@ -82,11 +82,10 @@ class BidanChatPage extends StatelessWidget {
                               child: Row(
                                 children: [
                                   CircleAvatar(
-                                    radius: 28,
+                                    foregroundColor: Colors.black,
                                     backgroundColor: const Color(0xfff5faf6),
-                                    child: Image.network(
+                                    backgroundImage: NetworkImage(
                                       data!['photoUrl'],
-                                      width: 41,
                                     ),
                                   ),
                                   const SizedBox(width: 12.0),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -61,9 +63,17 @@ class PrivateChatPage extends StatelessWidget {
                       return const SizedBox();
                     }
                     var allChat = snapshot.data!.docs;
+                    Timer(
+                      Duration.zero,
+                      () => privateC.scrollC
+                          .jumpTo(privateC.scrollC.position.maxScrollExtent),
+                    );
                     return ListView.builder(
+                      controller: privateC.scrollC,
                       itemCount: allChat.length,
                       itemBuilder: (context, index) {
+                        Timestamp timestamp = allChat[index]['groupTime'];
+                        DateTime groupTime = timestamp.toDate();
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -76,8 +86,7 @@ class PrivateChatPage extends StatelessWidget {
                                 chat: allChat[index]['msg'],
                                 isSender:
                                     allChat[index]['penerima'] == penerima,
-                                timeChat: DateTime.parse(allChat[index]['time'])
-                                    .toFormattedInHours(),
+                                timeChat: groupTime.toFormattedInHours(),
                               ),
                             ],
                           ),
