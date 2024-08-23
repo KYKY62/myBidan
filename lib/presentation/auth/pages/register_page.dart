@@ -31,84 +31,117 @@ class RegisterPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Card(
-              shadowColor: AppColors.primary,
-              elevation: 5,
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 10.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    "Registerasi Akun",
+                    style: CustomTextStyle.bigText.copyWith(
+                      color: Colors.white,
+                    ),
                   ),
-                  Text(
-                    "DAFTAR AKUN ANDA SEKARANG!!",
-                    style: CustomTextStyle.bigText,
-                  ),
-                  CustomTextField(
-                    controller: registerC.emailController,
-                    label: 'Email',
-                    keyboardType: TextInputType.emailAddress,
-                    inputColor: Colors.black,
-                  ),
-                  CustomTextField(
-                    controller: registerC.passwordController,
-                    label: 'Password',
-                    keyboardType: TextInputType.emailAddress,
-                    inputColor: Colors.black,
-                    obscureText: true,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: Get.width,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          shape: ContinuousRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: () => registerC.register(
-                          email: registerC.emailController.text,
-                          password: registerC.passwordController.text,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Obx(
-                            () => Text(
-                              registerC.isLoading.value
-                                  ? "Loading..."
-                                  : "Register",
-                              style: CustomTextStyle.bigText,
+                ),
+                const SizedBox(height: 20),
+                Card(
+                  shadowColor: AppColors.primary,
+                  elevation: 5,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () => registerC.selectedImage(),
+                        child: Obx(
+                          () => CircleAvatar(
+                            radius: 50,
+                            backgroundImage: registerC.image.value != null
+                                ? MemoryImage(
+                                    registerC.image.value!,
+                                  )
+                                : null,
+                            backgroundColor: registerC.image.value == null
+                                ? Colors.grey
+                                : null,
+                            child: Icon(
+                              Icons.add,
+                              color: registerC.image.value == null
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text("Sudah Punya Akun?"),
-                        const SizedBox(
-                          width: 5.0,
-                        ),
-                        GestureDetector(
-                          onTap: () => Get.offNamed(RouteName.login),
-                          child: Text(
-                            "Login Sekarang",
-                            style: CustomTextStyle.greenText.copyWith(
-                              fontWeight: FontWeight.w600,
+                      CustomTextField(
+                        controller: registerC.emailController,
+                        label: 'Email',
+                        keyboardType: TextInputType.emailAddress,
+                        inputColor: Colors.black,
+                      ),
+                      CustomTextField(
+                        controller: registerC.passwordController,
+                        label: 'Password',
+                        keyboardType: TextInputType.emailAddress,
+                        inputColor: Colors.black,
+                        obscureText: true,
+                      ),
+                      CustomTextField(
+                        controller: registerC.namaController,
+                        label: 'Nama',
+                        keyboardType: TextInputType.text,
+                        inputColor: Colors.black,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: Get.width,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: Colors.white,
+                              shape: ContinuousRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () => registerC.register(),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Obx(
+                                () => Text(
+                                  registerC.isLoading.value
+                                      ? "Loading..."
+                                      : "Register",
+                                  style: CustomTextStyle.bigText,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Text("Sudah Punya Akun?"),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            GestureDetector(
+                              onTap: () => Get.offNamed(RouteName.login),
+                              child: Text(
+                                "Login Sekarang",
+                                style: CustomTextStyle.greenText.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
