@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           }
 
           return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
+            debugShowCheckedModeBanner: true,
             defaultTransition: Transition.fadeIn,
             initialRoute: initialRoute,
             getPages: AppPage.pages,

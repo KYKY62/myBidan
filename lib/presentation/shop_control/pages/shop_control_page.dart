@@ -116,18 +116,7 @@ class ShopControlPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              onTap: () => Get.offAllNamed(RouteName.login),
-              child: const Icon(
-                Icons.exit_to_app,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
+        actions: const [],
       ),
       body: SizedBox(
         height: Get.height,

@@ -81,4 +81,5 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://getconnect-project-9b7d7-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'getconnect-project-9b7d7.appspot.com',
   );
+
 }
