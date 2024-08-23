@@ -43,7 +43,6 @@ class ChatPage extends StatelessWidget {
           keyboardType: TextInputType.text,
           onChange: (value) {
             chatC.searchQuery.value = value;
-            print('isi searchQuery: ${chatC.searchQuery.value}');
           },
           onFieldSubmit: (value) {
             chatC.focusNode.unfocus();

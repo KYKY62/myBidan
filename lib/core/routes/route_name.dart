@@ -8,4 +8,6 @@ abstract class RouteName {
   static const roomBidan = '/roomBidan';
   static const roomBidanPrivate = '/roomBidanPrivate';
   static const informasiAkun = '/informasiAkun';
+  static const termsConditions = '/termsConditions';
+  static const privacyPolicy = '/privacyPolicy';
 }

@@ -14,6 +14,8 @@ import 'package:mybidan/presentation/dashboard/pages/dashboard_page.dart';
 import 'package:mybidan/presentation/home/pages/main_page.dart';
 import 'package:mybidan/presentation/konsultasi_control/pages/add_bidan_page.dart';
 import 'package:mybidan/presentation/setting/pages/informasi_akun/informasi_page.dart';
+import 'package:mybidan/presentation/setting/pages/privacy_policy/privacy_policy_page.dart';
+import 'package:mybidan/presentation/setting/pages/terms_and_conditions/terms_conditions_page.dart';
 import 'package:mybidan/presentation/shop/pages/detail_product_page.dart';
 
 class AppPage {
@@ -78,6 +80,16 @@ class AppPage {
       name: RouteName.informasiAkun,
       transition: Transition.noTransition,
       page: () => InformasiPage(),
+    ),
+    GetPage(
+      name: RouteName.termsConditions,
+      transition: Transition.noTransition,
+      page: () => const TermsConditionsPage(),
+    ),
+    GetPage(
+      name: RouteName.privacyPolicy,
+      transition: Transition.noTransition,
+      page: () => const PrivacyPolicyPage(),
     )
   ];
 }
