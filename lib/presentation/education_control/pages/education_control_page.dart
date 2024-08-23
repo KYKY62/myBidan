@@ -332,11 +332,62 @@ class EducationControlPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 24),
                                   shortCutTextFormField(
-                                    title: 'Tipe Artikel',
+                                    title: 'Sub Artikel',
                                     controller:
                                         educationC.tipeArticleController,
-                                    hintLabel: 'Tipe',
+                                    hintLabel: 'Sub artikel',
                                   ),
+                                  const SizedBox(height: 19),
+                                  Text(
+                                    'Kategori Artikel',
+                                    style: CustomTextStyle.primaryText.copyWith(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 7),
+                                  Container(
+                                    width: Get.width,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      border: Border.all(
+                                        width: 1.0,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    child: DropdownButton<String>(
+                                      value: educationC.kategori.value,
+                                      hint: const Text('Pilih Kategori'),
+                                      isExpanded: true,
+                                      items: educationC.dropdownItems,
+                                      onChanged: (String? newValue) {
+                                        educationC.kategori.value = newValue!;
+                                      },
+                                    ),
+                                  ),
+                                  // DropdownMenu(
+                                  //     hintText: 'Kategori Artikel',
+                                  //     inputDecorationTheme:
+                                  //         InputDecorationTheme(
+                                  //       enabledBorder: OutlineInputBorder(
+                                  //         borderSide: const BorderSide(
+                                  //           color: Colors.grey,
+                                  //         ),
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(10.0),
+                                  //       ),
+                                  //       contentPadding:
+                                  //           const EdgeInsets.symmetric(
+                                  //         vertical: 15.0,
+                                  //         horizontal: 10.0,
+                                  //       ),
+                                  //       filled: true,
+                                  //       fillColor: Colors.white,
+                                  //     ),
+                                  //     dropdownMenuEntries: dropdownItems,
+                                  //     onSelected: (value) {
+                                  //       educationC.kategori.value = value;
+                                  //       print(educationC.kategori.value);
+                                  //     }),
                                   const SizedBox(
                                     height: 49.0,
                                   ),
@@ -406,6 +457,8 @@ class EducationControlPage extends StatelessWidget {
                                           articleData[index]['shortDesc'];
                                       educationC.authorController.text =
                                           articleData[index]['author'];
+                                      educationC.kategori.value =
+                                          articleData[index]['kategori'];
                                       educationC.isEdit.value = true;
                                       educationC.isAdding.value =
                                           !educationC.isAdding.value;

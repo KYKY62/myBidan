@@ -18,9 +18,11 @@ class EducationControlController extends GetxController {
   final TextEditingController authorController = TextEditingController();
   final TextEditingController shortDescController = TextEditingController();
   final TextEditingController tipeArticleController = TextEditingController();
+  // final TextEditingController kategoriController = TextEditingController();
 
   final storage = FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
+  RxString kategori = 'lokal'.obs;
 
   var image = Rx<Uint8List?>(null);
 
@@ -67,6 +69,7 @@ class EducationControlController extends GetxController {
         "author": authorController.text,
         "shortDesc": shortDescController.text,
         "subject": tipeArticleController.text,
+        "kategori": kategori.value,
         'timestamp': DateTime.now(),
       };
 
@@ -100,6 +103,7 @@ class EducationControlController extends GetxController {
         "author": authorController.text,
         "shortDesc": shortDescController.text,
         "subject": tipeArticleController.text,
+        "kategori": kategori.value,
         'timestamp': DateTime.now(),
       };
 
@@ -130,12 +134,46 @@ class EducationControlController extends GetxController {
     }
   }
 
+  final List<Map<String, String>> _kategoriList = [
+    {
+      "value": 'lokal',
+      "label": 'Berita Lokal',
+    },
+    {
+      "value": 'trending',
+      "label": 'Berita Trending',
+    },
+    {
+      "value": 'news',
+      "label": 'Berita News',
+    },
+    {
+      "value": 'lainnya',
+      "label": 'Dan Lain-lainnya',
+    }
+  ];
+
+  List<DropdownMenuItem<String>> get dropdownItems {
+    return _kategoriList.map((e) {
+      return DropdownMenuItem<String>(
+        value: e["value"],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            e["label"]!,
+          ),
+        ),
+      );
+    }).toList();
+  }
+
   void clearTextControllers() {
     judulController.clear();
     blogContentController.clear();
     authorController.clear();
     shortDescController.clear();
     tipeArticleController.clear();
+    kategori.value = '';
     image.value = null;
   }
 
@@ -145,6 +183,7 @@ class EducationControlController extends GetxController {
     authorController.dispose();
     shortDescController.dispose();
     tipeArticleController.dispose();
+    kategori.value = '';
     image.value = null;
   }
 
