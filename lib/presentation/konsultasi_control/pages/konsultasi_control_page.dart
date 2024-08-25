@@ -246,6 +246,7 @@ class KonsultasiControlPage extends StatelessWidget {
                                       return Text(
                                         totalPemasukan.currencyFormatRp,
                                         overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                         style: CustomTextStyle.bigText.copyWith(
                                           color: Colors.white,
                                         ),

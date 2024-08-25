@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mybidan/core/assets/assets.gen.dart';
 import 'package:mybidan/core/constants/colors.dart';
@@ -63,6 +64,16 @@ class MainPage extends StatelessWidget {
           child: Scaffold(
             resizeToAvoidBottomInset:
                 mainC.currentIndex.value == 5 ? true : false,
+            body: body(),
+            appBar: AppBar(
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              backgroundColor: AppColors.primary,
+              toolbarHeight: 0,
+              // Menghilangkan garis hijau aneh
+              systemOverlayStyle: SystemUiOverlayStyle.light
+                  .copyWith(systemNavigationBarColor: Colors.transparent),
+            ),
             floatingActionButton: mainC.currentIndex.value == 5
                 ? const SizedBox()
                 : FloatingActionButton(
@@ -88,6 +99,7 @@ class MainPage extends StatelessWidget {
               height: 63,
               padding: const EdgeInsets.all(0),
               child: BottomNavigationBar(
+                elevation: 0,
                 backgroundColor: Colors.white,
                 type: BottomNavigationBarType.fixed,
                 onTap: (value) {
@@ -143,7 +155,6 @@ class MainPage extends StatelessWidget {
                 ],
               ),
             ),
-            body: body(),
           ),
         ));
   }

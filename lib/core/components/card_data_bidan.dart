@@ -56,6 +56,8 @@ class CardDataBidan extends StatelessWidget {
               ),
               Text(
                 nameBidan,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
                 style: CustomTextStyle.primaryText.copyWith(
                   fontWeight: FontWeight.bold,
                 ),

@@ -5,7 +5,6 @@ import 'package:mybidan/core.dart';
 
 class EducationControlPage extends StatelessWidget {
   final educationC = Get.find<EducationControlController>();
-  final authC = Get.find<LoginController>();
   EducationControlPage({super.key});
 
   @override
@@ -58,18 +57,6 @@ class EducationControlPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              onTap: () => authC.logOut(),
-              child: const Icon(
-                Icons.exit_to_app,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
       ),
       body: SizedBox(
         height: Get.height,

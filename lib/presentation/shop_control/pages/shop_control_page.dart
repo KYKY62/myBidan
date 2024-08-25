@@ -110,7 +110,7 @@ class ShopControlPage extends StatelessWidget {
         backgroundColor: AppColors.primary,
         centerTitle: true,
         title: Text(
-          "EDUKASI",
+          "PRODUK",
           style: CustomTextStyle.primaryText.copyWith(
             color: Colors.white,
           ),

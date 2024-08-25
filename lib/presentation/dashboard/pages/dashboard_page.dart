@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mybidan/core/assets/assets.gen.dart';
-import 'package:mybidan/core/constants/colors.dart';
-import 'package:mybidan/presentation/dashboard/controller/dashboard_controller.dart';
-import 'package:mybidan/presentation/education_control/controller/education_control_controller.dart';
-import 'package:mybidan/presentation/education_control/pages/education_control_page.dart';
+import 'package:mybidan/core.dart';
 import 'package:mybidan/presentation/find_klinik_control/controller/find_klinik_control_controller.dart';
 import 'package:mybidan/presentation/find_klinik_control/pages/find_klinik_control_page.dart';
-import 'package:mybidan/presentation/konsultasi_control/pages/konsultasi_control_page.dart';
 import 'package:mybidan/presentation/shop_control/controller/shop_control_controller.dart';
 import 'package:mybidan/presentation/shop_control/pages/shop_control_page.dart';
 
@@ -15,6 +11,7 @@ class DashboardPage extends StatelessWidget {
   final dashboardC = Get.find<DashboardController>();
   final educationC = Get.find<EducationControlController>();
   final shopC = Get.find<ShopControlController>();
+  final authC = Get.find<LoginController>();
   final findKlinik = Get.find<FindKlinikControlController>();
 
   DashboardPage({super.key}) {
@@ -47,6 +44,8 @@ class DashboardPage extends StatelessWidget {
         return ShopControlPage();
       case 3:
         return FindKlinikControlPage();
+      case 4:
+        return const SizedBox();
       default:
         return KonsultasiControlPage();
     }
@@ -65,6 +64,15 @@ class DashboardPage extends StatelessWidget {
           }
         },
         child: Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            backgroundColor: AppColors.primary,
+            toolbarHeight: 0,
+            // Menghilangkan garis hijau aneh
+            systemOverlayStyle: SystemUiOverlayStyle.light
+                .copyWith(systemNavigationBarColor: Colors.transparent),
+          ),
           bottomNavigationBar: BottomAppBar(
             height: 63,
             padding: const EdgeInsets.all(0),
@@ -117,6 +125,25 @@ class DashboardPage extends StatelessWidget {
                         : Colors.grey,
                     AssetImage(Assets.icons.mapInactive.path),
                   ),
+                ),
+                BottomNavigationBarItem(
+                  label: '',
+                  icon: GestureDetector(
+                    onTap: () => authC.logOut(),
+                    child: Icon(
+                      Icons.exit_to_app,
+                      color: dashboardC.currentIndex.value == 3
+                          ? AppColors.primary
+                          : Colors.grey,
+                    ),
+                  ),
+                  // icon: ImageIcon(
+                  //   size: 19,
+                  //   color: dashboardC.currentIndex.value == 3
+                  //       ? AppColors.primary
+                  //       : Colors.grey,
+                  //   AssetImage(Assets.icons.mapInactive.path),
+                  // ),
                 ),
               ],
             ),
