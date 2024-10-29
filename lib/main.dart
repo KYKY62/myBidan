@@ -47,8 +47,12 @@ class MyApp extends StatelessWidget {
             initialRoute: initialRoute,
             getPages: AppPage.pages,
             theme: ThemeData(
-              scaffoldBackgroundColor: Colors.white,
-            ),
+                scaffoldBackgroundColor: Colors.white,
+                appBarTheme: const AppBarTheme(
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  scrolledUnderElevation: 0,
+                )),
           );
         }
 

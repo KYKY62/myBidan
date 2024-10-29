@@ -10,4 +10,5 @@ abstract class RouteName {
   static const informasiAkun = '/informasiAkun';
   static const termsConditions = '/termsConditions';
   static const privacyPolicy = '/privacyPolicy';
+  static const editSettingAdmin = '/editSettingAdmin';
 }

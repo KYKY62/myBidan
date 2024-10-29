@@ -173,7 +173,7 @@ class EducationControlController extends GetxController {
     authorController.clear();
     shortDescController.clear();
     tipeArticleController.clear();
-    kategori.value = '';
+    kategori.value = 'lokal';
     image.value = null;
   }
 

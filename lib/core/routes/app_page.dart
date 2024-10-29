@@ -16,6 +16,7 @@ import 'package:mybidan/presentation/konsultasi_control/pages/add_bidan_page.dar
 import 'package:mybidan/presentation/setting/pages/informasi_akun/informasi_page.dart';
 import 'package:mybidan/presentation/setting/pages/privacy_policy/privacy_policy_page.dart';
 import 'package:mybidan/presentation/setting/pages/terms_and_conditions/terms_conditions_page.dart';
+import 'package:mybidan/presentation/setting_admin/pages/edit_setting_admin.dart';
 import 'package:mybidan/presentation/shop/pages/detail_product_page.dart';
 
 class AppPage {
@@ -90,6 +91,13 @@ class AppPage {
       name: RouteName.privacyPolicy,
       transition: Transition.noTransition,
       page: () => const PrivacyPolicyPage(),
+    ),
+    GetPage(
+      name: RouteName.editSettingAdmin,
+      transition: Transition.noTransition,
+      page: () => EditSettingAdmin(
+        data: Get.arguments,
+      ),
     )
   ];
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mybidan/core.dart';
 import 'package:mybidan/presentation/find_klinik_control/controller/find_klinik_control_controller.dart';
 import 'package:mybidan/presentation/find_klinik_control/pages/find_klinik_control_page.dart';
+import 'package:mybidan/presentation/setting_admin/pages/setting_admin_page.dart';
 import 'package:mybidan/presentation/shop_control/controller/shop_control_controller.dart';
 import 'package:mybidan/presentation/shop_control/pages/shop_control_page.dart';
 
@@ -45,7 +46,7 @@ class DashboardPage extends StatelessWidget {
       case 3:
         return FindKlinikControlPage();
       case 4:
-        return const SizedBox();
+        return SettingAdminPage();
       default:
         return KonsultasiControlPage();
     }
@@ -127,24 +128,31 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  label: '',
-                  icon: GestureDetector(
-                    onTap: () => authC.logOut(),
-                    child: Icon(
-                      Icons.exit_to_app,
-                      color: dashboardC.currentIndex.value == 3
+                    label: '',
+                    icon: Icon(
+                      Icons.settings,
+                      size: 19,
+                      color: dashboardC.currentIndex.value == 4
                           ? AppColors.primary
                           : Colors.grey,
+                    )
+                    // icon: GestureDetector(
+                    //   onTap: () => authC.logOut(),
+                    //   child: Icon(
+                    //     Icons.exit_to_app,
+                    //     color: dashboardC.currentIndex.value == 3
+                    //         ? AppColors.primary
+                    //         : Colors.grey,
+                    //   ),
+                    // ),
+                    // icon: ImageIcon(
+                    //   size: 19,
+                    //   color: dashboardC.currentIndex.value == 3
+                    //       ? AppColors.primary
+                    //       : Colors.grey,
+                    //   AssetImage(Assets.icons.mapInactive.path),
+                    // ),
                     ),
-                  ),
-                  // icon: ImageIcon(
-                  //   size: 19,
-                  //   color: dashboardC.currentIndex.value == 3
-                  //       ? AppColors.primary
-                  //       : Colors.grey,
-                  //   AssetImage(Assets.icons.mapInactive.path),
-                  // ),
-                ),
               ],
             ),
           ),
