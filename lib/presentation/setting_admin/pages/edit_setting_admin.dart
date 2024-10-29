@@ -49,8 +49,8 @@ class EditSettingAdmin extends StatelessWidget {
                   title: 'Rekening Permata',
                 ),
                 customEditSetting(
-                  controller: data.rekeningPusatDukunganC,
-                  title: 'Telp Pusat Dukungan',
+                  controller: data.nomorTelepon,
+                  title: 'Nomor Telpon',
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(

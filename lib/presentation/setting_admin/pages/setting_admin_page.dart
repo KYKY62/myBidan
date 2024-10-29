@@ -24,13 +24,28 @@ class SettingAdminPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 20),
-            child: Center(
-              child: Text(
-                "Pengaturan Admin",
-                style: CustomTextStyle.primaryText.copyWith(
-                  color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(),
+                Text(
+                  "Pengaturan Admin",
+                  style: CustomTextStyle.primaryText.copyWith(
+                    color: Colors.white,
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: GestureDetector(
+                    onTap: () => settingAdminC.logOut(),
+                    child: const Icon(
+                      Icons.exit_to_app,
+                      size: 24.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Stack(
@@ -107,7 +122,7 @@ class SettingAdminPage extends StatelessWidget {
                                                         .text =
                                                     setting['account_permata'];
                                                 settingAdminC
-                                                    .rekeningPusatDukunganController
+                                                    .nomorTeleponController
                                                     .text = setting['telepon'];
                                                 SettingadminModel data =
                                                     SettingadminModel(
@@ -123,9 +138,8 @@ class SettingAdminPage extends StatelessWidget {
                                                       .rekeningMandiriController,
                                                   rekeningPermataC: settingAdminC
                                                       .rekeningPermataController,
-                                                  rekeningPusatDukunganC:
-                                                      settingAdminC
-                                                          .rekeningPusatDukunganController,
+                                                  nomorTelepon: settingAdminC
+                                                      .nomorTeleponController,
                                                 );
                                                 Get.toNamed(
                                                   RouteName.editSettingAdmin,

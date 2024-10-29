@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class SettingadminModel {
@@ -7,7 +8,7 @@ class SettingadminModel {
   final TextEditingController rekeningBsiC;
   final TextEditingController rekeningMandiriC;
   final TextEditingController rekeningPermataC;
-  final TextEditingController rekeningPusatDukunganC;
+  final TextEditingController nomorTelepon;
   SettingadminModel({
     required this.rekeningBcaC,
     required this.rekeningBniC,
@@ -15,6 +16,6 @@ class SettingadminModel {
     required this.rekeningBsiC,
     required this.rekeningMandiriC,
     required this.rekeningPermataC,
-    required this.rekeningPusatDukunganC,
+    required this.nomorTelepon,
   });
 }
