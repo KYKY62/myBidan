@@ -44,20 +44,33 @@ class PremiumAction extends StatelessWidget {
                       }
                       var dataAdmin = snapshot.data!.docs;
                       return SizedBox(
-                        height: 500,
+                        height: 550,
                         width: Get.width,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: Text(
-                                  "Metode Pembayaran",
-                                  style: CustomTextStyle.primaryText,
-                                ),
+                              Text(
+                                "Metode Pembayaran",
+                                style: CustomTextStyle.primaryText,
                               ),
+                              const SizedBox(height: 8),
+                              FutureBuilder<DocumentSnapshot>(
+                                  future: chatC.getHargaLayanan(),
+                                  builder: (context, snapshotHarga) {
+                                    if (snapshotHarga.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const SizedBox();
+                                    }
+                                    var harga = snapshotHarga.data!.data()
+                                        as Map<String, dynamic>;
+                                    return Text(
+                                      int.parse(harga['harga'])
+                                          .currencyFormatRp,
+                                      style: CustomTextStyle.primaryText,
+                                    );
+                                  }),
                               Obx(
                                 () => chatC.accountBank.value != ''
                                     ? Padding(

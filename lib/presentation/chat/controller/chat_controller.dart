@@ -33,6 +33,9 @@ class ChatController extends GetxController {
   Stream<QuerySnapshot>? getBidan() =>
       db.collection('bidan').orderBy('timestamp', descending: true).snapshots();
 
+  Future<DocumentSnapshot>? getHargaLayanan() =>
+      db.collection('hargaLayanan').doc('hargaLayanan').get();
+
   Stream<QuerySnapshot>? getBidanWithSearch(final searchquery) => db
       .collection('bidan')
       .orderBy('name')

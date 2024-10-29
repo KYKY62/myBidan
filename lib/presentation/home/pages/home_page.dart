@@ -68,10 +68,24 @@ class HomePage extends StatelessWidget {
                                     Positioned(
                                       top: 68,
                                       left: 20,
-                                      child: Text(
-                                        "Hi Syela, Apa kabar?",
-                                        style: CustomTextStyle.biggerText,
-                                      ),
+                                      child: FutureBuilder<DocumentSnapshot>(
+                                          future: homeC.getUser(),
+                                          builder: (context, snapshotUser) {
+                                            if (snapshotUser.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return Text(
+                                                "Hi user, Apa kabar?",
+                                                style:
+                                                    CustomTextStyle.biggerText,
+                                              );
+                                            }
+                                            var user = snapshotUser.data!.data()
+                                                as Map<String, dynamic>;
+                                            return Text(
+                                              "Hi ${user['name']}, Apa kabar?",
+                                              style: CustomTextStyle.biggerText,
+                                            );
+                                          }),
                                     ),
                                     Positioned(
                                       top: 130,
@@ -199,100 +213,118 @@ class HomePage extends StatelessWidget {
                     top: 320,
                     left: 5,
                     right: 5,
-                    child: Column(
-                      children: [
-                        CarouselSlider.builder(
-                          itemCount: 4,
-                          itemBuilder: (context, index, realIndex) {
-                            return SizedBox(
-                              height: 150,
-                              child: Card(
-                                color: AppColors.neon,
-                                child: Row(
-                                  children: [
-                                    Image.asset(Assets.images.doctor.path),
-                                    SizedBox(
-                                      width: 160,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: homeC.getIklan(),
+                        builder: (context, snapshotIklan) {
+                          if (snapshotIklan.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox();
+                          }
+                          var iklan = snapshotIklan.data!.docs;
+                          return Column(
+                            children: [
+                              CarouselSlider.builder(
+                                itemCount: iklan.length,
+                                itemBuilder: (context, index, realIndex) {
+                                  return SizedBox(
+                                    height: 150,
+                                    child: Card(
+                                      color: AppColors.neon,
+                                      child: Row(
                                         children: [
-                                          Text(
-                                            "Dapatkan Informasi Kesehatan Secara Gratis",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 3,
-                                            style: CustomTextStyle.greenText
-                                                .copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10.0,
+                                          Image.asset(
+                                            Assets.images.doctor.path,
                                           ),
                                           SizedBox(
-                                            height: 29,
-                                            child: ElevatedButton(
-                                              onPressed: () =>
-                                                  mainC.currentIndex.value = 6,
-                                              child: Text(
-                                                "Selengkapnya",
-                                                style: CustomTextStyle.smText
-                                                    .copyWith(
-                                                  color: AppColors.primary,
-                                                  fontWeight: FontWeight.bold,
+                                            width: 160,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                const SizedBox(height: 8),
+                                                Text(
+                                                  iklan[index]['title'],
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 3,
+                                                  style: CustomTextStyle
+                                                      .greenText
+                                                      .copyWith(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
-                                              ),
+                                                const SizedBox(
+                                                  height: 10.0,
+                                                ),
+                                                SizedBox(
+                                                  height: 29,
+                                                  child: ElevatedButton(
+                                                    onPressed: () => mainC
+                                                        .currentIndex.value = 6,
+                                                    child: Text(
+                                                      "Selengkapnya",
+                                                      style: CustomTextStyle
+                                                          .smText
+                                                          .copyWith(
+                                                        color:
+                                                            AppColors.primary,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                           )
                                         ],
                                       ),
-                                    )
-                                  ],
+                                    ),
+                                  );
+                                },
+                                options: CarouselOptions(
+                                  height: 150,
+                                  autoPlay: false,
+                                  enlargeCenterPage: true,
+                                  viewportFraction: 0.9,
+                                  aspectRatio: 2.0,
+                                  scrollDirection: Axis.horizontal,
+                                  onPageChanged: (index, reason) =>
+                                      homeC.currentIndex.value = index,
                                 ),
                               ),
-                            );
-                          },
-                          options: CarouselOptions(
-                            height: 150,
-                            autoPlay: false,
-                            enlargeCenterPage: true,
-                            viewportFraction: 0.9,
-                            aspectRatio: 2.0,
-                            scrollDirection: Axis.horizontal,
-                            onPageChanged: (index, reason) =>
-                                homeC.currentIndex.value = index,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 15.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(
-                            4,
-                            (index) {
-                              return Obx(
-                                () => Container(
-                                  width: 6,
-                                  height: 6,
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 4),
-                                  decoration: BoxDecoration(
-                                    color: homeC.currentIndex.value == index
-                                        ? Colors.black
-                                        : Colors.grey,
-                                    shape: BoxShape.circle,
-                                  ),
+                              const SizedBox(
+                                height: 15.0,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: List.generate(
+                                  iklan.length,
+                                  (index) {
+                                    return Obx(
+                                      () => Container(
+                                        width: 6,
+                                        height: 6,
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 4),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              homeC.currentIndex.value == index
+                                                  ? Colors.black
+                                                  : Colors.grey,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                              )
+                            ],
+                          );
+                        }),
                   ),
                 ],
               ),
