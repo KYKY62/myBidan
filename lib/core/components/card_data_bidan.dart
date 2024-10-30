@@ -38,19 +38,6 @@ class CardDataBidan extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      width: 4,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  child: const Icon(Icons.add),
-                ),
-              ),
               StackProfileBidan(
                 image: image,
               ),

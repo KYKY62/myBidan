@@ -15,15 +15,20 @@ class SettingAdminController extends GetxController {
   final TextEditingController rekeningPermataController =
       TextEditingController();
   final TextEditingController nomorTeleponController = TextEditingController();
+  final TextEditingController titleInformationController =
+      TextEditingController();
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   RxBool loading = false.obs;
   RxBool isAuth = false.obs;
+  RxInt currentIndex = 0.obs;
 
   Stream<DocumentSnapshot> settingAdmin() =>
       _db.collection('admin').doc(_auth.currentUser!.email).snapshots();
+
+  Stream<QuerySnapshot> getIklan() => _db.collection('iklan').snapshots();
 
   void editAdmin() async {
     try {
@@ -49,6 +54,28 @@ class SettingAdminController extends GetxController {
     }
   }
 
+  void editInformasi(String doc) async {
+    try {
+      loading.value = true;
+      await _db
+          .collection('iklan')
+          .doc(doc)
+          .update({'title': titleInformationController.text});
+      loading.value = false;
+      Get.back();
+    } catch (_) {
+      loading.value = false;
+      Get.back();
+      Get.defaultDialog(
+        title: 'Data Gagal Diperbarui',
+        middleText: 'Lengkapi Form Data',
+      );
+    }
+  }
+
+  void deleteInformation(String doc) async =>
+      await _db.collection('iklan').doc(doc).delete();
+
   void logOut() async {
     final box = GetStorage();
     if (box.read('autoLogin') != null && box.read('role') != null) {
@@ -57,5 +84,9 @@ class SettingAdminController extends GetxController {
       await _auth.signOut();
       Get.offAllNamed(RouteName.login);
     }
+  }
+
+  void clearController() {
+    titleInformationController.clear();
   }
 }

@@ -342,7 +342,7 @@ class EducationControlPage extends StatelessWidget {
                                       ),
                                     ),
                                     child: DropdownButton<String>(
-                                      value: educationC.kategori.value ?? '',
+                                      value: educationC.kategori.value,
                                       hint: const Text('Pilih Kategori'),
                                       isExpanded: true,
                                       items: educationC.dropdownItems,
